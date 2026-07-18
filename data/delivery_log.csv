@@ -1,0 +1,2 @@
+delivery_id,report_id,provider,recipient_label,attempted_at,status,provider_message_id,idempotency_key,error
+"2026-W29-trial-1784410275716","2026-W29-trial","resend","owner","2026-07-18T21:31:15.715Z","sent","ec1557c4-80f1-46a6-a20c-e6d950288b54","investo-2026-W29-trial",""
