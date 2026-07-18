@@ -1,0 +1,2 @@
+report_id,week_id,period_start,period_end,data_cutoff,status,generated_at,approved_at,approved_by,subject,archive_path
+2026-W29-001,2026-W29,2026-07-14,2026-07-18,2026-07-18T23:00:00+02:00,approved,2026-07-18T23:00:00+02:00,2026-07-18T23:00:00+02:00,owner,Investo Master — Issue 001: Baseline / Wide Week,reports/2026/2026-W29-issue-001

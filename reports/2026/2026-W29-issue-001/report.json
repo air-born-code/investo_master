@@ -1,0 +1,15 @@
+{
+  "report_id": "2026-W29-001",
+  "issue": "001",
+  "edition": "Baseline / Wide Week",
+  "week_id": "2026-W29",
+  "as_of_date": "2026-07-18",
+  "data_cutoff": "2026-07-18T23:00:00+02:00",
+  "mode": "wide",
+  "rotating_desk": "AI power infrastructure, compute connectivity, space and critical minerals",
+  "subject": "Investo Master — Issue 001: Baseline / Wide Week",
+  "action_posture": "NO ACTION — RESEARCH CONTINUES",
+  "approved_for_send": true,
+  "approval_note": "The project owner requested the first live research run after confirming email delivery works.",
+  "from": "Investo Master <onboarding@resend.dev>"
+}

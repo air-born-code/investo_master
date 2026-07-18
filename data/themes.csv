@@ -1,0 +1,7 @@
+theme_id,name,summary,status,time_horizon,confidence,created_date,last_updated_date
+age-of-electricity,The Age of Electricity,"Electricity demand is reaccelerating as compute, cooling, electrification and industrial investment expand load.",active,10+ years,high,2026-07-18,2026-07-18
+ai-physical-infrastructure,AI Physical Infrastructure,"Power generation, grids, transformers, switchgear, power management and cooling are becoming constraints on compute deployment.",active,5-10+ years,high,2026-07-18,2026-07-18
+high-speed-connectivity,High-Speed Compute Connectivity,"AI clusters require faster and more power-efficient connectivity across copper, optical and semiconductor interconnects.",active,5-10 years,medium,2026-07-18,2026-07-18
+vertically-integrated-space,Vertically Integrated Space,"Launch, spacecraft, spectrum and recurring services may consolidate into end-to-end space platforms.",active,10+ years,medium,2026-07-18,2026-07-18
+critical-minerals-security,Critical Minerals Security,Concentrated refining and magnet production create strategic bottlenecks and policy-supported diversification.,active,10+ years,high,2026-07-18,2026-07-18
+advanced-nuclear-enablers,Advanced Nuclear Enablers,"Regulatory reform and electricity demand are reopening the reactor and nuclear-fuel-cycle opportunity, but commercial timing remains uncertain.",monitoring,10-20 years,medium,2026-07-18,2026-07-18

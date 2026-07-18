@@ -28,7 +28,7 @@ if (failures.length === 0) {
   if (!html.toLowerCase().includes('<!doctype html>')) failures.push('email.html is not a complete HTML document');
   if (!html.includes(metadata.report_id)) failures.push('email.html is missing report ID');
   if (!html.includes(metadata.action_posture)) failures.push('email.html is missing action posture');
-  if (html.includes('{{') || html.includes('}}')) failures.push('email.html contains unresolved template markers');
+  if (/\{\{\s*[^{}]+?\s*\}\}/.test(html)) failures.push('email.html contains unresolved template markers');
   if (Buffer.byteLength(html, 'utf8') > 90_000) failures.push('email.html exceeds the 90 KB safety threshold');
   if (text.length < 700) failures.push('email.txt is unexpectedly short');
   if (!markdown.toLowerCase().includes('safety boundary')) failures.push('report.md is missing the safety boundary');

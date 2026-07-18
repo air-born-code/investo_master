@@ -8,7 +8,7 @@ The project is designed around a simple operating principle:
 
 ## Current stage
 
-The project is in its research-system design phase. Version 1 will provide:
+Issue 001 established the operational baseline. Version 1 now provides:
 
 - A transparent CSV-based research store.
 - Long-form company, asset, and theme theses in Markdown.
@@ -16,12 +16,14 @@ The project is in its research-system design phase. Version 1 will provide:
 - A polished weekly HTML investment overview.
 - A permanent archive of historical weekly reports.
 - Preview-first delivery to the owner's Gmail through Resend.
+- A formula-checked Excel audit workbook generated from the canonical CSV files.
 
 ## Governing documents
 
 - [Core research prompt](./INVESTO_MASTER_PROMPT.md)
 - [Patience and conviction policy](./CONVICTION_POLICY.md)
 - [Weekly research system plan](./WEEKLY_RESEARCH_SYSTEM_PLAN.md)
+- [Research source master prompt](./RESEARCH_SOURCE_MASTER_PROMPT.md)
 
 ## Research philosophy
 
@@ -54,10 +56,12 @@ Invest_o_master/
 Each weekly report folder is expected to contain:
 
 ```text
+report.json                 # Issue metadata and send approval
 report.md                   # Canonical narrative
 report.html                 # Full archival article
 email.html                  # Gmail-safe edition
 email.txt                   # Plain-text fallback
+baseline-research.xlsx      # Human-friendly audit workbook
 charts/                     # Static, source-labelled graphics
 ```
 
@@ -82,15 +86,30 @@ Initial delivery uses Resend's test sender to email the Resend account owner's G
 
 Secrets such as `RESEND_API_KEY`, recipient addresses, and scheduler tokens must be stored in local or hosted environment variables. They must never be committed to this repository.
 
+Issue 001 can be rebuilt and checked with:
+
+```bash
+npm run data:build:baseline
+npm run report:build:baseline
+npm run report:check:baseline
+```
+
+After human review, the approved issue can be sent with:
+
+```bash
+npm run report:send:baseline
+```
+
+## Scheduling
+
+Keep the next one or two issues manual while the editorial and data workflow settles. A local Codex scheduled task requires the Mac to be powered on and the Codex desktop app running. For genuinely independent delivery with the Mac off, move the weekly job to a hosted runner such as GitHub Actions and store the Resend credentials as hosted secrets.
+
 ## Roadmap
 
-1. Create and validate the CSV research schemas.
-2. Add a realistic demonstration dataset.
-3. Generate and visually verify the first weekly HTML report.
-4. Add Resend preview and approved-send commands.
-5. Complete several reliable weekly cycles.
-6. Add scheduled delivery.
-7. Build the historical report website when the content model is stable.
+1. Complete several reliable weekly cycles using the Issue 001 baseline.
+2. Refine the valuation framework and candidate score history.
+3. Add hosted scheduled delivery after the workflow is stable.
+4. Build the historical report website when the content model is stable.
 
 ## Safety boundary
 

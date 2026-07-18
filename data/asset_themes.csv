@@ -1,0 +1,7 @@
+asset_id,theme_id,role,relevance,notes,last_updated_date
+gev,age-of-electricity,platform,high,"Generation, grid equipment and installed-base services.",2026-07-18
+gev,ai-physical-infrastructure,enabler,high,"Gas turbines, transformers and electrification systems support new data-centre load.",2026-07-18
+vrt,ai-physical-infrastructure,enabler,high,"Power management, thermal management and deployment infrastructure inside data centres.",2026-07-18
+crdo,high-speed-connectivity,enabler,high,"High-speed, lower-power connectivity for scale-out AI networks.",2026-07-18
+rklb,vertically-integrated-space,platform,high,Launch and space systems would combine with Iridium spectrum and recurring services if the transaction closes.,2026-07-18
+mp,critical-minerals-security,platform,high,US mine-to-magnet rare-earth chain with government price and offtake support.,2026-07-18

@@ -1,0 +1,6 @@
+asset_id,symbol,name,asset_type,exchange,country,sector,industry,currency,website,stage,added_date,last_reviewed_date
+gev,GEV,GE Vernova,equity,NYSE,United States,Industrials,Electrical equipment and power systems,USD,https://www.gevernova.com/investors,watchlist,2026-07-18,2026-07-18
+vrt,VRT,Vertiv Holdings,equity,NYSE,United States,Industrials,Critical digital infrastructure,USD,https://investors.vertiv.com/,watchlist,2026-07-18,2026-07-18
+crdo,CRDO,Credo Technology Group,equity,Nasdaq,Cayman Islands,Technology,Semiconductors and connectivity,USD,https://investors.credosemi.com/,researching,2026-07-18,2026-07-18
+rklb,RKLB,Rocket Lab,equity,Nasdaq,United States,Industrials,Aerospace and space systems,USD,https://investors.rocketlabcorp.com/,researching,2026-07-18,2026-07-18
+mp,MP,MP Materials,equity,NYSE,United States,Materials,Rare earth mining and magnetics,USD,https://investors.mpmaterials.com/,researching,2026-07-18,2026-07-18

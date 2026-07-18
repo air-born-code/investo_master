@@ -1,6 +1,6 @@
 {
   "name": "investo-master",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Long-term investment research, weekly publishing, and private email delivery.",
@@ -10,6 +10,10 @@
   "scripts": {
     "report:build:trial": "node scripts/build-trial.mjs",
     "report:check:trial": "node scripts/check-report.mjs reports/2026/2026-W29",
-    "report:send:trial": "node --env-file=.env.local scripts/send-report.mjs reports/2026/2026-W29"
+    "report:send:trial": "node --env-file=.env.local scripts/send-report.mjs reports/2026/2026-W29",
+    "data:build:baseline": "node scripts/build-baseline-data.mjs .",
+    "report:build:baseline": "node scripts/build-baseline.mjs .",
+    "report:check:baseline": "node scripts/check-report.mjs reports/2026/2026-W29-issue-001",
+    "report:send:baseline": "node --env-file=.env.local scripts/send-report.mjs reports/2026/2026-W29-issue-001"
   }
 }
