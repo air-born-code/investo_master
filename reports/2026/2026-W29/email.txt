@@ -1,0 +1,39 @@
+INVESTO MASTER — WEEKLY OVERVIEW
+Issue 000: System Trial
+Week 2026-W29 | As of 18 July 2026
+Action posture: NO ACTION
+
+RESEARCH EVERY WEEK. ACT ONLY WHEN THE EVIDENCE EARNS IT.
+
+This commissioning edition proves the publishing and delivery system. It contains no security recommendation and no fabricated market analysis. The correct decision posture is no action.
+
+EXECUTIVE SIGNAL
+
+1. The long-term research mandate has been established.
+2. Weekly research and extremely rare buying are explicitly separate.
+3. A thirteen-gate patience and conviction policy has been adopted.
+4. The CSV research memory and evidence architecture are designed.
+5. GitHub is the durable source and future historical archive.
+
+CONVICTION LADDER
+
+Discover -> Watch -> Research -> High Conviction -> Wait for Price -> Human Decision
+
+Interesting is not actionable. Every transition must be supported by dated evidence. A candidate may remain at any stage for years—or be rejected at any time.
+
+TRIAL SCORECARD
+
+- Dated Markdown article: Ready
+- Responsive HTML and plain text: Ready
+- Duplicate-send protection: Ready
+- Gmail delivery: Awaiting local Resend credential
+
+NEXT MILESTONE
+
+Build the validated CSV store and a small demonstration universe, then produce the first sourced theme radar and candidate cards—without manufacturing a compelling opportunity.
+
+SAFETY BOUNDARY
+
+Investo Master performs research and decision support. It does not execute trades, promise returns, or replace personalised financial, tax, or legal advice.
+
+Report ID: 2026-W29-trial

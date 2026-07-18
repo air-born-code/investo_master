@@ -1,0 +1,13 @@
+{
+  "report_id": "2026-W29-trial",
+  "issue": "000",
+  "edition": "System Trial",
+  "week_id": "2026-W29",
+  "as_of_date": "2026-07-18",
+  "data_cutoff": "2026-07-18T22:00:00+02:00",
+  "subject": "Investo Master — Issue 000: System Trial",
+  "action_posture": "NO ACTION",
+  "approved_for_send": true,
+  "approval_note": "Approved by the project owner as the first Gmail delivery trial.",
+  "from": "Investo Master <onboarding@resend.dev>"
+}
