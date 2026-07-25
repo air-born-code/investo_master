@@ -1,0 +1,87 @@
+name: Weekly research
+
+# Step 1 of the hosted pipeline: build and validate the issue, then raise a pull
+# request when the output changes. This workflow deliberately never sends email.
+# Delivery stays a local, human-approved action (npm run report:send:baseline),
+# and scripts/send-report.mjs independently refuses to send unless the issue's
+# report.json carries "approved_for_send": true.
+
+on:
+  schedule:
+    # Saturday 06:00 UTC (08:00 CEST), matching the Issue 001 data cutoff day.
+    # GitHub queues cron runs on a best-effort basis and can start them late.
+    - cron: '0 6 * * 6'
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: weekly-research
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The project has no dependencies and no lockfile, so there is nothing to
+      # install. Add an `npm ci` step here if that ever changes.
+
+      # OpenRouter drafting will slot in here, before the build: it should write
+      # the week's rows into data/*.csv from real inputs, never invent metrics.
+
+      - name: Build CSV store
+        run: npm run data:build:baseline
+
+      - name: Build issue
+        run: npm run report:build:baseline
+
+      - name: Validate issue
+        run: npm run report:check:baseline
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Build output is identical to the committed tree."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git status --short
+          fi
+
+      # Only scheduled and manual runs open a pull request. On push and
+      # pull_request the steps above act purely as a CI gate.
+      - name: Open pull request
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="research/$(date -u +%Y-%m-%d)-${GITHUB_RUN_ID}"
+          git config user.name  'investo-master-bot'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "Weekly research build $(date -u +%Y-%m-%d)"
+          git push origin "$BRANCH"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Weekly research build $(date -u +%Y-%m-%d)" \
+            --body 'Automated build from the weekly workflow. Validation passed. Review the diff, then send locally with `npm run report:send:baseline` once you are satisfied with the issue.'
