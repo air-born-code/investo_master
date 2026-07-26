@@ -113,6 +113,13 @@ const [assets, scores, metrics] = await Promise.all([
   readTable('weekly_metrics.csv'),
 ]);
 
+// The gate ledger drives the readiness line. Absent ledger, absent line —
+// silence is better than implying gates were checked when they were not.
+const gates = await readTable('gates.csv').catch(() => []);
+const gateTotal = new Set(gates.map((g) => g.gate_id)).size;
+const gateReady = [...new Set(gates.map((g) => g.asset_id))]
+  .filter((id) => gates.filter((g) => g.asset_id === id).every((g) => g.status === 'documented'));
+
 // macro.csv only exists once ingestion has run, so treat it as optional.
 const macro = await readTable('macro.csv').catch(() => []);
 const macroWeeks = [...new Set(macro.map((r) => r.week_id))].sort();
@@ -318,6 +325,7 @@ const body = `
     ${boardRows}
   </table>
   <p style="margin:0 0 8px;color:#7b8792;font-size:10px;line-height:17px;">Scores prioritise research. They cannot override valuation, incomplete evidence or a fatal flaw.</p>
+  ${gates.length ? `<p style="margin:8px 0 0;color:#7b8792;font-size:10px;line-height:17px;">Decision gates: ${gateReady.length} of ${[...new Set(gates.map((g) => g.asset_id))].length} candidates clear all ${gateTotal}. No candidate may reach decision review before its ledger is complete.</p>` : ''}
   <div style="height:1px;background:#d9d7cf;margin:30px 0;"></div>
   ${renderMarkdown(draft)}
 </div>

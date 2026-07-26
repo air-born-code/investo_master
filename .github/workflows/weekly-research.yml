@@ -58,6 +58,12 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: npm run ingest:filings
 
+      # Reported, not enforced. Every asset is currently incomplete by design, so
+      # --strict would fail every build; the point is that the number is visible
+      # in the log and in the issue rather than being rediscovered each week.
+      - name: Report decision-gate completeness
+        run: npm run gates:check
+
       # Drafting costs money, so it runs only on scheduled and manual runs —
       # never on every push. It writes prose to drafts/ and never touches
       # data/*.csv; the CSV store stays human-authored or ingested.

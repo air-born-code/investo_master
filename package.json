@@ -17,6 +17,8 @@
     "ingest:filings:dry": "node --env-file-if-exists=.env.local scripts/ingest-filings.mjs --dry-run",
     "draft:issue": "node --env-file-if-exists=.env.local scripts/draft-issue.mjs .",
     "draft:issue:dry": "node scripts/draft-issue.mjs . --dry-run",
+    "gates:check": "node scripts/check-gates.mjs",
+    "gates:init": "node scripts/check-gates.mjs --init",
     "issue:build": "node scripts/build-issue.mjs",
     "issue:check": "node scripts/check-report.mjs",
     "issue:send": "node --env-file=.env.local scripts/send-report.mjs",

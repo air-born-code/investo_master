@@ -2,7 +2,7 @@
 
 - Week: 2026-W30
 - Report ID: 2026-W30-002
-- Evidence cut-off: 2026-07-26T15:46:14.145Z
+- Evidence cut-off: 2026-07-26T15:51:42.055Z
 - Action posture: NO ACTION — RESEARCH CONTINUES
 
 ## Regime board (2026-W30)
@@ -29,59 +29,62 @@
 
 # Investo Master — Week 2026-W30
 
-**Data cut-off:** 2026-07-26. Latest priced snapshot and scores remain those of 2026-W29 (2026-07-18); no new market or scoring data was collected this week.
-
 ## Summary
 
-A quiet week in substance, with one item that matters procedurally: **GE Vernova's Q2 2026 filings arrived and have not yet been read.**
+A quiet week. The only genuinely new evidence in the store is a set of macro series dated 2026-07-26 (June observations) and an EDGAR index refresh, of which one item matters: **GE Vernova filed a 10-Q for the period ending 2026-06-30 on 2026-07-22** (`src-edgar-000199681026000147`, `src-edgar-000199681026000148`), alongside an 8-K of the same date. That is precisely the checkpoint recorded against GEV in `scores.csv` for 2026-07-18 — "Q2 2026 segment orders, backlog margin and data-centre order composition." The filing has been indexed but the source row explicitly states "Contents not yet reviewed," so no thesis update is warranted this week. Reading it is the first task of W31.
 
-- GE Vernova filed a 10-Q for the period ending 2026-06-30 and an 8-K, both on 2026-07-22 (`src-edgar-000199681026000148`, `src-edgar-000199681026000147`). Both rows are recorded as "contents not yet reviewed." This is precisely the checkpoint the W29 scorecard named for GEV — Q2 segment orders, backlog margin and data-centre order composition (`scores.csv`, 2026-W29). Until the documents are read, the W29 thesis status (watchlist; valuation leaves little room for ordinary execution — `tu-2026-w29-gev-baseline`) stands unchanged.
-- No new thesis updates were written for any of the five assets, and no kill criterion was tested. All five kill-criterion fields remain `not_tested` as of 2026-07-18.
-- Macro readings added this week are FRED restatements of the same June 2026 observations already reflected in W29: effective fed funds 3.63% (`src-2026-w30-fred-fedfunds`), headline CPI 3.5% and core CPI 2.6% year over year (`src-2026-w30-fred-cpiaucsl`, `src-2026-w30-fred-cpilfesl`), unemployment 4.2% (`src-2026-w30-fred-unrate`), payrolls +57,000 for the month (`src-2026-w30-fred-payems`). These are consistent with the BLS and FOMC primary releases logged in W29 (`src-2026-w29-cpi`, `src-2026-w29-jobs`, `src-2026-w29-fed`, which recorded a 3.50%–3.75% target range). There is no new macro information this week, only a second source for existing observations.
+No new candidates. No `thesis_updates.csv` rows carry week_id 2026-W30, no `scores.csv` rows carry 2026-W30, and no `weekly_metrics.csv` rows carry 2026-W30 — all prices, market caps and scores below remain the 2026-07-18 (W29) snapshot. Nothing in the store shows a kill criterion triggered; all five active candidates read `not_tested`.
+
+Macro backdrop, June 2026 observations accessed 2026-07-26: effective federal funds rate 3.63% (`src-2026-w30-fred-fedfunds`), headline CPI +3.5% year over year (`src-2026-w30-fred-cpiaucsl`), core CPI +2.6% (`src-2026-w30-fred-cpilfesl`), unemployment 4.2% (`src-2026-w30-fred-unrate`), nonfarm payrolls +57,000 (`src-2026-w30-fred-payems`). The funds rate sits inside the 3.50%–3.75% target range confirmed at the 17 June FOMC (`src-2026-w29-fed`). These are the same June readings already recorded in W29 from BLS primary releases (`src-2026-w29-cpi`, `src-2026-w29-jobs`); the FRED rows corroborate rather than add. No newer observation is available in the store.
 
 ## Theme notes
 
-No theme record changed this week; all six themes carry `last_updated_date` of 2026-07-18.
+No theme in `themes.csv` had its `last_updated_date` advanced beyond 2026-07-18, and no source row dated 2026-07-26 carries a theme_id. So there is no new structural evidence this week for any of the six themes — including `advanced-nuclear-enablers`, which remains at `monitoring` on the strength of the NRC Part 53 pathway and TerraPower construction approval noted on 2026-04-15 (`src-2026-w29-nrc`).
 
-The only theme-relevant new artefact is the GEV Q2 10-Q, which sits at the intersection of `age-of-electricity` and `ai-physical-infrastructure`. The demand-side evidence base for those themes is unchanged from W29: the IEA's Electricity 2026 forecast of 3.6% annual global demand growth through 2030 with data centres driving roughly half of US demand growth (`src-2026-w29-iea-electricity`), and the EIA's Annual Energy Outlook 2026 identifying data-centre server energy use as an important driver (`src-2026-w29-eia-aeo`). Nothing this week either strengthens or weakens those forecasts.
-
-`advanced-nuclear-enablers` remains at `monitoring`. No new regulator data arrived; the most recent entry is still the NRC's Advanced Reactor Highlights of 2026-04-15 (`src-2026-w29-nrc`).
+The one theme-relevant implication of the week is indirect: the GEV Q2 10-Q is the first data point that can test whether the Q1 pattern under `ai-physical-infrastructure` — $18.3B orders, $163B backlog, $2.4B of data-centre electrification equipment orders (`src-2026-w29-gev-q1`) — is repeating or was a pull-forward. Until the filing is read, that remains an open question, not an observation.
 
 ## Watchlist notes
 
-**GE Vernova (GEV) — watchlist, score 78, evidence high / confidence medium.** The Q2 filings are the week's single actionable research item (`src-edgar-000199681026000148`). The two questions carried into them are unchanged from `tu-2026-w29-gev-baseline`: how much of Q1's 71% organic order growth and $163B backlog is repeatable, and what margins are embedded in that backlog (Q1 detail from `src-2026-w29-gev-q1`, which also recorded $18.3B of orders and $2.4B of data-centre electrification equipment orders). The bear-side anchor also stands: expected 2026 Wind segment EBITDA loss of about $400M against a market capitalisation of roughly $284.3B (`src-2026-w29-gev-market`, `src-2026-w29-gev-10q`). GEV's valuation_asymmetry score was 1 of 15 in W29 — a strong Q2 does not by itself change that arithmetic, and I will not treat good operating news as a price improvement.
+Stage, score and evidence unchanged from 2026-07-18 for all five names. Recorded as it stands:
 
-**Rocket Lab (RKLB) — researching, score 72, confidence low.** Four Form 425 filings dated 2026-06-29 are now indexed (`src-edgar-000175392626001087`, `...1099`, `...1101`, `...1103`), all contents unreviewed. These are merger-communication filings tied to the Iridium agreement already logged in W29 (`src-2026-w29-rklb-iridium`, `src-2026-w29-rklb-iridium-release`). **No Form S-4 appears in the store.** The S-4 is the named next checkpoint (`scores.csv`), because the open question — the fully financed per-share return distribution after a transaction using cash, stock and a $3.6B bridge facility against a business that lost $45.0M and consumed $50.3M of operating cash in Q1 (`src-2026-w29-rklb-10q`) — cannot be answered from communication filings alone. Status unchanged.
+| Asset | Stage | Score (W29) | Valuation asymmetry sub-score | Thesis confidence | Change this week |
+|---|---|---:|---:|---|---|
+| GEV | Watchlist | 78 | 1 / 10 | Medium | Q2 10-Q filed, unread |
+| VRT | Watchlist | 78 | 1 / 10 | Medium | None |
+| CRDO | Researching | 73 | 1 / 10 | Low | None |
+| RKLB | Researching | 72 | 1 / 10 | Low | None |
+| MP | Researching | 72 | 4 / 10 | Medium | None |
 
-**Vertiv (VRT), Credo (CRDO), MP Materials (MP).** No new information bearing on any thesis. The newly indexed 8-Ks for VRT (2026-06-03, 2026-06-12, 2026-06-18), CRDO (2026-06-01) and MP (2026-06-10) are unreviewed index entries with no described contents; I am not inferring their significance from their dates. All three retain their W29 status, scores and open questions: VRT's book-to-bill durability after customer build plans normalise, CRDO's 81% two-customer concentration (49% and 32%, `src-2026-w29-crdo-10k`), and MP's returns excluding the $110/kg price floor that contributed $42.3M of price-protection income in Q1 (`src-2026-w29-mp-10q`).
+The pattern worth restating once: four of five candidates score 1 out of 10 on valuation asymmetry. On the W29 snapshot GEV traded at $1,057.84 for roughly $284.3B of market value (`src-2026-w29-gev-market`), VRT at $289.56 for roughly $113.0B (`src-2026-w29-vrt-market`), CRDO at $206.00 for roughly $38.4B (`src-2026-w29-crdo-market`), RKLB at $67.62 for roughly $42B (`src-2026-w29-rklb-market`), MP at $57.55 for roughly $8.1B (`src-2026-w29-mp-market`). These are medium-reliability third-party snapshots, not primary data. The research problem in this portfolio is price, not business quality — a good Q2 from GEV would raise the score on evidence while doing nothing for asymmetry, and I should be explicit about that in advance of reading the filing.
 
-Each of the five candidates scored 1 or 4 out of 10 on valuation asymmetry in W29 (MP the only 4). Nothing this week moved price or expected return.
+Two items I am deliberately not treating as news. First, the four RKLB Form 425 filings dated 2026-06-29 (`src-edgar-000175392626001087`, `…1099`, `…1101`, `…1103`) are merger-communication filings associated with the Iridium agreement already captured in W29 (`src-2026-w29-rklb-iridium`, `src-2026-w29-rklb-iridium-release`); their contents are unreviewed and none of them is the Form S-4 named as the RKLB checkpoint. Second, the several VRT, MP, CRDO and RKLB 8-Ks dated April through June appear in the store only because the EDGAR index was backfilled this week; they are not new events and their contents are unread.
 
 ## Data gaps
 
-1. **No W30 market or valuation data.** `weekly_metrics.csv` contains only 2026-W29 rows. I therefore cannot state any current price, market capitalisation, or change in expected return for any candidate. All price figures cited above are dated 2026-07-16/17.
-2. **GEV Q2 2026 contents unread.** The 10-Q and 8-K of 2026-07-22 are indexed but not analysed. Q2 orders, backlog, data-centre order composition, segment margins and Wind results are all unknown to this issue.
-3. **No Rocket Lab Form S-4 in the store**, and no permanent-financing detail beyond the $3.6B bridge commitment. The transaction cannot be underwritten on a per-share basis without it.
-4. **Ten indexed EDGAR filings across GEV, VRT, CRDO, MP and RKLB carry no reviewed contents.** Their materiality is unassessed.
-5. **Incomplete fundamentals in the metrics table.** Enterprise value is absent for all five assets; revenue_ttm is present only for CRDO; gross margin only for RKLB; operating margin only for VRT; free-cash-flow margin for none. Cross-candidate economic comparison is not currently possible from the store.
-6. **No macro data newer than the June 2026 observation month**, so no read on conditions after the 2026-06-17 FOMC statement.
-7. **No new-candidate pipeline this week.** No assets were added since 2026-07-18; five names remain, four of the six themes have no representative candidate at all (`age-of-electricity` and `ai-physical-infrastructure` share GEV and VRT; `advanced-nuclear-enablers` has none).
+- **GEV Q2 2026 contents unknown.** The 10-Q and 8-K of 2026-07-22 are indexed but unreviewed. No Q2 orders, backlog, segment margin or data-centre order figure exists anywhere in the store, so the W29 open question — what portion of data-centre orders is repeatable and what margins are embedded in backlog — cannot be advanced this week.
+- **No W30 market data.** `weekly_metrics.csv` has no 2026-W30 rows. I do not know current prices or market caps, including whether GEV moved on the 22 July filing.
+- **No W30 scores.** `scores.csv` was not updated, so no candidate's ranking reflects anything after 2026-07-18.
+- **Unreviewed backfill.** Twelve of the fifteen filing rows added on 2026-07-26 state "Contents not yet reviewed." The store records that these documents exist, not what they say.
+- **Q2 filings absent for four names.** Nothing in the store indicates VRT, CRDO, RKLB or MP has yet filed second-quarter or fiscal-Q1 results.
+- **Incomplete fundamentals.** In the W29 metrics, `enterprise_value` is blank for all five assets; `revenue_ttm` is blank for GEV, VRT, RKLB and MP; `gross_margin` is blank for GEV, VRT, CRDO and MP; `operating_margin` is present only for VRT (0.166); `free_cash_flow_margin` is blank throughout. The only `valuation_metric` recorded for any asset is market capitalisation. There is no multiple, no per-share figure and no discounted-cash-flow input in the store, so the valuation-asymmetry sub-scores rest on market-cap level plus qualitative commentary rather than on any computed valuation.
+- **Gate ledger empty.** `gates.csv` records `not_assessed` for all thirteen gates across all five assets, with no evidence_ref and no assessed_date on any row.
 
 ## Action posture
 
 **No action.**
 
-No candidate is near a decision review. The binding constraint is price, not business quality: four of five candidates scored 1/10 on valuation asymmetry at 2026-07-18, and no data collected this week revises either the price or the expected return. Nothing in the W30 store satisfies gate 9 (valuation asymmetry) for any name, and several gates — RKLB's financed per-share economics in particular — remain undocumented.
+No asset is eligible for decision review. Per `gates.csv`, gates 1–13 read `not_assessed` for GEV, VRT, CRDO, RKLB and MP — that is, every gate is outstanding for every candidate, including falsifiable thesis (1), primary evidence (2), variant perception (3), power-law potential (4), durability (5), management and incentives (6), economics and financial resilience (7), disconfirming research (8), valuation asymmetry (9), pre-mortem (10), kill criteria (11), monitoring plan (12) and position-sizing assessment (13). The policy bar is not close to being met and nothing this week moved it.
 
-**Research queue for W31, in priority order:**
+Distance to actionable, stated plainly: all five names are *interesting*; none is *high conviction*; none is *actionable at this price*.
 
-1. Read the GEV Q2 10-Q and 8-K (`src-edgar-000199681026000148`, `src-edgar-000199681026000147`): Q2 orders and organic growth, backlog and its margin disclosure, data-centre order composition, Wind segment result versus the ~$400M full-year EBITDA loss expectation. Write a thesis update whether or not the direction changes.
-2. Check EDGAR for a Rocket Lab Form S-4; if filed, extract consideration mix, share count, and permanent financing terms. If not filed, record the absence.
-3. Refresh `weekly_metrics.csv` for all five assets so that valuation asymmetry can be re-scored against current prices.
-4. Triage the ten unreviewed 8-Ks; discard or promote each explicitly rather than leaving them indexed and unread.
-5. Begin filling the metrics gaps (enterprise value, TTM revenue, margins) needed for cross-candidate comparison.
+Research queue for W31, in order:
 
-*Research and decision support only. Not personalised financial advice; no trades are executed.*
+1. Read the GEV 10-Q and 8-K of 2026-07-22 (`src-edgar-000199681026000148`, `src-edgar-000199681026000147`) against the W29 checkpoint: Q2 segment orders, backlog level and composition, data-centre electrification orders, and the Wind segment loss trajectory previously described as roughly $400M of 2026 segment EBITDA (`tu-2026-w29-gev-baseline`, `src-2026-w29-gev-10q`).
+2. Refresh `weekly_metrics.csv` with a W30 or W31 snapshot so price change since 2026-07-18 is observable.
+3. Check whether an RKLB Form S-4 has been filed; review the four 425 filings of 2026-06-29 for permanent-financing detail beyond the $3.6B bridge commitment.
+4. Begin populating `gates.csv` for the two highest-scoring names rather than leaving the ledger uniformly unassessed — starting with gates 1, 3 and 11, which are cheap to document and would sharpen what future evidence actually tests.
+
+Research only. Not advice; no trade is proposed or implied.
 
 ## Safety boundary
 
