@@ -11,6 +11,8 @@
     "report:build:trial": "node scripts/build-trial.mjs",
     "report:check:trial": "node scripts/check-report.mjs reports/2026/2026-W29",
     "report:send:trial": "node --env-file=.env.local scripts/send-report.mjs reports/2026/2026-W29",
+    "ingest:macro": "node --env-file-if-exists=.env.local scripts/ingest-macro.mjs",
+    "ingest:macro:dry": "node --env-file-if-exists=.env.local scripts/ingest-macro.mjs --dry-run",
     "draft:issue": "node --env-file-if-exists=.env.local scripts/draft-issue.mjs .",
     "draft:issue:dry": "node scripts/draft-issue.mjs . --dry-run",
     "issue:build": "node scripts/build-issue.mjs",

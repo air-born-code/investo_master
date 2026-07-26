@@ -1,9 +1,22 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 const dataDir = path.join(root, 'data');
 await mkdir(dataDir, { recursive: true });
+
+// This is a one-time seeder: it rewrites every CSV from the hardcoded Issue 001
+// baseline. Once ingestion is running, that silently deletes every ingested row,
+// so refuse to clobber an existing store unless overwriting is explicit.
+if (!process.argv.includes('--force')) {
+  const exists = await stat(path.join(dataDir, 'sources.csv')).then(() => true).catch(() => false);
+  if (exists) {
+    console.error('data/sources.csv already exists. This seeder rewrites the whole store from');
+    console.error('the hardcoded baseline and would discard any ingested rows.');
+    console.error('Re-run with --force only if you intend to reset the store to Issue 001.');
+    process.exit(1);
+  }
+}
 
 const csv = (value) => {
   if (value === null || value === undefined) return '';

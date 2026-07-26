@@ -113,6 +113,21 @@ const [assets, scores, metrics] = await Promise.all([
   readTable('weekly_metrics.csv'),
 ]);
 
+// macro.csv only exists once ingestion has run, so treat it as optional.
+const macro = await readTable('macro.csv').catch(() => []);
+const macroWeeks = [...new Set(macro.map((r) => r.week_id))].sort();
+const macroWeek = macroWeeks.at(-1);
+const macroRows = macro.filter((r) => r.week_id === macroWeek);
+
+const formatMacro = (row) => {
+  if (row.unit === 'percent' || row.unit === 'percent_yoy') return `${row.value}%`;
+  if (row.unit === 'thousands_change') {
+    const n = Number(row.value);
+    return `${n >= 0 ? '+' : ''}${n}k`;
+  }
+  return row.value;
+};
+
 // The store may not have rows for this week yet — a quiet week is legitimate, so
 // fall back to the most recent week present rather than publishing an empty board.
 const weeksPresent = [...new Set(scores.map((r) => r.week_id))].sort();
@@ -288,6 +303,15 @@ const body = `
 <div style="padding:32px 34px;background:#f7f4ec;">
   <div style="margin-bottom:18px;">${pill(posture)}</div>
   ${staleNote}
+  ${macroRows.length ? `
+  <div style="color:#527095;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:11px;">Regime board · ${e(macroWeek)}</div>
+  <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff;border:1px solid #dedbd2;border-radius:12px;overflow:hidden;margin-bottom:26px;">
+    ${macroRows.map((r, i) => `<tr>
+      <td style="padding:11px;${i ? 'border-top:1px solid #e5e1d8;' : ''}color:#52606d;font-size:11px;">${e(r.label)}</td>
+      <td align="right" style="padding:11px;${i ? 'border-top:1px solid #e5e1d8;' : ''}color:#13263d;font-size:13px;font-weight:800;">${e(formatMacro(r))}</td>
+      <td align="right" style="padding:11px;${i ? 'border-top:1px solid #e5e1d8;' : ''}color:#7b8792;font-size:10px;">${e(r.observation_date)}</td>
+    </tr>`).join('')}
+  </table>` : ''}
   <div style="color:#527095;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:11px;">Conviction board · ${e(boardWeek)}</div>
   <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff;border:1px solid #dedbd2;border-radius:12px;overflow:hidden;margin-bottom:6px;">
     <tr>${['Candidate', 'Stage', 'Score', 'Asym.', 'Confidence', 'Market cap'].map((h, i) => `<td ${i > 1 ? 'align="right"' : ''} style="padding:9px 11px;background:#eeeae0;color:#527095;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;">${e(h)}</td>`).join('')}</tr>
@@ -314,6 +338,9 @@ const text = [
   `Action: ${posture}`,
   '',
   boardIsStale ? `NOTE: no scored rows for ${weekId}; board carried forward from ${boardWeek}.\n` : '',
+  ...(macroRows.length
+    ? [`REGIME BOARD (${macroWeek})`, ...macroRows.map((r) => `- ${r.label}: ${formatMacro(r)} (${r.observation_date})`), '']
+    : []),
   `CONVICTION BOARD (${boardWeek})`,
   boardText,
   '',
@@ -333,6 +360,14 @@ const markdown = [
   `- Evidence cut-off: ${cutoff}`,
   `- Action posture: ${posture}`,
   '',
+  ...(macroRows.length
+    ? [
+      `## Regime board (${macroWeek})`, '',
+      '| Series | Value | Observation |', '|---|---|---|',
+      ...macroRows.map((r) => `| ${r.label} | ${formatMacro(r)} | ${r.observation_date} |`),
+      '',
+    ]
+    : []),
   `## Conviction board (${boardWeek})`,
   '',
   '| Candidate | Stage | Score | Valuation asymmetry | Thesis confidence | Market cap |',

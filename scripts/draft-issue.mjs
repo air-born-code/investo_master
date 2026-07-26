@@ -36,19 +36,27 @@ const [masterPrompt, convictionPolicy] = await Promise.all([
   read('CONVICTION_POLICY.md'),
 ]);
 
+// macro.csv is optional: it only exists once ingestion has run at least once.
 const dataFiles = [
   'assets.csv',
   'themes.csv',
   'asset_themes.csv',
   'weekly_metrics.csv',
+  'macro.csv',
   'scores.csv',
   'thesis_updates.csv',
   'sources.csv',
 ];
 
-const store = await Promise.all(
-  dataFiles.map(async (name) => `### data/${name}\n\n\`\`\`csv\n${(await read('data', name)).trim()}\n\`\`\``),
-);
+const store = (await Promise.all(
+  dataFiles.map(async (name) => {
+    try {
+      return `### data/${name}\n\n\`\`\`csv\n${(await read('data', name)).trim()}\n\`\`\``;
+    } catch {
+      return null;
+    }
+  }),
+)).filter(Boolean);
 
 const weekId = isoWeekId(new Date());
 
@@ -91,7 +99,7 @@ if (dryRun) {
   console.log(`Week:          ${weekId}`);
   console.log(`Model:         ${model} (reasoning effort high)`);
   console.log(`System prompt: ${chars(system)} chars`);
-  console.log(`User turn:     ${chars(userTurn)} chars (${dataFiles.length} CSV files)`);
+  console.log(`User turn:     ${chars(userTurn)} chars (${store.length} CSV files)`);
   console.log('\nDry run — no API call made, no draft written.');
   process.exit(0);
 }

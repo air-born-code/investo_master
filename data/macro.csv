@@ -1,0 +1,6 @@
+week_id,as_of_date,series_id,label,value,unit,observation_date,transform,source_url
+2026-W30,2026-07-26,FEDFUNDS,Effective federal funds rate,3.63,percent,2026-06-01,level,https://fred.stlouisfed.org/series/FEDFUNDS
+2026-W30,2026-07-26,CPIAUCSL,US headline CPI,3.5,percent_yoy,2026-06-01,yoy_percent,https://fred.stlouisfed.org/series/CPIAUCSL
+2026-W30,2026-07-26,CPILFESL,US core CPI,2.6,percent_yoy,2026-06-01,yoy_percent,https://fred.stlouisfed.org/series/CPILFESL
+2026-W30,2026-07-26,UNRATE,US unemployment rate,4.2,percent,2026-06-01,level,https://fred.stlouisfed.org/series/UNRATE
+2026-W30,2026-07-26,PAYEMS,"US nonfarm payrolls, monthly change",57,thousands_change,2026-06-01,mom_change,https://fred.stlouisfed.org/series/PAYEMS
