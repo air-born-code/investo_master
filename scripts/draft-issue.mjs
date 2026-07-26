@@ -49,10 +49,73 @@ const dataFiles = [
   'sources.csv',
 ];
 
+const parseCsv = (text) => {
+  const rows = [];
+  let row = [];
+  let field = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { field += '"'; i += 1; } else { quoted = false; }
+      } else field += ch;
+      continue;
+    }
+    if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(field); field = ''; }
+    else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (ch !== '\r') field += ch;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((c) => c !== ''));
+};
+
+const serialise = (rows) => rows.map((r) => r.map((cell) => (
+  /[",\n\r]/.test(cell) ? `"${String(cell).replaceAll('"', '""')}"` : cell
+)).join(',')).join('\n');
+
+// sources.csv grows without bound, and sending all of it every week would make
+// the prompt larger and noisier each run until it stopped fitting. A weekly issue
+// needs recent evidence plus the full history of whatever is actually being
+// researched, so send exactly that and say what was withheld.
+const SOURCE_WINDOW_DAYS = 45;
+const trimSources = async (text) => {
+  const rows = parseCsv(text);
+  const [header, ...body] = rows;
+  const assetCol = header.indexOf('asset_id');
+  // published_at, not as_of_date: ingestion stamps as_of_date with the day it
+  // ran, so every ingested row looks equally recent. The filing date is the one
+  // that says whether the evidence is new.
+  const dateCol = header.indexOf('published_at');
+
+  const assetRows = parseCsv(await read('data', 'assets.csv'));
+  const [assetHeader, ...assetBody] = assetRows;
+  const idCol = assetHeader.indexOf('asset_id');
+  const tierCol = assetHeader.indexOf('tier');
+  const candidates = new Set(
+    assetBody.filter((r) => (r[tierCol] ?? '') !== 'universe').map((r) => r[idCol]),
+  );
+
+  const cutoffDate = new Date(Date.now() - SOURCE_WINDOW_DAYS * 86_400_000)
+    .toISOString().slice(0, 10);
+
+  const kept = body.filter((r) =>
+    candidates.has(r[assetCol]) || !r[assetCol] || r[dateCol] >= cutoffDate);
+  const withheld = body.length - kept.length;
+
+  const note = withheld
+    ? `\n\n${withheld} older source rows for universe-tier assets are withheld from this prompt. They remain in the store; ask for a specific asset if its history matters.`
+    : '';
+  return `${serialise([header, ...kept])}\n\`\`\`${note}`;
+};
+
 const store = (await Promise.all(
   dataFiles.map(async (name) => {
     try {
-      return `### data/${name}\n\n\`\`\`csv\n${(await read('data', name)).trim()}\n\`\`\``;
+      const text = (await read('data', name)).trim();
+      const block = name === 'sources.csv' ? await trimSources(text) : `${text}\n\`\`\``;
+      return `### data/${name}\n\n\`\`\`csv\n${block}`;
     } catch {
       return null;
     }
@@ -81,6 +144,12 @@ const system = [
     '',
     'The normal conclusion is no action. Only propose a decision review when the data',
     'shows evidence, asymmetry, and price aligning — and say which rows show it.',
+    '',
+    'Relating evidence to themes: a filing is a fact about a company, so rows in',
+    'sources.csv carry an asset_id and usually no theme_id. Do not read an empty',
+    'theme_id as "no theme-level evidence". Join through asset_themes.csv, which maps',
+    'each asset to the themes it expresses, and attribute the evidence to those themes.',
+    'Only macro and industry-level sources carry a theme_id directly.',
     '',
     'gates.csv records the thirteen decision gates from the conviction policy per',
     'asset. An asset cannot be proposed for decision review unless every one of its',
