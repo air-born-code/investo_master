@@ -49,6 +49,15 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: npm run ingest:macro
 
+      # Filings are the higher-signal feed: they arrive irregularly and are
+      # primary evidence. This records that a filing exists and links to it;
+      # reading it is a research step, not an ingestion step.
+      - name: Ingest SEC filings
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: npm run ingest:filings
+
       # Drafting costs money, so it runs only on scheduled and manual runs —
       # never on every push. It writes prose to drafts/ and never touches
       # data/*.csv; the CSV store stays human-authored or ingested.
