@@ -17,7 +17,18 @@ import path from 'node:path';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
-const root = path.resolve(args.find((arg) => !arg.startsWith('--')) ?? process.cwd());
+const flag = (name) => {
+  const i = args.indexOf(`--${name}`);
+  return i === -1 ? undefined : args[i + 1];
+};
+// A flag's value must not be mistaken for the project root.
+const FLAGS_WITH_VALUES = new Set(['strategy']);
+const positional = args.find((arg, i) => {
+  if (arg.startsWith('--')) return false;
+  const prev = args[i - 1];
+  return !(prev?.startsWith('--') && FLAGS_WITH_VALUES.has(prev.slice(2)));
+});
+const root = path.resolve(positional ?? process.cwd());
 const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-5';
 
 // ISO-8601 week, matching the week_id format used across data/ and reports/.
@@ -35,6 +46,25 @@ const [masterPrompt, convictionPolicy] = await Promise.all([
   read('INVESTO_MASTER_PROMPT.md'),
   read('CONVICTION_POLICY.md'),
 ]);
+
+// A lens is opt-in and applies to one issue. It supplies questions to ask of the
+// store, never conclusions — see strategies/README.md.
+const strategyName = flag('strategy');
+let strategy;
+if (strategyName) {
+  try {
+    strategy = await read('strategies', `${strategyName}.md`);
+  } catch {
+    console.error(`No lens at strategies/${strategyName}.md.`);
+    console.error('Available lenses:');
+    const { readdir } = await import('node:fs/promises');
+    const files = await readdir(path.join(root, 'strategies')).catch(() => []);
+    for (const f of files.filter((n) => n.endsWith('.md') && n !== 'README.md')) {
+      console.error(`  ${f.replace(/\.md$/, '')}`);
+    }
+    process.exit(1);
+  }
+}
 
 // macro.csv is optional: it only exists once ingestion has run at least once.
 const dataFiles = [
@@ -129,6 +159,19 @@ const system = [
   '---',
   convictionPolicy,
   '---',
+  ...(strategy
+    ? [
+      [
+        `An analytical lens is applied to this issue: strategies/${strategyName}.md.`,
+        'Use its questions to interrogate the store. It supplies questions, not',
+        'conclusions: do not adopt its author\'s positions, and respect its own',
+        'statement of what does not transfer. Say in the Executive Summary that the',
+        'lens was applied, and attribute to it any conclusion reached through it.',
+      ].join('\n'),
+      strategy,
+      '---',
+    ]
+    : []),
   [
     'You are drafting the narrative section of a weekly Investo Master issue.',
     '',
