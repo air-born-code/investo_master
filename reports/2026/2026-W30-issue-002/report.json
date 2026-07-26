@@ -1,0 +1,14 @@
+{
+  "report_id": "2026-W30-002",
+  "issue": "002",
+  "edition": "Quiet Week",
+  "week_id": "2026-W30",
+  "data_cutoff": "2026-07-26T07:44:52.566Z",
+  "board_week": "2026-W29",
+  "subject": "Investo Master — Issue 002: Quiet Week",
+  "action_posture": "NO ACTION — RESEARCH CONTINUES",
+  "approved_for_send": false,
+  "approval_note": "Not yet reviewed. Set approved_for_send to true only after reading the issue.",
+  "from": "Investo Master <onboarding@resend.dev>",
+  "narrative_source": "drafts/2026-W30.md"
+}

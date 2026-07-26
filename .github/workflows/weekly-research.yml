@@ -40,17 +40,39 @@ jobs:
       # The project has no dependencies and no lockfile, so there is nothing to
       # install. Add an `npm ci` step here if that ever changes.
 
-      # OpenRouter drafting will slot in here, before the build: it should write
-      # the week's rows into data/*.csv from real inputs, never invent metrics.
+      # Drafting costs money, so it runs only on scheduled and manual runs —
+      # never on every push. It writes prose to drafts/ and never touches
+      # data/*.csv; the CSV store stays human-authored.
+      - name: Draft weekly narrative
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: npm run draft:issue
 
       - name: Build CSV store
         run: npm run data:build:baseline
 
-      - name: Build issue
+      # Issue 001 is rebuilt on every event as a regression gate: it must stay
+      # byte-identical to the published archive.
+      - name: Rebuild baseline issue (regression gate)
         run: npm run report:build:baseline
 
-      - name: Validate issue
+      - name: Validate baseline issue
         run: npm run report:check:baseline
+
+      # The new week's issue depends on the draft above, so it only runs when the
+      # draft did. Week and issue number are derived from the archive; rebuilding a
+      # week that already has an issue reuses its number.
+      - name: Build this week's issue
+        id: issue
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: node scripts/build-issue.mjs
+
+      # --allow-unapproved validates structure without asserting send-readiness.
+      # A fresh issue is deliberately unapproved; approval is a human step.
+      - name: Validate this week's issue
+        if: steps.issue.outcome == 'success'
+        run: node scripts/check-report.mjs "${{ steps.issue.outputs.issue_dir }}" --allow-unapproved
 
       - name: Check for changes
         id: diff
@@ -84,4 +106,6 @@ jobs:
             --base main \
             --head "$BRANCH" \
             --title "Weekly research build $(date -u +%Y-%m-%d)" \
-            --body 'Automated build from the weekly workflow. Validation passed. Review the diff, then send locally with `npm run report:send:baseline` once you are satisfied with the issue.'
+            --body 'Automated build from the weekly workflow. Structural validation passed; the issue is deliberately unapproved.
+
+To publish after reviewing the diff: set `approved_for_send` to `true` in the issue'"'"'s `report.json`, then run `npm run issue:send -- <issue directory>` locally.'

@@ -1,7 +1,11 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
-const reportDir = path.resolve(process.argv[2] || '');
+const args = process.argv.slice(2);
+// A freshly built issue is unapproved by design. This flag lets CI validate the
+// structure without asserting send-readiness; the default stays a send gate.
+const allowUnapproved = args.includes('--allow-unapproved');
+const reportDir = path.resolve(args.find((arg) => !arg.startsWith('--')) || '');
 const requiredFiles = ['report.json', 'report.md', 'report.html', 'email.html', 'email.txt'];
 const failures = [];
 
@@ -24,7 +28,7 @@ if (failures.length === 0) {
   for (const field of requiredMetadata) {
     if (!metadata[field]) failures.push(`report.json missing ${field}`);
   }
-  if (metadata.approved_for_send !== true) failures.push('report is not approved for send');
+  if (metadata.approved_for_send !== true && !allowUnapproved) failures.push('report is not approved for send');
   if (!html.toLowerCase().includes('<!doctype html>')) failures.push('email.html is not a complete HTML document');
   if (!html.includes(metadata.report_id)) failures.push('email.html is missing report ID');
   if (!html.includes(metadata.action_posture)) failures.push('email.html is missing action posture');
