@@ -1,5 +1,5 @@
-INVESTO MASTER — ISSUE 002: Quiet Week
-Week 2026-W30 | Evidence cut-off 2026-07-26T07:44:52.566Z
+INVESTO MASTER — ISSUE 002: Weekly Overview
+Week 2026-W30 | Evidence cut-off 2026-07-26T08:07:05.489Z
 Action: NO ACTION — RESEARCH CONTINUES
 
 NOTE: no scored rows for 2026-W30; board carried forward from 2026-W29.
@@ -11,73 +11,75 @@ CONVICTION BOARD (2026-W29)
 - RKLB — researching — score 72 — asymmetry 1/10 — low confidence — $42.00B
 - MP — researching — score 72 — asymmetry 4/10 — medium confidence — $8.09B
 
-Investo Master — Weekly Issue 2026-W30
+Investo Master — Week 2026-W30
 
 Summary
 
-No new evidence entered the research store this week. Every row in weekly_metrics.csv, scores.csv, thesis_updates.csv and sources.csv carries week_id = 2026-W29 and as_of_date = 2026-07-18. There are no W30 prices, no W30 scores, no new filings and no new thesis updates. This issue therefore records state, not change, and no candidate's position has moved.
+No new data was recorded for this week. The research store contains no 2026-W30 rows in weekly_metrics.csv, scores.csv, thesis_updates.csv, or sources.csv. Every price, score, and thesis status below is carried forward unchanged from week 2026-W29, as of 2026-07-18. Nothing in the store has been re-measured since.
 
-The standing picture from the 2026-W29 baseline is unchanged and worth restating once, because it is the operative constraint:
+This is therefore a maintenance issue, not an analytical one. There is no new evidence to upgrade or downgrade any thesis, and no candidate has moved stage: assets.csv shows GEV and VRT on watchlist, and CRDO, RKLB and MP on researching, all with last_reviewed_date of 2026-07-18.
 
-Asset · Stage · Total · Valuation asymmetry (of 10) · Thesis confidence · Market cap (2026-07-18)
---- · --- · --- · --- · --- · ---
-GEV · watchlist · 78 · 1 · medium · $284.27B
-VRT · watchlist · 78 · 1 · medium · $112.97B
-CRDO · researching · 73 · 1 · low · $38.41B
-RKLB · researching · 72 · 1 · low · ~$42B
-MP · researching · 72 · 4 · medium · $8.09B
-
-Four of five candidates score 1 out of 10 on valuation asymmetry (scores.csv, 2026-07-18). That is the single most important fact in the store: business quality is being scored high while expected return is being scored near the floor. Nothing this week alters it, because nothing this week was measured.
-
-The next scheduled evidence for all five names is Q2 2026 reporting or filing-based (scores.csv next_checkpoint field: GEV Q2 segment orders and backlog margin; VRT Q2 organic orders and book-to-bill; CRDO fiscal Q1 2027 customer mix; RKLB the Form S-4 and permanent financing plan; MP the 10X construction budget and Independence yields). None of it is in the store yet.
+The one durable observation worth restating is the shape of the scoring table. Four of the five candidates score 1 out of 10 on valuation asymmetry (GEV, VRT, CRDO, RKLB in scores.csv, 2026-W29). MP is the sole exception at 4. Whatever else these businesses are, the store's own assessment is that price is currently the binding constraint on four of them — not business quality, where the same rows award 12–15 of 15 on market runway and 10–13 of 15 on moat.
 
 Theme notes
 
-The macro and structural sources in the store were all accessed 2026-07-18 and none has been refreshed:
+All six themes in themes.csv carry last_updated_date of 2026-07-18 and no revisions were logged this week.
 
-- Age of Electricity / AI Physical Infrastructure. The IEA's *Electricity 2026* forecasts global electricity demand growth of 3.6% annually through 2030, with data centres driving roughly half of US demand growth (src-2026-w29-iea-electricity, published 2026-01-01). The EIA's *Annual Energy Outlook 2026* independently identifies data-centre server energy use as an important driver of US demand growth (src-2026-w29-eia-aeo, 2026-04-01). Two official forecasters agreeing on direction is the strongest part of the demand case; neither source in the store quantifies the *margin* available to equipment suppliers, which is exactly where both GEV and VRT theses are unresolved.
-- Critical Minerals Security. The most recent primary source in the entire store is the IEA's *Global Critical Minerals Outlook 2026* (src-2026-w29-iea-minerals, published 2026-07-16), which states that supply concentration and export controls have made diversification a strategic priority. The concentration figures remain those of src-2026-w29-iea-rare-earths: China held 91% of refining and 94% of sintered permanent-magnet production in 2024. This is the theme where policy support and the investment case are hardest to separate.
-- Advanced Nuclear Enablers remains monitoring in themes.csv. The only supporting row is the NRC's *Advanced Reactor Highlights 2026* (src-2026-w29-nrc, 2026-04-15), noting a new Part 53 pathway and approval of TerraPower construction activity. No asset in asset_themes.csv is linked to this theme, so there is nothing to underwrite here yet.
-- High-Speed Compute Connectivity and Vertically Integrated Space are both medium confidence in themes.csv and each has a single linked asset. No new theme-level evidence this week.
+The most recently published source in the store is the IEA's *Global Critical Minerals Outlook 2026* (published 2026-07-16, src-2026-w29-iea-minerals), which states that supply concentration and export controls have made diversification a strategic priority. It sits alongside the IEA rare-earths summary (src-2026-w29-iea-rare-earths) recording China at 91% of refining and 94% of sintered permanent-magnet production in 2024 — the quantitative backbone of the critical-minerals-security theme, and the reason MP's market_runway and moat scores are supported by structural rather than company-specific evidence.
 
-Macro context, unchanged: the federal-funds target range was 3.50%–3.75% at the 2026-06-17 FOMC statement (src-2026-w29-fed); June CPI was 3.5% headline and 2.6% core (src-2026-w29-cpi, released 2026-07-14); June payrolls rose 57,000 with unemployment at 4.2% (src-2026-w29-jobs, released 2026-07-02).
+For age-of-electricity and ai-physical-infrastructure, the supporting evidence remains the IEA *Electricity 2026* forecast of 3.6% annual global demand growth through 2030 with data centres driving roughly half of US demand growth (src-2026-w29-iea-electricity), corroborated directionally by the EIA *Annual Energy Outlook 2026* on server energy use as an important driver of US demand growth (src-2026-w29-eia-aeo). Both are forecasts, not measurements, and neither has been updated since access on 2026-07-18.
+
+Macro context is unchanged and dated: the federal-funds target range at 3.50%–3.75% (FOMC statement 2026-06-17, src-2026-w29-fed); headline CPI 3.5% and core CPI 2.6% (2026-07-14, src-2026-w29-cpi); payrolls +57,000 and unemployment 4.2% (2026-07-02, src-2026-w29-jobs). No newer macro release is in the store, so I cannot say whether any of these have since moved.
+
+advanced-nuclear-enablers remains monitoring with no candidate attached in asset_themes.csv. The only supporting row is the NRC's *Advanced Reactor Highlights 2026* (2026-04-15, src-2026-w29-nrc) noting a new Part 53 pathway and approved TerraPower construction activity. Regulatory progress without a researched candidate is not yet an investable position.
 
 Watchlist notes
 
-No thesis status changed. The baseline tensions, each from the 2026-W29 update rows:
+Asset · Stage · Price (2026-07-18) · Market cap · Total score · Valuation asymmetry · Thesis confidence
+--- · --- · --- · --- · --- · --- · ---
+GEV · watchlist · $1,057.84 · $284.27B · 78 · 1 / 10 · medium
+VRT · watchlist · $289.56 · $112.97B · 78 · 1 / 10 · medium
+CRDO · researching · $206.00 · $38.41B · 73 · 1 / 10 · low
+RKLB · researching · $67.62 · $42.0B · 72 · 1 / 10 · low
+MP · researching · $57.55 · $8.09B · 72 · 4 / 10 · medium
 
-GE Vernova (watchlist). Q1 2026 orders were $18.3B, backlog $163B, and data-centre electrification equipment orders $2.4B (src-2026-w29-gev-q1). Against that, the baseline update records an expected ~$400M Wind segment EBITDA loss in 2026, and the 10-Q confirms continuing Wind losses (src-2026-w29-gev-10q). Revenue growth of 16% is recorded in weekly_metrics.csv. Open question unchanged: what portion of data-centre orders is repeatable, and what margins are embedded in the backlog.
+All rows from weekly_metrics.csv and scores.csv, week 2026-W29. data_quality on every metrics row flags prices and market caps as third-party snapshots (reliability medium in sources.csv) with operating data issuer-reported or SEC-filed.
 
-Vertiv (watchlist). Q1 sales rose 30% and full-year organic growth guidance was raised to 29%–31% (src-2026-w29-vrt-q1); operating margin of 16.6% is recorded in weekly_metrics.csv. The 10-Q identifies cancellation, fixed-price, capacity and customer-spending risks (src-2026-w29-vrt-10q). The durability of book-to-bill after customer build plans normalise remains untested.
+GE Vernova. Baseline thesis (tu-2026-w29-gev-baseline): demand confirmed, valuation leaves little room for ordinary execution. Supporting evidence is Q1 orders of $18.3B, backlog of $163B and data-centre electrification equipment orders of $2.4B (src-2026-w29-gev-q1, 2026-04-22), with the 10-Q confirming segment performance and continuing Wind losses (src-2026-w29-gev-10q). Recorded evidence against: Wind expected to lose about $400M of segment EBITDA in 2026 against a roughly $284B market cap. The open question — what portion of data-centre orders is repeatable and what margins are embedded in backlog — is unresolved, and its stated checkpoint (Q2 2026 segment orders, backlog margin, data-centre order composition) has not been recorded in the store.
 
-Credo (researching). FY2026 revenue was $1.335B on 205.7% growth with $1.4B net cash (weekly_metrics.csv); Q4 revenue grew 157% year over year at a 68.2% GAAP gross margin (src-2026-w29-crdo-results). The 10-K records two customers at 49% and 32% of FY2026 revenue and share-based compensation of $182.6M (src-2026-w29-crdo-10k). Concentration of 81% is the reason thesis confidence is low despite the highest growth-economics score in the set (14/15).
+Vertiv. Baseline thesis (tu-2026-w29-vrt-baseline): direct AI infrastructure beneficiary, demanding price. Q1 sales rose 30% and full-year organic growth guidance was raised to 29%–31% (src-2026-w29-vrt-q1, 2026-04-22). The 10-Q explicitly identifies cancellation, fixed-price, capacity and customer-spending risks (src-2026-w29-vrt-10q, stance challenges). Operating margin is the only margin figure the store holds for VRT: 0.166. Durability of book-to-bill after customer build plans normalise remains the open question; the Q2 2026 orders and cancellation commentary checkpoint is not yet in the store.
 
-Rocket Lab (researching). Q1 revenue was $200.3M with backlog above $2.2B (src-2026-w29-rklb-q1) and 63.5% growth, 38.2% gross margin and $1.333B net cash in weekly_metrics.csv. The 10-Q records a $45.0M Q1 net loss, $50.3M operating cash outflow and $445.6M of ATM proceeds (src-2026-w29-rklb-10q). The 8-K records the Iridium acquisition for cash and stock with a $3.6B bridge commitment (src-2026-w29-rklb-iridium), and the release records 2.55M subscribers, L-band spectrum and an existing service network (src-2026-w29-rklb-iridium-release). The underwriting question is per-share, not thematic, and cannot be answered before the S-4 appears.
+Credo. Highest growth, lowest confidence pairing in the table (thesis_confidence: low). FY2026 revenue of $1.335B, growth of 205.7%, operating cash flow of $464M, and $1.4B net cash (weekly_metrics.csv; tu-2026-w29-crdo-baseline); Q4 revenue grew 157% year over year at a 68.2% GAAP gross margin (src-2026-w29-crdo-results, 2026-06-01). Against that, the 10-K records two customers at 49% and 32% of FY2026 revenue — 81% combined — and $182.6M of share-based compensation (src-2026-w29-crdo-10k, 2026-06-16). The concentration question is the thesis. No fiscal Q1 2027 data is in the store.
 
-MP Materials (researching). NdPr production rose 63%, sales volume 117%, and magnetics revenue reached $21.1M (src-2026-w29-mp-q1), with 49% revenue growth and $1.738B net cash (weekly_metrics.csv). The 10-Q records $42.3M of price-protection income under the $110/kg government price floor, alongside a net loss (src-2026-w29-mp-10q). MP holds the only valuation-asymmetry score above 1 in the set (4/10) and the smallest market cap; it is also the name where the store most clearly shows earnings that are policy-derived rather than market-derived.
+Rocket Lab. The Iridium agreement changed the underwriting problem and has not been resolved since. Q1 revenue was $200.3M with backlog above $2.2B and 63.5% growth (src-2026-w29-rklb-q1; weekly_metrics.csv); Iridium adds 2.55M subscribers, L-band spectrum and an existing service network (src-2026-w29-rklb-iridium-release, 2026-06-29). Against: Q1 net loss $45.0M, operating cash outflow $50.3M, ATM proceeds $445.6M (src-2026-w29-rklb-10q), and a $3.6B bridge commitment for a cash-and-stock acquisition (src-2026-w29-rklb-iridium). The stated checkpoint — Form S-4, permanent financing plan, Neutron milestones, transaction approvals — has produced nothing recorded in the store. Until the S-4 exists, the per-share return distribution is not underwritable, and financial_strength at 7/10 with moat at 10/15 does not compensate.
+
+MP Materials. The only candidate scoring above 1 on valuation asymmetry, and the only one where the recorded bear point is about the *quality* of earnings rather than the price. NdPr production rose 63%, sales volume 117%, and magnetics revenue reached $21.1M (src-2026-w29-mp-q1, 2026-05-07). But Q1 included $42.3M of price-protection income under the $110/kg government price floor (src-2026-w29-mp-10q), and the company still reported a net loss (tu-2026-w29-mp-baseline). Magnetics revenue of $21.1M against $42.3M of price-protection income is the whole question in two numbers. The checkpoint — 10X construction budget, Independence yields, customer qualification and ex-support economics — is outstanding.
+
+No kill criterion was triggered: all five thesis_updates.csv rows show kill_criterion_status: not_tested.
 
 Data gaps
 
-Listed rather than worked around:
-
-1. No 2026-W30 data of any kind. No price, market-cap, score or source row has an as_of_date after 2026-07-18. Any statement about this week's prices, moves or news would be fabricated.
-2. Q2 2026 results are absent. Every next_checkpoint in scores.csv points to Q2 or fiscal-Q1-2027 disclosure; none is in sources.csv.
-3. Incomplete fundamentals. weekly_metrics.csv has no enterprise_value for any asset; no revenue_ttm for GEV, VRT, RKLB or MP; no gross margin for GEV, VRT, CRDO or MP; no operating margin for GEV, CRDO, RKLB or MP; and no free-cash-flow margin for any asset. Credo's $464M FY2026 operating cash flow appears only in a thesis-update narrative field, not as a metric row.
-4. No valuation multiples. The valuation_metric field is market_cap_usd for all five, so no earnings, cash-flow or sales multiple exists in the store. The valuation-asymmetry scores of 1 cannot be reconstructed from the data provided — they rest on judgement recorded elsewhere.
-5. No share counts or dilution data. RKLB's Iridium consideration mix, share count and pro-forma leverage are not in the store, so the central RKLB question is unanswerable from present data.
-6. No scenario table. There is no five-scenario data (failure / bear / base / bull / generational) for any candidate, and no plausible downside or upside range field, despite the scoring framework requiring them.
-7. Kill criteria are recorded as not_tested but not defined. thesis_updates.csv gives a status but the store contains no written kill-criterion text to test against.
-8. All prices and market caps are third-party, medium-reliability snapshots (src-2026-w29-*-market), dated 2026-07-16 or 2026-07-17, and data_quality in weekly_metrics.csv flags the mixed provenance on every row.
+- No 2026-W30 data of any kind. No metrics, scores, thesis updates or sources were recorded for this week. I cannot say whether prices, orders, or theses moved between 2026-07-18 and the W30 date.
+- Q2 2026 results are the stated next checkpoint for GEV and VRT and are absent. Both next_checkpoint fields reference Q2 2026 disclosures; no such filing or release appears in sources.csv. The most recent GEV and VRT primary sources are dated 2026-04-22.
+- No Form S-4 or permanent financing plan for the Iridium transaction. tu-2026-w29-rklb-baseline names the fully financed per-share return distribution as the open question, and the store holds no document capable of answering it.
+- Enterprise value is blank for all five assets, so no EV-based valuation work is possible from this store.
+- Revenue TTM is present only for CRDO ($1,335,116,000). GEV, VRT, RKLB and MP have growth rates but no revenue level.
+- Margin data is near-absent. Gross margin exists only for RKLB (0.382); operating margin only for VRT (0.166); free-cash-flow margin is blank for all five. Statements about margin trajectory therefore cannot be sourced.
+- No kill criteria are written down. kill_criterion_status reads not_tested for all five, but the store contains no field recording what the observable falsifying facts actually are. This is a gate-13 deficiency under the Patience and Conviction Policy and should be closed before any candidate approaches decision review.
+- Prices and market caps are medium-reliability third-party snapshots dated 2026-07-16 and 2026-07-17, not exchange data.
+- No scuttlebutt, customer, competitor or employee evidence appears anywhere in sources.csv. Every product_evidence score (8–9 of 10) rests on issuer disclosure alone.
 
 Action posture
 
 No action.
 
-No candidate is near decision review. Four of five carry a valuation-asymmetry score of 1/10, two carry low thesis confidence, and — decisively — no evidence at all was added this week, so no gate could have been closed. The store also lacks the scenario analysis, per-share dilution data and defined kill criteria that the minimum gate requires; those absences alone rule out decision review regardless of price.
+Nothing was measured this week, so nothing can have changed. Four of five candidates carry a valuation-asymmetry score of 1 out of 10, which is the store's own record that price does not currently permit an adequate expected return regardless of business quality. The fifth, MP, scores 4 — better, but its Q1 result included $42.3M of price-protection income against $21.1M of magnetics revenue (src-2026-w29-mp-10q, src-2026-w29-mp-q1), and the ex-support economics that would justify the position are explicitly listed as unresolved.
 
-Sub-posture by name, for clarity: GEV and VRT are waiting for price in substance, since thesis quality is scored 78 while asymmetry is scored 1. CRDO, RKLB and MP remain continue research, with the specific open questions recorded in scores.csv.
+No candidate satisfies the minimum gate for decision review. Specifically: no kill criteria are recorded for any of the five; no disconfirming primary research beyond issuer risk-factor disclosure exists; and RKLB lacks the financing document required for any valuation asymmetry analysis at all.
 
-Research queue for next week is set by the store, not by preference: capture Q2 2026 disclosure for GEV and VRT when filed; obtain the Rocket Lab Form S-4 and permanent financing terms; populate the missing enterprise-value, TTM-revenue and margin fields; and write explicit kill criteria for all five candidates so that the not_tested flags become meaningful.
+The highest-value work for next week is mechanical rather than exploratory: record W30 metrics, retrieve Q2 2026 disclosures for GEV and VRT if published, check EDGAR for the Rocket Lab S-4, and write down explicit kill criteria for all five candidates so that future weeks can test something.
+
+*Research and decision support only. Not personalised financial advice. No trades are executed.*
 
 SAFETY BOUNDARY
 Research and decision support only. No trades, promised returns, or personalised financial, tax or legal advice. The human investor retains responsibility for every decision.
