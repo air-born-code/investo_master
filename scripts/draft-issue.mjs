@@ -45,6 +45,7 @@ const dataFiles = [
   'macro.csv',
   'scores.csv',
   'thesis_updates.csv',
+  'gates.csv',
   'sources.csv',
 ];
 
@@ -80,6 +81,11 @@ const system = [
     '',
     'The normal conclusion is no action. Only propose a decision review when the data',
     'shows evidence, asymmetry, and price aligning — and say which rows show it.',
+    '',
+    'gates.csv records the thirteen decision gates from the conviction policy per',
+    'asset. An asset cannot be proposed for decision review unless every one of its',
+    'gates reads "documented". Do not assess a gate yourself or infer that one is met:',
+    'report the ledger as it stands, and name the outstanding gate numbers.',
   ].join('\n'),
 ].join('\n\n');
 
