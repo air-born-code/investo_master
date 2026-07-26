@@ -106,6 +106,4 @@ jobs:
             --base main \
             --head "$BRANCH" \
             --title "Weekly research build $(date -u +%Y-%m-%d)" \
-            --body 'Automated build from the weekly workflow. Structural validation passed; the issue is deliberately unapproved.
-
-To publish after reviewing the diff: set `approved_for_send` to `true` in the issue'"'"'s `report.json`, then run `npm run issue:send -- <issue directory>` locally.'
+            --body "$(printf 'Automated build from the weekly workflow. Structural validation passed; the issue is deliberately unapproved.\n\nTo publish after reviewing the diff: set approved_for_send to true in the issue report.json, then run `npm run issue:send -- <issue directory>` locally.')"
