@@ -180,7 +180,10 @@ try {
 
 // Pull the Action posture section so the header pill matches the narrative
 // instead of being asserted separately and drifting out of sync.
-const postureSection = draft.split(/^##\s+Action posture\s*$/im)[1] ?? '';
+// Tolerate both "## Action posture" and the numbered "## 11. Action posture",
+// since the workflow sections in the core prompt are numbered and the model
+// mirrors that style. Heading level is allowed to vary for the same reason.
+const postureSection = draft.split(/^#{2,4}\s+(?:\d+\.\s*)?Action posture\s*$/im)[1] ?? '';
 let posture = flag('posture');
 if (!posture) {
   if (/no action/i.test(postureSection)) posture = 'NO ACTION — RESEARCH CONTINUES';
