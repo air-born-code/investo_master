@@ -82,7 +82,16 @@ const readTable = async (name) => {
   return body.map((cells) => Object.fromEntries(header.map((k, i) => [k, cells[i] ?? ''])));
 };
 
-const assets = await readTable('assets.csv');
+const allAssets = await readTable('assets.csv');
+
+// Gates apply to candidates only. Universe membership implies coverage, not
+// interest, and laying thirteen empty gates over a hundred tracked names would
+// make the ledger noise rather than a signal. A missing tier is treated as
+// candidate so a store predating tiering still reports.
+const CANDIDATE_TIERS = new Set(['candidate', '']);
+const assets = allAssets.filter((a) => CANDIDATE_TIERS.has(a.tier ?? ''));
+const covered = allAssets.length - assets.length;
+
 const gatesPath = path.join(root, 'data', 'gates.csv');
 const header = ['asset_id', 'gate_number', 'gate_id', 'gate_name', 'status', 'evidence_ref', 'assessed_date', 'notes'];
 
@@ -171,7 +180,8 @@ const systemic = GATES.filter(([, gateId]) =>
 if (!systemic.length) console.log('  none');
 for (const [number, , gateName] of systemic) console.log(`  ${String(number).padStart(2)}. ${gateName}`);
 
-console.log(`\n${assetIds.length - incomplete.length} of ${assetIds.length} assets clear all gates.`);
+console.log(`\n${assetIds.length - incomplete.length} of ${assetIds.length} candidates clear all gates.`);
+if (covered) console.log(`${covered} further asset(s) tracked at a lower tier, where gates do not apply.`);
 console.log('Status values: not_assessed (nobody has looked), missing, drafted, documented.');
 
 if (strict && incomplete.length) {
