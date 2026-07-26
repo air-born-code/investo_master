@@ -31,3 +31,6 @@ Thumbs.db
 
 # Local-only report previews
 preview/
+
+# Generated site (build with: npm run site:build)
+site/

@@ -20,6 +20,8 @@
     "strategies:list": "node -e \"const fs=require('fs');for(const f of fs.readdirSync('strategies'))if(f.endsWith('.md')&&f!=='README.md')console.log(f.replace(/\\.md$/,''))\"",
     "gates:check": "node scripts/check-gates.mjs",
     "gates:init": "node scripts/check-gates.mjs --init",
+    "site:build": "node scripts/build-site.mjs",
+    "site:serve": "node scripts/build-site.mjs && node scripts/serve-site.mjs",
     "issue:build": "node scripts/build-issue.mjs",
     "issue:check": "node scripts/check-report.mjs",
     "issue:send": "node --env-file=.env.local scripts/send-report.mjs",
