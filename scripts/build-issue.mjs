@@ -279,7 +279,14 @@ const plain = (markdown) => markdown
   .trim();
 
 // --- documents ---------------------------------------------------------------
-const cutoff = flag('cutoff') ?? new Date().toISOString();
+// Reuse the stored cut-off when rebuilding an existing issue. Stamping the
+// current time instead makes every rebuild churn all five files, which would
+// make the workflow open a pull request every week whether or not anything
+// actually changed.
+const storedCutoff = await readFile(path.join(reportDir, 'report.json'), 'utf8')
+  .then((text) => JSON.parse(text).data_cutoff)
+  .catch(() => undefined);
+const cutoff = flag('cutoff') ?? storedCutoff ?? new Date().toISOString();
 const subject = `Investo Master — Issue ${issue}: ${edition}`;
 const safety =
   'Research and decision support only. No trades, promised returns, or personalised financial, tax or legal advice. The human investor retains responsibility for every decision.';
