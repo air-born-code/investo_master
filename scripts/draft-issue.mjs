@@ -96,8 +96,23 @@ const userTurn = [
   '',
   ...store,
   '',
-  'Produce Markdown with these sections: Summary, Theme notes, Watchlist notes,',
-  'Data gaps, Action posture. Output the Markdown only — no preamble.',
+  'Follow the Weekly Research Workflow in the core research prompt, using its',
+  'section names and order:',
+  '',
+  '  1. Executive Summary      2. Cycle Position        3. Structural Change Radar',
+  '  4. Signal Scanner         5. New Candidates        6. Existing Thesis Updates',
+  '  7. Scenario Analysis      8. Decision Dashboard    9. Research Queue',
+  '',
+  'Then two closing sections this publishing pipeline requires:',
+  '',
+  '  10. Data gaps — what the store cannot answer, stated plainly',
+  '  11. Action posture — the decision, and why',
+  '',
+  'Omit any numbered section with nothing evidenced to report rather than padding',
+  'it, and say in the Executive Summary which sections you omitted and why. A quiet',
+  'week is a short issue. Keep the exact heading text so the sections can be parsed.',
+  '',
+  'Output the Markdown only — no preamble.',
 ].join('\n');
 
 if (dryRun) {
@@ -120,6 +135,9 @@ console.log(`Drafting ${weekId} with ${model}. This can take several minutes.`);
 
 // Note: temperature and other sampling parameters are deliberately omitted.
 // Claude Opus 5 rejects them, so passing one through the gateway fails the call.
+// Streamed, not buffered. A full issue can take well over ten minutes to
+// generate, and a single silent request that long is fragile: it hits timeouts
+// with nothing to show for the spend. Streaming also surfaces progress.
 const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
   method: 'POST',
   headers: {
@@ -131,31 +149,69 @@ const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     model,
     max_tokens: 16000,
     reasoning: { effort: 'high' },
+    stream: true,
+    usage: { include: true },
     messages: [
       { role: 'system', content: system },
       { role: 'user', content: userTurn },
     ],
   }),
-  signal: AbortSignal.timeout(600_000),
+  signal: AbortSignal.timeout(1_800_000),
 });
 
-const payload = await response.json();
-
-if (!response.ok || payload.error) {
+if (!response.ok) {
+  const detail = await response.text().catch(() => '');
   console.error(`OpenRouter request failed (${response.status}).`);
-  console.error(payload.error?.message ?? JSON.stringify(payload).slice(0, 500));
+  console.error(detail.slice(0, 500));
   process.exit(1);
 }
 
-const choice = payload.choices?.[0];
-if (choice?.finish_reason === 'length') {
-  console.error('Draft hit the max_tokens ceiling and is truncated. Raise max_tokens and rerun.');
+let markdown = '';
+let finishReason;
+let usage = {};
+let buffer = '';
+
+for await (const chunk of response.body) {
+  buffer += Buffer.from(chunk).toString('utf8');
+  const lines = buffer.split('\n');
+  // Keep the last element: it may be a partial line split across chunks.
+  buffer = lines.pop() ?? '';
+
+  for (const line of lines) {
+    if (!line.startsWith('data:')) continue;
+    const data = line.slice(5).trim();
+    if (!data || data === '[DONE]') continue;
+
+    let parsed;
+    try {
+      parsed = JSON.parse(data);
+    } catch {
+      continue; // OpenRouter sends comment/keepalive lines; skip anything unparseable
+    }
+
+    if (parsed.error) {
+      console.error(`\nOpenRouter error: ${parsed.error.message ?? JSON.stringify(parsed.error)}`);
+      process.exit(1);
+    }
+
+    const delta = parsed.choices?.[0]?.delta?.content;
+    if (delta) {
+      markdown += delta;
+      process.stdout.write(delta);
+    }
+    if (parsed.choices?.[0]?.finish_reason) finishReason = parsed.choices[0].finish_reason;
+    if (parsed.usage) usage = parsed.usage;
+  }
+}
+
+if (finishReason === 'length') {
+  console.error('\nDraft hit the max_tokens ceiling and is truncated. Raise max_tokens and rerun.');
   process.exit(1);
 }
 
-const markdown = (choice?.message?.content ?? '').trim();
+markdown = markdown.trim();
 if (!markdown) {
-  console.error(`No text content returned (finish_reason: ${choice?.finish_reason ?? 'unknown'}).`);
+  console.error(`\nNo text content returned (finish_reason: ${finishReason ?? 'unknown'}).`);
   process.exit(1);
 }
 
@@ -164,7 +220,6 @@ await mkdir(draftDir, { recursive: true });
 const draftPath = path.join(draftDir, `${weekId}.md`);
 await writeFile(draftPath, `${markdown}\n`, 'utf8');
 
-const usage = payload.usage ?? {};
-console.log(`Wrote drafts/${weekId}.md`);
+console.log(`\nWrote drafts/${weekId}.md`);
 console.log(`Tokens — prompt ${usage.prompt_tokens ?? '?'}, completion ${usage.completion_tokens ?? '?'}`);
 if (usage.cost !== undefined) console.log(`Cost — $${usage.cost}`);
