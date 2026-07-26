@@ -31,26 +31,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       # The project has no dependencies and no lockfile, so there is nothing to
       # install. Add an `npm ci` step here if that ever changes.
 
+      # Ingestion writes the numbers; the model only writes prose about them.
+      # This runs before drafting so the draft sees the current week's data.
+      # Append-only and idempotent, so a re-run adds nothing.
+      - name: Ingest macro series
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: npm run ingest:macro
+
       # Drafting costs money, so it runs only on scheduled and manual runs —
       # never on every push. It writes prose to drafts/ and never touches
-      # data/*.csv; the CSV store stays human-authored.
+      # data/*.csv; the CSV store stays human-authored or ingested.
       - name: Draft weekly narrative
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: npm run draft:issue
 
-      - name: Build CSV store
-        run: npm run data:build:baseline
+      # data:build:baseline is deliberately NOT run here. It is a one-time seeder
+      # that rewrites the whole store from the hardcoded Issue 001 baseline, which
+      # would discard every ingested row. The CSVs come from the repository.
 
       # Issue 001 is rebuilt on every event as a regression gate: it must stay
       # byte-identical to the published archive.
