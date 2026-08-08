@@ -16,6 +16,17 @@ const [html, text] = await Promise.all([
   readFile(path.join(reportDir, 'email.txt'), 'utf8'),
 ]);
 
+// The body is the size-constrained edition: Gmail clips a message near 102KB, so the
+// inline charts there are drawn at reduced resolution. report.html has no such limit
+// and carries the full monthly series, so it goes along as an attachment — a copy
+// that can be opened, kept and read outside the mail client at full fidelity.
+const attachmentName = `investo-master-issue-${metadata.issue ?? metadata.report_id}-${metadata.week_id ?? ''}.html`
+  .replace(/-+\.html$/, '.html');
+const archive = await readFile(path.join(reportDir, 'report.html'), 'utf8').catch(() => undefined);
+if (!archive) {
+  console.warn('No report.html found — sending without the full-resolution attachment.');
+}
+
 const idempotencyKey = `investo-${metadata.report_id}`;
 const response = await fetch('https://api.resend.com/emails', {
   method: 'POST',
@@ -30,6 +41,15 @@ const response = await fetch('https://api.resend.com/emails', {
     subject: metadata.subject,
     html,
     text,
+    ...(archive
+      ? {
+        attachments: [{
+          filename: attachmentName,
+          content: Buffer.from(archive, 'utf8').toString('base64'),
+          contentType: 'text/html',
+        }],
+      }
+      : {}),
     tags: [
       { name: 'category', value: 'weekly-research' },
       { name: 'report_id', value: metadata.report_id },

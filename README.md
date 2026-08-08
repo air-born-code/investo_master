@@ -39,6 +39,74 @@ The system separates:
 
 Every important thesis must include primary evidence, a serious bear case, explicit falsification criteria, valuation scenarios, and a pre-mortem.
 
+## The frontier tier
+
+Active themes describe what is already investable. A separate and deliberately lower-quality tier tracks what might become a theme, on the argument that the two largest waves of the last twenty-five years — the internet and AI — were both publicly observable for years before attention arrived, and that attention itself is a lagging indicator.
+
+It has three levels, each with a different bar for entry:
+
+| File | Holds | Test for entry |
+| --- | --- | --- |
+| `data/fringe_watch.csv` | Niche ideas with a working artifact and a small technical community | Deliberately none. Bitcoin in 2009 would have failed every conventional screen, so this level applies no precondition test at all. |
+| `data/candidate_themes.csv` | Possible next themes | Five preconditions, each a field: a measurable cost curve, a general-purpose substrate, a threshold that unlocks mass interaction, cheap distribution, and a physical bottleneck. Rows record where they fail, not only where they pass. |
+| `data/themes.csv` | Active themes | The existing research standard. |
+
+Supporting files:
+
+- `data/cost_curves.csv` — the hand-authored curves. If a candidate has no nameable curve and unit, it is a story rather than an exponential. Rows with no defensible series are left unauthored rather than filled with a plausible guess.
+- `data/dead_themes.csv` — the graveyard, with a post-mortem naming which precondition broke. Most candidate exponentials fail, and the failure modes rhyme; without this file every candidate gets pattern-matched to the two that worked.
+- `data/signal_registry.csv` and `data/theme_signals.csv` — what is instrumented, and the append-only readings. Build with `npm run ingest:signals`.
+
+`npm run frontier:next` reviews one entry a month, oldest first, in the same rotation discipline as the asset review. Every frontier prompt carries the graveyard and a confirmed theme's signal readings alongside the entry's own, so the assessment is forced to name which dead theme the candidate resembles and to read its growth rate against a reference case rather than in isolation. Concluding that an entry should be rejected is a good outcome; a file that never removes anything is a collection rather than an instrument.
+
+This tier is intentionally isolated from the weekly research store. It writes nothing to `sources.csv`, and every consumer — the issue prompt, the workbook, the site — reads an explicit list of filenames rather than globbing `data/`, so speculative material cannot reach the evidence base by accident.
+
+## Coverage and rotation
+
+An issue is not a fixed list of names. The store holds two tiers and they appear in
+the issue on different terms:
+
+- **Candidate tier** — standing coverage. Every issue carries these as one compressed
+  line each: score, movement against the last issue that carried them, market cap.
+- **Coverage tier** — rotates. Each issue gives a few of these a real write-up,
+  drawn longest-waiting first, so every name is read on a fixed cycle and none is
+  permanently in or permanently out.
+
+`data/coverage.csv` is the ledger that makes this work. One row per asset per slot
+per week, written by `npm run issue:build`:
+
+| Column | Meaning |
+| --- | --- |
+| `slot` | `core` (standing), `rotation` (write-up), `entered`, `dropped` |
+| `score` / `score_week` | The score as shown and the week it was struck, so staleness stays visible |
+| `weeks_since_covered` | Gap since the last time the name was written about |
+| `note` | One line on why it appeared |
+
+Only `core` and `rotation` count as coverage. Entering the store is a database
+event, not editorial attention — otherwise a bulk screen import would mark fifty
+names as covered in one week and starve the rotation for months.
+
+Selection lives in `scripts/lib/rotation.mjs` and is deterministic: rebuilding a
+week reproduces exactly what it picked. `npm run research:next` walks the same
+queue, so the midweek deep dive prepares the name the next issue will publish.
+
+The rotation queue and the week-by-week grid are on the site's Coverage page. A row
+of solid marks across every week is a name the issue cannot stop talking about.
+
+## Email and site
+
+The email is a digest; the site carries the depth. Gmail clips a message at roughly
+102KB and Issue 003 reached 91KB, so a single document that grows every week was
+already close to being truncated mid-issue.
+
+The email carries the narrative, the standing line, the week's rotation and the
+current regime readings. The ten-year charts, the transmission notes, the full
+board and the evidence registry live on the site — they are reference material that
+does not change week to week. `report.html` in the archive still contains everything.
+
+Set `SITE_URL` so the email can link to the depth pages. Without it the email names
+them but does not link, which is correct behaviour for a local-only build.
+
 ## Planned structure
 
 ```text

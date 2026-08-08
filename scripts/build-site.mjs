@@ -13,6 +13,8 @@
 
 import { mkdir, readFile, readdir, writeFile, copyFile } from 'node:fs/promises';
 import path from 'node:path';
+import { columnChart, formatValue, rangeSummary } from './lib/chart.mjs';
+import { describeGap, reviewedEvidence, selectCoverage } from './lib/rotation.mjs';
 
 const argv = process.argv.slice(2);
 const flag = (name) => {
@@ -58,11 +60,13 @@ const e = (v) => String(v ?? '')
   .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 
-const [assets, themes, links, scores, metrics, macro, gates, sources] = await Promise.all([
-  readTable('assets.csv'), readTable('themes.csv'), readTable('asset_themes.csv'),
-  readTable('scores.csv'), readTable('weekly_metrics.csv'), readTable('macro.csv'),
-  readTable('gates.csv'), readTable('sources.csv'),
-]);
+const [assets, themes, links, scores, metrics, macro, gates, sources, macroSpecs, macroHistory] =
+  await Promise.all([
+    readTable('assets.csv'), readTable('themes.csv'), readTable('asset_themes.csv'),
+    readTable('scores.csv'), readTable('weekly_metrics.csv'), readTable('macro.csv'),
+    readTable('gates.csv'), readTable('sources.csv'), readTable('macro_series.csv'),
+    readTable('macro_history.csv'),
+  ]);
 
 // --- issues -------------------------------------------------------------------
 const issues = [];
@@ -81,8 +85,9 @@ const latest = issues[0];
 
 // --- shared layout ------------------------------------------------------------
 const NAV = [
-  ['index.html', 'Dashboard'], ['universe.html', 'Universe'], ['themes.html', 'Themes'],
-  ['gates.html', 'Gates'], ['evidence.html', 'Evidence'], ['archive.html', 'Archive'],
+  ['index.html', 'Dashboard'], ['coverage.html', 'Coverage'], ['universe.html', 'Universe'],
+  ['themes.html', 'Themes'], ['electricity.html', 'Electricity'], ['gates.html', 'Gates'],
+  ['evidence.html', 'Evidence'], ['archive.html', 'Archive'],
 ];
 
 const page = (active, title, body) => `<!doctype html>
@@ -118,6 +123,26 @@ td.r,th.r{text-align:right}
 .pill.warn{background:rgba(154,107,24,.16);color:#9a6b18}
 a{color:#2e5f8f}
 @media(prefers-color-scheme:dark){a{color:#8fc3ff}}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.chart-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.chart-label{font-size:12px;font-weight:800;color:var(--navy)}
+@media(prefers-color-scheme:dark){.chart-label{color:#c9d3df}}
+.chart-value{font-family:Georgia,serif;font-size:22px;color:var(--navy)}
+@media(prefers-color-scheme:dark){.chart-value{color:#8fc3ff}}
+.chart-role{font-size:11px;color:var(--muted);margin:3px 0 10px;line-height:1.45}
+.chart-range{font-size:10px;color:var(--muted);margin-top:7px}
+.card details{margin-top:9px;border-top:1px solid var(--line);padding-top:8px}
+.card summary{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);cursor:pointer;font-weight:800}
+.card details p{font-size:12px;line-height:1.55;margin:8px 0 0}
+.card details p.caveat{color:#8a5b1c;font-size:11px}
+@media(prefers-color-scheme:dark){.card details p.caveat{color:#c08a3e}}
+.note{background:rgba(154,107,24,.1);border-left:4px solid #ad7a25;padding:13px 15px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;margin:20px 0}
+.rb{position:relative;height:8px;min-width:90px;background:rgba(82,112,149,.14);border-radius:999px;overflow:hidden}
+.rb-fill{height:8px;background:#527095;border-radius:999px}
+@media(prefers-color-scheme:dark){.rb-fill{background:#6f96c4}}
+details.detail{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:10px 13px;margin:8px 0}
+details.detail summary{font-size:12px;font-weight:700;color:var(--blue);cursor:pointer}
+details.detail p{font-size:12px;line-height:1.6;margin:9px 0 0}
 footer{color:var(--muted);font-size:11px;padding:26px;max-width:1080px;margin:0 auto;border-top:1px solid var(--line)}
 </style></head><body>
 <header>
@@ -168,9 +193,44 @@ const filings = sources
 // --- dashboard ----------------------------------------------------------------
 const macroWeek = [...new Set(macro.map((m) => m.week_id))].sort().at(-1);
 const macroRows = macro.filter((m) => m.week_id === macroWeek);
-const fmtMacro = (r) => (r.unit === 'thousands_change'
-  ? `${Number(r.value) >= 0 ? '+' : ''}${r.value}k`
-  : `${r.value}%`);
+const fmtMacro = (r) => formatValue(r.value, r.unit);
+
+// Same registry the issue builder reads, so the site cannot describe a series
+// differently from the email that was sent. Full monthly resolution here: the site
+// has no size limit to respect.
+const regime = macroSpecs
+  .map((spec) => {
+    const snapshot = macroRows.find((r) => r.series_id === spec.series_id);
+    if (!snapshot) return undefined;
+    const points = macroHistory
+      .filter((r) => r.series_id === spec.series_id)
+      .sort((a, b) => a.observation_date.localeCompare(b.observation_date));
+    return { spec, snapshot, points };
+  })
+  .filter(Boolean);
+
+const regimeSection = regime.length ? `
+<h2>Regime board · ${e(macroWeek)}</h2>
+<p class="sub">Each series once, against its own decade. Commentary is authored and reviewed, not regenerated weekly.</p>
+<div class="charts">${regime.map(({ spec, snapshot, points }) => `
+  <div class="card">
+    <div class="chart-head">
+      <span class="chart-label">${e(spec.label)}</span>
+      <span class="chart-value">${e(fmtMacro(snapshot))}</span>
+    </div>
+    <div class="chart-role">${e(spec.regime_role)}</div>
+    ${points.length > 1 ? columnChart(points, { unit: snapshot.unit, height: 66, fill: '#a9bdd2', accent: '#2e5f8f' }) : ''}
+    <div class="chart-range">${e(rangeSummary(points, snapshot.unit) || snapshot.observation_date)}</div>
+    <details><summary>How this reaches equity prices</summary>
+      <p>${e(spec.equity_transmission)}</p>
+      ${spec.caveat ? `<p class="caveat"><strong>Read with care:</strong> ${e(spec.caveat)}</p>` : ''}
+    </details>
+  </div>`).join('')}</div>
+<p class="sub" style="margin-top:14px">Transmission mechanisms, not forecasts. A macro reading is context for underwriting, never a trigger for action.</p>
+` : (macroRows.length ? `<h2>Regime board · ${e(macroWeek)}</h2>${table(
+  ['Series', '>Value', '>Observation'],
+  macroRows.map((r) => `<tr><td>${e(r.label)}</td><td class="r"><strong>${e(fmtMacro(r))}</strong></td><td class="r">${e(r.observation_date)}</td></tr>`),
+)}` : '');
 
 const dashboard = `
 <h1>Tracking dashboard</h1>
@@ -186,10 +246,7 @@ const dashboard = `
   <div class="card"><div class="n">${candidates.filter((c) => gatesDoneFor(c.asset_id) === gateTotal).length}/${candidates.length}</div><div class="l">Clear all gates</div></div>
 </div>
 
-${macroRows.length ? `<h2>Regime board · ${e(macroWeek)}</h2>${table(
-  ['Series', '>Value', '>Observation'],
-  macroRows.map((r) => `<tr><td>${e(r.label)}</td><td class="r"><strong>${e(fmtMacro(r))}</strong></td><td class="r">${e(r.observation_date)}</td></tr>`),
-)}` : ''}
+${regimeSection}
 
 <h2>Conviction board · ${e(latestScoreWeek ?? '—')}</h2>
 ${table(['Candidate', 'Stage', '>Score', '>Asym.', '>Confidence', '>Market cap', '>Gates'],
@@ -245,6 +302,111 @@ ${themes.map((t) => {
 }).join('')}
 `;
 
+// --- Age of Electricity tracking page -----------------------------------------
+// The theme with a growth table gets its own page, because the point of that table
+// is comparison across the value chain and a generic theme listing cannot show it.
+// Growth ranges are hypotheses with a stated basis, not measured figures — the
+// evidence-basis and confidence columns are load-bearing and are never omitted.
+const LAYER_LABELS = {
+  'prime-movers': ['Prime movers', 'Generation equipment. The delivery slot is the scarce asset.'],
+  'grid-equipment': ['Grid & electrical equipment', 'Transformers, switchgear, distribution. Severe shortage, but manufacturable.'],
+  'thermal-white-space': ['Thermal & white space', 'Power and cooling inside the data hall. Content per megawatt is rising.'],
+  'build-and-install': ['Build & install', 'Engineering and construction. The moat is trained labour, not capital.'],
+  'merchant-generation': ['Merchant generation', 'Existing fleets re-contracted into a short market. Judge on price, not revenue.'],
+  'regulated-rate-base': ['Regulated rate base', 'Allowed return on invested capital. No pricing power; the ceiling is political.'],
+  'fuel-cycle': ['Fuel cycle', 'Long-dated demand implied by contracts signed today.'],
+};
+
+const ECONOMICS_NOTE = [
+  ['Scarcity rent', 'Sold-out capacity converts into price and margin above trend. Decays as capacity is added — part of it is cyclical, not structural.'],
+  ['Regulated return', 'Earns an allowed return on a growing rate base. Load growth justifies more capital; it does not raise price.'],
+  ['Merchant price bet', 'The fleet already exists, so operating leverage runs through margin and cash flow per share. Directional both ways.'],
+  ['Contracted commodity', 'Fuel and component demand implied by today’s contracts. Commodity pricing and execution risk remain.'],
+];
+
+const growth = await readTable('growth_estimates.csv');
+const electricityTheme = themes.find((t) => t.theme_id === 'age-of-electricity');
+
+// A range bar so twenty CAGR bands can be compared by eye. Scaled to the widest
+// band on the page so the comparison is honest rather than per-row flattering.
+const growthScaleMax = Math.max(20, ...growth.map((g) => Number(g.revenue_cagr_high) || 0));
+const rangeBar = (low, high) => {
+  const lo = Number(low) || 0;
+  const hi = Number(high) || 0;
+  const left = (lo / growthScaleMax) * 100;
+  const width = Math.max(((hi - lo) / growthScaleMax) * 100, 1.5);
+  return `<div class="rb"><div class="rb-fill" style="margin-left:${left.toFixed(1)}%;width:${width.toFixed(1)}%"></div></div>`;
+};
+
+const confPill = (c) => `<span class="pill ${c === 'medium' ? 'cand' : 'warn'}">${e(c)}</span>`;
+
+const electricityPage = growth.length ? `
+<h1>The Age of Electricity</h1>
+<p class="sub">${e(electricityTheme?.summary ?? '')}
+${electricityTheme ? `<br><span class="pill cand">${e(electricityTheme.status)}</span> ${e(electricityTheme.time_horizon)} · ${e(electricityTheme.confidence)} confidence · updated ${e(electricityTheme.last_updated_date)}` : ''}</p>
+
+<div class="grid">
+  <div class="card"><div class="n">${growth.length}</div><div class="l">Names tracked</div></div>
+  <div class="card"><div class="n">${Object.keys(LAYER_LABELS).filter((k) => growth.some((g) => g.chain_layer === k)).length}</div><div class="l">Chain layers</div></div>
+  <div class="card"><div class="n">${growth.filter((g) => g.evidence_basis === 'primary_filing').length}</div><div class="l">On primary filings</div></div>
+  <div class="card"><div class="n">${growth.filter((g) => g.evidence_basis === 'screen_inference').length}</div><div class="l">Unverified</div></div>
+</div>
+
+<div class="note">
+  <strong>Read the growth ranges as hypotheses.</strong> They are reasoned long-run judgements with a
+  stated basis, not measured figures. ${growth.filter((g) => g.evidence_basis === 'screen_inference').length}
+  of ${growth.length} rest on screen inference and have not been checked against a primary filing.
+  A growth rate is not a return: no price is applied here, and the two names with the deepest
+  evidence both scored 1/10 on valuation asymmetry at the last scoring week.
+</div>
+
+<h2>The four economic models in one theme</h2>
+<p class="sub">Conflating these is the main way to hold this theme and still lose money.</p>
+${table(['Model', 'How value is created and what limits it'],
+  ECONOMICS_NOTE.map(([name, note]) => `<tr><td style="white-space:nowrap"><strong>${e(name)}</strong></td><td>${e(note)}</td></tr>`))}
+
+${Object.entries(LAYER_LABELS).map(([layer, [label, blurb]]) => {
+  const members = growth.filter((g) => g.chain_layer === layer);
+  if (!members.length) return '';
+  return `<h2>${e(label)}</h2>
+  <p class="sub">${e(blurb)}</p>
+  ${table(['Name', 'Long-run revenue CAGR', '>Range', 'Economics', '>Pricing power', '>Margin', '>Evidence', '>Confidence'],
+    members.map((g) => `<tr>
+      <td><strong>${e(g.symbol)}</strong><div style="color:var(--muted);font-size:11px">${e(nameOf.get(g.asset_id) ?? g.asset_id)}</div></td>
+      <td style="white-space:nowrap"><strong>${e(g.revenue_cagr_low)}–${e(g.revenue_cagr_high)}%</strong>
+        <div style="color:var(--muted);font-size:10px">over ${e(g.horizon_years)} years</div></td>
+      <td>${rangeBar(g.revenue_cagr_low, g.revenue_cagr_high)}</td>
+      <td style="font-size:11px">${e(g.economics_type.replace(/-/g, ' '))}</td>
+      <td class="r" style="font-size:11px">${e(g.pricing_power.replace(/-/g, ' '))}</td>
+      <td class="r" style="font-size:11px">${e(g.margin_direction.replace(/-/g, ' '))}</td>
+      <td class="r" style="font-size:10px;color:var(--muted)">${e(g.evidence_basis.replace(/_/g, ' '))}</td>
+      <td class="r">${confPill(g.confidence)}</td></tr>`))}
+  ${members.map((g) => `<details class="detail"><summary>${e(g.symbol)} — basis, uncertainty and falsifier</summary>
+    <p><strong>Position in the chain.</strong> ${e(g.role_in_chain)}</p>
+    <p><strong>Growth basis.</strong> ${e(g.growth_basis)}</p>
+    <p><strong>Current anchor.</strong> ${e(g.current_growth_anchor)}</p>
+    <p><strong>Key uncertainty.</strong> ${e(g.key_uncertainty)}</p>
+    <p><strong>What would falsify the rate.</strong> ${e(g.falsifier)}</p>
+    <p><strong>Next checkpoint.</strong> ${e(g.next_checkpoint)}</p>
+  </details>`).join('')}`;
+}).join('')}
+
+<h2>Theme evidence</h2>
+<p class="sub">Every claim behind this page, including the rows that cut against it.</p>
+${table(['Published', 'Stance', 'Claim', '>Reliability', ''],
+  sources.filter((s) => s.theme_id === 'age-of-electricity')
+    .sort((a, b) => (a.published_at < b.published_at ? 1 : -1))
+    .map((s) => `<tr>
+      <td style="white-space:nowrap">${e(s.published_at)}</td>
+      <td><span class="pill ${s.stance === 'contradicts' ? 'warn' : ''}">${e(s.stance)}</span></td>
+      <td style="font-size:12px">${e(s.claim)}</td>
+      <td class="r" style="font-size:11px">${e(s.reliability)}${s.is_primary === 'true' ? ' · primary' : ''}</td>
+      <td class="r">${s.url ? `<a href="${e(s.url)}" rel="noopener">open</a>` : ''}</td></tr>`))}
+
+<p class="sub" style="margin-top:20px">Full thesis, bear case and falsification criteria:
+<code>research/themes/age-of-electricity.md</code>. Growth table source: <code>data/growth_estimates.csv</code>.</p>
+` : '<h1>The Age of Electricity</h1><p class="sub">No growth estimates recorded yet.</p>';
+
 // --- gates --------------------------------------------------------------------
 const gateNames = [...new Map(gates.map((g) => [g.gate_id, g])).values()]
   .sort((a, b) => Number(a.gate_number) - Number(b.gate_number));
@@ -295,16 +457,114 @@ ${table(['Week', 'Issue', 'Edition', 'Posture', '>Status', ''], issues.map((i) =
   <td class="r"><a href="issues/${e(i.dir)}.html">read</a></td></tr>`))}
 `;
 
+// --- coverage -----------------------------------------------------------------
+// The week-on-week record: what each issue actually covered, and what is waiting.
+// The ledger is written by build-issue.mjs; this page only reads it, so the site
+// cannot claim coverage that no issue delivered.
+const coverage = await readTable('coverage.csv');
+const coveredWeeks = [...new Set(coverage.map((c) => c.week_id))].sort();
+const recentWeeks = coveredWeeks.slice(-12);
+
+const evidenceCount = reviewedEvidence(sources);
+
+// What the next issue would pick if it ran now. Same function the issue builder
+// calls, so the queue shown here is the queue that will actually be used.
+const nextWeek = (() => {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + 7);
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+  return `${t.getUTCFullYear()}-W${String(Math.ceil(((t - yearStart) / 86_400_000 + 1) / 7)).padStart(2, '0')}`;
+})();
+const nextPlan = selectCoverage({ assets, scores, coverage, weekId: nextWeek, evidenceCount });
+
+const slotPill = { core: 'cand', rotation: '', entered: 'warn', dropped: 'warn' };
+const slotMark = { core: '●', rotation: '◆', entered: '+', dropped: '×' };
+
+// One row per asset, one column per recent week. This is the artefact that answers
+// "are we over-focusing?" at a glance: a row of solid dots across every week is a
+// name the issue cannot stop talking about.
+const gridAssets = [...new Set(coverage.map((c) => c.asset_id))]
+  .map((id) => assets.find((a) => a.asset_id === id) ?? { asset_id: id, symbol: id.toUpperCase() })
+  .sort((a, b) => (tierOf(a)).localeCompare(tierOf(b)) || (a.symbol ?? '').localeCompare(b.symbol ?? ''));
+
+const slotAt = (assetId, week) => coverage
+  .filter((c) => c.asset_id === assetId && c.week_id === week)
+  .map((c) => c.slot);
+
+const appearances = (assetId) => coverage
+  .filter((c) => c.asset_id === assetId && (c.slot === 'core' || c.slot === 'rotation')).length;
+
+const coveragePage = `
+<h1>Coverage</h1>
+<p class="sub">What each issue covered, week by week. The candidate tier is standing coverage;
+the ${nextPlan.queueDepth} names at coverage tier rotate, longest-waiting first, so no name is
+permanently in the issue and none is permanently out.</p>
+
+<div class="grid">
+  <div class="card"><div class="n">${coveredWeeks.length}</div><div class="l">Weeks recorded</div></div>
+  <div class="card"><div class="n">${gridAssets.length}</div><div class="l">Assets that have appeared</div></div>
+  <div class="card"><div class="n">${nextPlan.queueDepth}</div><div class="l">In the rotation queue</div></div>
+  <div class="card"><div class="n">${nextPlan.cycleWeeks}w</div><div class="l">Full universe cycle</div></div>
+</div>
+
+<h2>Up next · ${e(nextWeek)}</h2>
+<p class="sub">What the next issue will pick if it runs now. Selection is deterministic,
+so this is a prediction the builder is bound to.</p>
+${table(['Symbol', 'Name', 'Waiting since', '>Evidence'], nextPlan.rotation.map((r) => `<tr>
+  <td><strong>${e(r.symbol)}</strong></td>
+  <td>${e(r.name)}</td>
+  <td style="color:var(--muted)">${e(describeGap(r))}</td>
+  <td class="r">${evidenceCount[r.assetId] ?? 0}</td></tr>`))}
+${nextPlan.upNext.length ? `<p class="sub" style="margin-top:10px">Then: ${nextPlan.upNext.map((u) => e(u.symbol)).join(' · ')}</p>` : ''}
+
+<h2>Week by week</h2>
+<p class="sub">${slotMark.core} standing coverage · ${slotMark.rotation} rotation write-up ·
+${slotMark.entered} entered the store · ${slotMark.dropped} dropped.
+Showing the ${recentWeeks.length} most recent weeks.</p>
+${coveredWeeks.length ? table(
+  ['Symbol', 'Tier', ...recentWeeks.map((w) => `>${w.replace('2026-', '')}`), '>Write-ups'],
+  gridAssets.map((a) => `<tr>
+    <td><strong>${e(a.symbol)}</strong></td>
+    <td><span class="pill ${tierOf(a) === 'candidate' ? 'cand' : ''}">${e(tierOf(a))}</span></td>
+    ${recentWeeks.map((w) => {
+    const slots = slotAt(a.asset_id, w);
+    if (!slots.length) return '<td class="r" style="color:var(--line)">·</td>';
+    return `<td class="r" title="${e(slots.join(', '))}">${slots.map((s) => slotMark[s] ?? '?').join('')}</td>`;
+  }).join('')}
+    <td class="r"><strong>${appearances(a.asset_id)}</strong></td></tr>`),
+) : '<p>No ledger yet. It is written by <code>npm run issue:build</code>.</p>'}
+
+<h2>Coverage log</h2>
+<p class="sub">Every ledger row, newest first. This is the record the rotation reads from.</p>
+${table(['Week', 'Symbol', 'Slot', '>Score', 'Note'],
+  [...coverage].reverse().slice(0, 150).map((c) => `<tr>
+    <td>${e(c.week_id)}</td>
+    <td><strong>${e(symbolOf.get(c.asset_id) ?? c.asset_id)}</strong></td>
+    <td><span class="pill ${slotPill[c.slot] ?? ''}">${e(c.slot)}</span></td>
+    <td class="r">${e(c.score || '—')}</td>
+    <td style="color:var(--muted);font-size:12px">${e(c.note)}</td></tr>`))}
+${coverage.length > 150 ? `<p class="sub">Showing the 150 most recent of ${coverage.length}.</p>` : ''}
+`;
+
 // --- write --------------------------------------------------------------------
 await mkdir(path.join(outDir, 'issues'), { recursive: true });
 await Promise.all([
   writeFile(path.join(outDir, 'index.html'), page('index.html', 'Dashboard', dashboard), 'utf8'),
+  writeFile(path.join(outDir, 'coverage.html'), page('coverage.html', 'Coverage', coveragePage), 'utf8'),
   writeFile(path.join(outDir, 'universe.html'), page('universe.html', 'Universe', universePage), 'utf8'),
   writeFile(path.join(outDir, 'themes.html'), page('themes.html', 'Themes', themesPage), 'utf8'),
+  writeFile(path.join(outDir, 'electricity.html'), page('electricity.html', 'The Age of Electricity', electricityPage), 'utf8'),
   writeFile(path.join(outDir, 'gates.html'), page('gates.html', 'Gates', gatesPage), 'utf8'),
   writeFile(path.join(outDir, 'evidence.html'), page('evidence.html', 'Evidence', evidencePage), 'utf8'),
   writeFile(path.join(outDir, 'archive.html'), page('archive.html', 'Archive', archivePage), 'utf8'),
 ]);
+
+// Search engines are asked to stay out at the file level too, not only via
+// headers. This is a request, not access control: anyone with the URL can still
+// read everything. Real privacy is deployment protection or not deploying.
+await writeFile(path.join(outDir, 'robots.txt'), 'User-agent: *\nDisallow: /\n', 'utf8');
 
 // Issue pages are the archival HTML already produced by the issue builder, copied
 // rather than regenerated so the site cannot disagree with the published record.
