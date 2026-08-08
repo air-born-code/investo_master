@@ -17,6 +17,8 @@
     "ingest:filings:dry": "node --env-file-if-exists=.env.local scripts/ingest-filings.mjs --dry-run",
     "ingest:policy": "node --env-file-if-exists=.env.local scripts/ingest-policy.mjs",
     "ingest:policy:dry": "node --env-file-if-exists=.env.local scripts/ingest-policy.mjs --dry-run",
+    "ingest:mentions": "node --env-file-if-exists=.env.local scripts/ingest-theme-mentions.mjs",
+    "ingest:mentions:dry": "node --env-file-if-exists=.env.local scripts/ingest-theme-mentions.mjs --dry-run",
     "draft:issue": "node --env-file-if-exists=.env.local scripts/draft-issue.mjs .",
     "draft:issue:dry": "node scripts/draft-issue.mjs . --dry-run",
     "strategies:list": "node -e \"const fs=require('fs');for(const f of fs.readdirSync('strategies'))if(f.endsWith('.md')&&f!=='README.md')console.log(f.replace(/\\.md$/,''))\"",

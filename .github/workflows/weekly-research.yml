@@ -67,6 +67,16 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: npm run ingest:policy
 
+      # The bridge from a theme's vocabulary to the tickers using it. Presidential
+      # documents name policy and not companies, so without this the policy feed
+      # cannot say who is exposed. Writes only data/theme_mentions.csv: discovery,
+      # kept out of the claim registry until a name is followed and read.
+      - name: Ingest theme mentions
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: npm run ingest:mentions
+
       # Reported, not enforced. Every asset is currently incomplete by design, so
       # --strict would fail every build; the point is that the number is visible
       # in the log and in the issue rather than being rediscovered each week.
