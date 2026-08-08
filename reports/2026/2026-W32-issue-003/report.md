@@ -1,4 +1,4 @@
-# Investo Master — Issue 003: Quiet Week
+# Investo Master — Issue 003: Weekly Overview
 
 - Week: 2026-W32
 - Report ID: 2026-W32-003
@@ -76,19 +76,19 @@ means the rotation reached the name, not that it is a recommendation.
 
 ### AEP — AMERICAN ELECTRIC POWER CO INC
 
-*never covered before · Electric Services · age-of-electricity · 5 source rows*
+*never covered before · Electric Services · age-of-electricity · 5 filings recorded, none read yet*
 
 Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
 
 ### ALAB — Astera Labs, Inc.
 
-*never covered before · Semiconductors & Related Devices · high-speed-connectivity · 3 source rows*
+*never covered before · Semiconductors & Related Devices · high-speed-connectivity · 5 filings recorded, none read yet*
 
 Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
 
 ### ALB — ALBEMARLE CORP
 
-*never covered before · Plastic Materials, Synth Resins & Nonvulcan Elastomers · critical-minerals-security · 5 source rows*
+*never covered before · Plastic Materials, Synth Resins & Nonvulcan Elastomers · critical-minerals-security · 7 filings recorded, none read yet*
 
 Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
 

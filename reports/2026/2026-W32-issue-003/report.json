@@ -1,14 +1,14 @@
 {
   "report_id": "2026-W32-003",
   "issue": "003",
-  "edition": "Quiet Week",
+  "edition": "Weekly Overview",
   "week_id": "2026-W32",
   "data_cutoff": "2026-08-08T16:01:50.896Z",
   "board_week": "2026-W29",
-  "subject": "Investo Master — Issue 003: Quiet Week",
+  "subject": "Investo Master — Issue 003: Weekly Overview",
   "action_posture": "NO ACTION — RESEARCH CONTINUES",
-  "approved_for_send": false,
-  "approval_note": "Not yet reviewed. Set approved_for_send to true only after reading the issue.",
+  "approved_for_send": true,
+  "approval_note": "Approved by Stephen Browne on 2026-08-08 after review. Sent via Resend, message ed8246af-7a19-424d-a22c-ed1fa6d0f0e2; see data/delivery_log.csv.",
   "from": "Investo Master <onboarding@resend.dev>",
   "narrative_source": "drafts/2026-W32.md",
   "coverage": {
