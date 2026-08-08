@@ -14,6 +14,7 @@
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { formatValue, rangeSummary, sparkline } from './lib/chart.mjs';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
@@ -71,8 +72,11 @@ const dataFiles = [
   'assets.csv',
   'themes.csv',
   'asset_themes.csv',
+  'growth_estimates.csv',
   'weekly_metrics.csv',
   'macro.csv',
+  'macro_series.csv',
+  'macro_history.csv',
   'scores.csv',
   'thesis_updates.csv',
   'gates.csv',
@@ -140,12 +144,67 @@ const trimSources = async (text) => {
   return `${serialise([header, ...kept])}\n\`\`\`${note}`;
 };
 
+// macro_history.csv holds a decade of monthly observations per series — 600 rows and
+// growing. Sending it raw would spend a large share of the prompt on numbers the model
+// should not be restating anyway. What the narrative actually needs is trajectory: the
+// direction over three and twelve months, where the reading sits against its own decade,
+// and the shape. So the history arrives summarised.
+//
+// The sparkline is rendered by the same function the issue uses, so the model is looking
+// at the same shape the reader will see rather than a separate description of it.
+const summariseHistory = async (text) => {
+  const [header, ...body] = parseCsv(text);
+  const col = Object.fromEntries(header.map((k, i) => [k, i]));
+  const specs = parseCsv(await read('data', 'macro_series.csv').catch(() => ''));
+  const specCol = specs.length ? Object.fromEntries(specs[0].map((k, i) => [k, i])) : {};
+  const labelFor = new Map(specs.slice(1).map((r) => [r[specCol.series_id], r[specCol.label]]));
+
+  const bySeries = new Map();
+  for (const row of body) {
+    const id = row[col.series_id];
+    if (!bySeries.has(id)) bySeries.set(id, []);
+    bySeries.get(id).push({
+      observation_date: row[col.observation_date],
+      value: Number(row[col.value]),
+      unit: row[col.unit],
+    });
+  }
+
+  const lines = [];
+  for (const [id, raw] of bySeries) {
+    const points = raw.sort((a, b) => a.observation_date.localeCompare(b.observation_date));
+    const unit = points.at(-1)?.unit;
+    const at = (back) => points.at(-1 - back);
+    const move = (back) => {
+      const then = at(back);
+      const now = at(0);
+      if (!then || !now) return 'n/a';
+      const d = now.value - then.value;
+      return `${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d).toFixed(2)}`;
+    };
+    lines.push([
+      `${id} (${labelFor.get(id) ?? id})`,
+      `  window ${points[0].observation_date} → ${points.at(-1).observation_date} (${points.length} monthly observations)`,
+      `  latest ${formatValue(at(0)?.value, unit)} · 3-month change ${move(3)} · 12-month change ${move(12)}`,
+      `  ${rangeSummary(points, unit)}`,
+      `  shape  ${sparkline(points, 58, { unit })}`,
+    ].join('\n'));
+  }
+
+  return `${lines.join('\n\n')}\n\`\`\`\n\nThis is a summary, not the raw table. The full monthly history is in the store; ask for a specific series if a month-by-month figure matters. Do not restate these levels in the narrative — the issue renders them as a board above your text.`;
+};
+
 const store = (await Promise.all(
   dataFiles.map(async (name) => {
     try {
       const text = (await read('data', name)).trim();
-      const block = name === 'sources.csv' ? await trimSources(text) : `${text}\n\`\`\``;
-      return `### data/${name}\n\n\`\`\`csv\n${block}`;
+      if (name === 'sources.csv') {
+        return `### data/${name}\n\n\`\`\`csv\n${await trimSources(text)}`;
+      }
+      if (name === 'macro_history.csv') {
+        return `### data/${name} (summarised)\n\n\`\`\`\n${await summariseHistory(text)}`;
+      }
+      return `### data/${name}\n\n\`\`\`csv\n${text}\n\`\`\``;
     } catch {
       return null;
     }
@@ -226,6 +285,22 @@ const userTurn = [
   '',
   'Output the Markdown only — no preamble.',
 ].join('\n');
+
+// Writes the assembled prompt to a file instead of calling the API, so the same
+// prompt can be run by hand — in Claude Code or anywhere else — at no metered
+// cost. Useful for iterating on prompt wording, where paying per attempt is
+// wasteful, and it keeps one source of truth for what the prompt actually is.
+if (args.includes('--emit-prompt')) {
+  const target = flag('emit-prompt')?.startsWith('--') ? undefined : flag('emit-prompt');
+  const out = path.resolve(target ?? path.join(root, 'drafts', `${weekId}.prompt.md`));
+  await mkdir(path.dirname(out), { recursive: true });
+  await writeFile(out, `${system}\n\n---\n\n${userTurn}\n`, 'utf8');
+  const shown = out.startsWith(root + path.sep) ? path.relative(root, out) : out;
+  console.log(`Wrote ${shown}`);
+  console.log(`  ${(system.length + userTurn.length).toLocaleString()} chars`);
+  console.log(`  Run it by hand, save the result to drafts/${weekId}.md, then build as usual.`);
+  process.exit(0);
+}
 
 if (dryRun) {
   const chars = (text) => text.length.toLocaleString();

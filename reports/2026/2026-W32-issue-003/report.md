@@ -7,23 +7,96 @@
 
 ## Regime board (2026-W32)
 
-| Series | Value | Observation |
-|---|---|---|
-| Effective federal funds rate | 3.63% | 2026-07-01 |
-| US headline CPI | 3.5% | 2026-06-01 |
-| US core CPI | 2.6% | 2026-06-01 |
-| US unemployment rate | 4.1% | 2026-07-01 |
-| US nonfarm payrolls, monthly change | -23k | 2026-07-01 |
+Each series appears once, read against its own decade. The commentary below is
+authored once and reviewed, not rewritten each week; only the numbers move.
 
-## Conviction board (2026-W29)
+| Series | Value | On the month | Observation | Decade range |
+|---|---:|---|---|---|
+| Effective federal funds rate | 3.63% | unchanged on the month | 2026-07-01 | 2016–2026 · now 3.63% · low 0.05% (Apr 2020) · high 5.33% (Aug 2023) |
+| US headline CPI | 3.5% | −0.7 on the month | 2026-06-01 | 2016–2026 · now 3.5% · low 0.2% (May 2020) · high 9% (Jun 2022) |
+| US core CPI | 2.6% | −0.2 on the month | 2026-06-01 | 2016–2026 · now 2.6% · low 1.2% (May 2020) · high 6.6% (Sept 2022) |
+| US unemployment rate | 4.1% | −0.1 on the month | 2026-07-01 | 2016–2026 · now 4.1% · low 3.4% (Apr 2023) · high 14.8% (Apr 2020) |
+| US nonfarm payrolls, monthly change | −23k | — | 2026-07-01 | 2016–2026 · now −23k · low −20,469k (Apr 2020) · high +4,631k (Jun 2020) |
 
-| Candidate | Stage | Score | Valuation asymmetry | Thesis confidence | Market cap |
-|---|---|---|---|---|---|
-| GEV — GE Vernova | watchlist | 78 | 1/10 | medium | $284.27B |
-| VRT — Vertiv Holdings | watchlist | 78 | 1/10 | medium | $112.97B |
-| CRDO — Credo Technology Group | researching | 73 | 1/10 | low | $38.41B |
-| RKLB — Rocket Lab | researching | 72 | 1/10 | low | $42.00B |
-| MP — MP Materials | researching | 72 | 4/10 | medium | $8.09B |
+`Fed funds` `▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▃▃▁▁▁▁▁▁▁▁▁▁▁▁▂▃▄▆▇▇▇████████▇▇▇▇▇▆▆▆▆▆`
+
+`Headline CPI` `▂▂▂▃▃▃▂▃▃▃▃▃▃▃▃▂▃▂▂▂▃▃▂▁▂▂▂▂▄▅▅▆▇████▇▆▅▅▄▄▄▄▄▄▃▃▃▃▃▃▃▃▃▃▄`
+
+`Core CPI` `▃▄▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▄▄▄▃▂▃▃▃▂▄▆▅▆▇██▇██▇▇▇▆▆▅▅▅▅▅▅▅▄▄▄▄▄▄▄▄`
+
+`Unemployment` `▄▄▄▄▄▄▄▄▄▄▄▄▃▃▄▃▃▃▃▃▃▄██▆▅▅▅▅▄▄▄▄▃▃▃▃▃▃▃▃▃▃▃▄▄▄▄▄▄▄▄▄▄▄▄▄▄`
+
+`Payrolls` `▃▂▃▂▃▂▂▂▂▃▃▂▂▂▂▃▂▂▂▂▃▁██▅▂▃▄▅▄▅▃▄▃▄▃▃▃▂▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂`
+
+### How the regime reaches equity prices
+
+Transmission mechanisms, not forecasts. Each states the channel through which a
+series is capable of moving prices; none asserts that it will, or in which direction.
+
+**Effective federal funds rate — 3.63%.** Reaches equities through the discount rate rather than through earnings. A higher rate lowers the present value of distant cash flow more than near cash flow, so long-duration and capital-intensive businesses reprice hardest. For this store's themes the second channel matters more: generation, grid and data-centre capacity is project-financed, so the policy rate is an input cost to the buildout itself, not only a valuation multiplier.
+
+*Read with care:* The effective rate is a monthly average of realised overnight trading, so it lags the target range decision by up to a month. Read the FOMC statement for policy intent, not this series.
+
+**US headline CPI — 3.5%.** Two channels. Through policy: sustained headline inflation removes the option of rate cuts that equity valuations tend to price in advance. Through the income statement: a company growing revenue at the inflation rate is growing units at zero, so inflation determines how much reported growth is actually growth. Pricing power is the variable that decides which of a theme's companies keep the difference.
+
+*Read with care:* Headline includes food and energy and is therefore the noisier series, but it is the one that sets wage expectations and household behaviour. It should not be dismissed as noise merely because core is smoother.
+
+**US core CPI — 2.6%.** The dominant channel is policy expectations. Because core is the series the committee weights, a change in core moves the forward rate curve, and the curve moves equity multiples within days — long before any company's earnings change. That is why a core print can reprice an entire theme in a week without a single fact about any business in it having changed.
+
+*Read with care:* Core excludes food and energy, which is a deliberate signal-extraction choice, not a claim those costs do not matter. Shelter is a large and heavily lagged component, so core turns later than the underlying pressure does.
+
+**US unemployment rate — 4.1%.** Reaches equities through both mandates at once, in opposite directions. A rising unemployment rate weakens demand for cyclical goods and therefore earnings, while simultaneously pulling policy easier and therefore supporting multiples. Which effect dominates is an empirical question about the specific episode, not something that can be asserted in advance. For structurally-driven capital spending the relevant test is whether committed capacity plans survive a labour downturn, and that is answered by order books, not by this series.
+
+*Read with care:* The rate can fall for a good reason (hiring) or a bad one (people leaving the labour force). The level alone cannot distinguish them; the participation rate and the household-survey detail can.
+
+**US nonfarm payrolls, monthly change — −23k.** Moves rate expectations faster than it moves earnings. A surprising print is a repricing event, not an earnings event: nothing about any company's cash flow changed on the morning of the release. The correct response to a payroll surprise is therefore to ask whether it changes the policy path, and separately whether it changes any tracked business — usually the first and not the second.
+
+*Read with care:* Heavily revised, frequently by more than the original surprise. A single month is close to meaningless and a negative print can be revised positive. Three-month averages carry information; one print does not.
+
+A macro reading is context for underwriting, never a trigger for action. Nothing
+here is a view on any tracked company.
+
+## Standing coverage (scored 2026-W29)
+
+| Candidate | Stage | Score | Move | Valuation asymmetry | Thesis confidence | Market cap |
+|---|---|---|---|---|---|---|
+| GEV — GE Vernova | watchlist | 78 | unchanged | 1/10 | medium | $284.27B |
+| VRT — Vertiv Holdings | watchlist | 78 | unchanged | 1/10 | medium | $112.97B |
+| CRDO — Credo Technology Group | researching | 73 | unchanged | 1/10 | low | $38.41B |
+| MP — MP Materials | researching | 72 | unchanged | 4/10 | medium | $8.09B |
+| RKLB — Rocket Lab | researching | 72 | unchanged | 1/10 | low | $42.00B |
+
+Movement reads against the last issue that carried each name. An unchanged column means the assessment has not been revisited, not that it was re-confirmed.
+
+## In rotation this week
+
+Drawn from the 43 names at coverage tier, longest-waiting first. At
+3 a week the full universe is read every 15 weeks. Appearing here
+means the rotation reached the name, not that it is a recommendation.
+
+### AEP — AMERICAN ELECTRIC POWER CO INC
+
+*never covered before · Electric Services · age-of-electricity · 5 filings recorded, none read yet*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+### ALAB — Astera Labs, Inc.
+
+*never covered before · Semiconductors & Related Devices · high-speed-connectivity · 5 filings recorded, none read yet*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+### ALB — ALBEMARLE CORP
+
+*never covered before · Plastic Materials, Synth Resins & Nonvulcan Elastomers · critical-minerals-security · 7 filings recorded, none read yet*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+Next up: ANET · ASTS · AVGO · BWXT · CARR
+
+## Universe changes
+
+**Entered** — CMI (CUMMINS INC), EME (EMCOR Group, Inc.), MYRG (MYR GROUP INC.), POWL (POWELL INDUSTRIES INC), SPXC (SPX Technologies, Inc.), TT (Trane Technologies plc)
 
 ---
 

@@ -34,3 +34,8 @@ preview/
 
 # Generated site (build with: npm run site:build)
 site/
+
+# Emitted prompts (regenerate with: npm run draft:prompt)
+drafts/*.prompt.md
+research/*.prompt.md
+research/**/*.prompt.md
