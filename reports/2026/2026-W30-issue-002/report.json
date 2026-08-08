@@ -7,8 +7,8 @@
   "board_week": "2026-W29",
   "subject": "Investo Master — Issue 002: Universe Expansion",
   "action_posture": "NO ACTION — RESEARCH CONTINUES",
-  "approved_for_send": false,
-  "approval_note": "Not yet reviewed. Set approved_for_send to true only after reading the issue.",
+  "approved_for_send": true,
+  "approval_note": "Approved by Stephen Browne on 2026-08-08 after review.",
   "from": "Investo Master <onboarding@resend.dev>",
   "narrative_source": "drafts/2026-W30.md"
 }

@@ -2,3 +2,4 @@ delivery_id,report_id,provider,recipient_label,attempted_at,status,provider_mess
 "2026-W29-trial-1784410275716","2026-W29-trial","resend","owner","2026-07-18T21:31:15.715Z","sent","ec1557c4-80f1-46a6-a20c-e6d950288b54","investo-2026-W29-trial",""
 "2026-W29-001-1784413248832","2026-W29-001","resend","owner","2026-07-18T22:20:48.832Z","sent","e304f298-963d-42ec-8b99-0b0261996ecd","investo-2026-W29-001",""
 "2026-W32-003-1786205190605","2026-W32-003","resend","owner","2026-08-08T16:06:30.605Z","sent","ed8246af-7a19-424d-a22c-ed1fa6d0f0e2","investo-2026-W32-003",""
+"2026-W30-002-1786205316462","2026-W30-002","resend","owner","2026-08-08T16:08:36.461Z","sent","0aec678b-d3f3-4239-b958-eb616e80797a","investo-2026-W30-002",""
