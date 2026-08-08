@@ -1,0 +1,26 @@
+week_id,as_of_date,signal_id,scope,subject_id,source,query,unit,value,window_start,window_end,value_prior_year,yoy_percent,detail,source_url
+2026-W32,2026-08-08,sig-embodied-arxiv,candidate,embodied-ai,arxiv,cs.RO,submissions,3861,2026-05-10,2026-08-07,2625,47.1,,https://arxiv.org/list/cs.RO/recent
+2026-W32,2026-08-08,sig-embodied-github,candidate,embodied-ai,github,topic:robotics,repos_created,3798,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/robotics
+2026-W32,2026-08-08,sig-embodied-pypi,candidate,embodied-ai,pypi,lerobot,downloads_month,290034,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/lerobot
+2026-W32,2026-08-08,sig-orbital-arxiv,candidate,orbital-economics,arxiv,astro-ph.IM,submissions,1241,2026-05-10,2026-08-07,842,47.4,,https://arxiv.org/list/astro-ph.IM/recent
+2026-W32,2026-08-08,sig-orbital-github,candidate,orbital-economics,github,topic:spacecraft,repos_created,48,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/spacecraft
+2026-W32,2026-08-08,sig-synbio-arxiv,candidate,synthetic-biology,arxiv,q-bio.BM,submissions,119,2026-05-10,2026-08-07,191,-37.7,,https://arxiv.org/list/q-bio.BM/recent
+2026-W32,2026-08-08,sig-synbio-github,candidate,synthetic-biology,github,topic:synthetic-biology,repos_created,76,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/synthetic-biology
+2026-W32,2026-08-08,sig-synbio-pypi,candidate,synthetic-biology,pypi,biopython,downloads_month,8441981,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/biopython
+2026-W32,2026-08-08,sig-quantum-arxiv,candidate,fault-tolerant-quantum,arxiv,quant-ph,submissions,5176,2026-05-10,2026-08-07,3935,31.5,,https://arxiv.org/list/quant-ph/recent
+2026-W32,2026-08-08,sig-quantum-github,candidate,fault-tolerant-quantum,github,topic:quantum-computing,repos_created,613,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/quantum-computing
+2026-W32,2026-08-08,sig-quantum-pypi,candidate,fault-tolerant-quantum,pypi,qiskit,downloads_month,1393605,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/qiskit
+2026-W32,2026-08-08,sig-neural-arxiv,candidate,neural-interfaces,arxiv,q-bio.NC,submissions,350,2026-05-10,2026-08-07,380,-7.9,,https://arxiv.org/list/q-bio.NC/recent
+2026-W32,2026-08-08,sig-neural-github,candidate,neural-interfaces,github,topic:bci,repos_created,110,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/bci
+2026-W32,2026-08-08,sig-neural-pypi,candidate,neural-interfaces,pypi,mne,downloads_month,418932,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/mne
+2026-W32,2026-08-08,sig-storage-github,candidate,long-duration-storage,github,topic:energy-storage,repos_created,120,2026-05-10,2026-08-07,,,level only; year-over-year is not computable from this API,https://github.com/topics/energy-storage
+2026-W32,2026-08-08,sig-storage-pypi,candidate,long-duration-storage,pypi,pybamm,downloads_month,85951,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/pybamm
+2026-W32,2026-08-08,sig-calibration-arxiv,theme_calibration,ai-physical-infrastructure,arxiv,cs.LG,submissions,14520,2026-05-10,2026-08-07,12397,17.1,,https://arxiv.org/list/cs.LG/recent
+2026-W32,2026-08-08,sig-calibration-npm,theme_calibration,ai-physical-infrastructure,npm,ai,downloads_month,79948269,2026-07-09,2026-08-07,,,,https://www.npmjs.com/package/ai
+2026-W32,2026-08-08,sig-calibration-pypi,theme_calibration,ai-physical-infrastructure,pypi,langchain,downloads_month,293368187,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/langchain
+2026-W32,2026-08-08,sig-fringe-bitcoin,fringe,bitcoin-2009,github_repo,bitcoin/bitcoin,stars,89820,,,,,last pushed 2026-08-08; 39261 forks,https://github.com/bitcoin/bitcoin
+2026-W32,2026-08-08,sig-fringe-riscv,fringe,risc-v-2010,github_repo,riscv/riscv-isa-manual,stars,4748,,,,,last pushed 2026-08-06; 860 forks,https://github.com/riscv/riscv-isa-manual
+2026-W32,2026-08-08,sig-fringe-fhe-concrete,fringe,fully-homomorphic-encryption,github_repo,zama-ai/concrete,stars,1571,,,,,last pushed 2025-12-19; 211 forks,https://github.com/zama-ai/concrete
+2026-W32,2026-08-08,sig-fringe-fhe-seal,fringe,fully-homomorphic-encryption,github_repo,microsoft/SEAL,stars,4002,,,,,last pushed 2026-08-04; 773 forks,https://github.com/microsoft/SEAL
+2026-W32,2026-08-08,sig-fringe-fhe-arxiv,fringe,fully-homomorphic-encryption,arxiv,cs.CR,submissions,2759,2026-05-10,2026-08-07,2081,32.6,,https://arxiv.org/list/cs.CR/recent
+2026-W32,2026-08-08,sig-orbital-pypi,candidate,orbital-economics,pypi,skyfield,downloads_month,726777,2026-07-09,2026-08-07,,,,https://pypistats.org/packages/skyfield
