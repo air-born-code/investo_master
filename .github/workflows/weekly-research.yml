@@ -58,6 +58,15 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: npm run ingest:filings
 
+      # Policy actions are theme-level evidence: presidential documents whose text
+      # matches a tracked theme, plus large federal awards to tracked equities.
+      # Needs no key. Runs after filings so the draft sees a complete store.
+      - name: Ingest policy actions
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: npm run ingest:policy
+
       # Reported, not enforced. Every asset is currently incomplete by design, so
       # --strict would fail every build; the point is that the number is visible
       # in the log and in the issue rather than being rediscovered each week.
