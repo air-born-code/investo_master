@@ -340,6 +340,27 @@ const rangeBar = (low, high) => {
 
 const confPill = (c) => `<span class="pill ${c === 'medium' ? 'cand' : 'warn'}">${e(c)}</span>`;
 
+// A growth rate is not a return, so the growth table carries a price beside every
+// rate. The comparison week is the last week the store actually scored anything —
+// the point is whether the market has moved since the underwriting, not since an
+// arbitrary date.
+const priorMetricWeek = [...new Set(metrics.map((m) => m.week_id))].sort().at(-2);
+const priorPriceOf = new Map(
+  metrics.filter((m) => m.week_id === priorMetricWeek).map((m) => [m.asset_id, Number(m.price)]),
+);
+
+const priceCell = (assetId) => {
+  const now = Number(metricOf.get(assetId)?.price);
+  if (!Number.isFinite(now) || !now) return '<td class="r">—</td>';
+  const then = priorPriceOf.get(assetId);
+  const change = Number.isFinite(then) && then
+    ? ((now / then - 1) * 100)
+    : undefined;
+  const tone = change === undefined ? 'var(--muted)' : (change >= 0 ? '#2f6f54' : '#9a6b18');
+  return `<td class="r" style="white-space:nowrap">${now.toFixed(2)}
+    ${change === undefined ? '' : `<div style="color:${tone};font-size:10px">${change >= 0 ? '+' : '−'}${Math.abs(change).toFixed(1)}% vs ${e(priorMetricWeek ?? '')}</div>`}</td>`;
+};
+
 const electricityPage = growth.length ? `
 <h1>The Age of Electricity</h1>
 <p class="sub">${e(electricityTheme?.summary ?? '')}
@@ -370,7 +391,7 @@ ${Object.entries(LAYER_LABELS).map(([layer, [label, blurb]]) => {
   if (!members.length) return '';
   return `<h2>${e(label)}</h2>
   <p class="sub">${e(blurb)}</p>
-  ${table(['Name', 'Long-run revenue CAGR', '>Range', 'Economics', '>Pricing power', '>Margin', '>Evidence', '>Confidence'],
+  ${table(['Name', 'Long-run revenue CAGR', '>Range', 'Economics', '>Pricing power', '>Market cap', '>Price', '>Evidence', '>Confidence'],
     members.map((g) => `<tr>
       <td><strong>${e(g.symbol)}</strong><div style="color:var(--muted);font-size:11px">${e(nameOf.get(g.asset_id) ?? g.asset_id)}</div></td>
       <td style="white-space:nowrap"><strong>${e(g.revenue_cagr_low)}–${e(g.revenue_cagr_high)}%</strong>
@@ -378,7 +399,8 @@ ${Object.entries(LAYER_LABELS).map(([layer, [label, blurb]]) => {
       <td>${rangeBar(g.revenue_cagr_low, g.revenue_cagr_high)}</td>
       <td style="font-size:11px">${e(g.economics_type.replace(/-/g, ' '))}</td>
       <td class="r" style="font-size:11px">${e(g.pricing_power.replace(/-/g, ' '))}</td>
-      <td class="r" style="font-size:11px">${e(g.margin_direction.replace(/-/g, ' '))}</td>
+      <td class="r" style="white-space:nowrap">${e(usd(metricOf.get(g.asset_id)?.market_cap))}</td>
+      ${priceCell(g.asset_id)}
       <td class="r" style="font-size:10px;color:var(--muted)">${e(g.evidence_basis.replace(/_/g, ' '))}</td>
       <td class="r">${confPill(g.confidence)}</td></tr>`))}
   ${members.map((g) => `<details class="detail"><summary>${e(g.symbol)} — basis, uncertainty and falsifier</summary>

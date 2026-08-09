@@ -56,6 +56,7 @@ Supporting files:
 - `data/cost_curves.csv` — the hand-authored curves. If a candidate has no nameable curve and unit, it is a story rather than an exponential. Rows with no defensible series are left unauthored rather than filled with a plausible guess.
 - `data/dead_themes.csv` — the graveyard, with a post-mortem naming which precondition broke. Most candidate exponentials fail, and the failure modes rhyme; without this file every candidate gets pattern-matched to the two that worked.
 - `data/signal_registry.csv` and `data/theme_signals.csv` — what is instrumented, and the append-only readings. Build with `npm run ingest:signals`.
+- `data/frontier_policy.csv` — regulatory motion against candidate and fringe entries, written by `npm run ingest:policy`. This pass reads proposed and final agency rules as well as presidential documents, because a field becomes legible to a regulator in rulemaking years before it reaches a presidential document. It writes to its own file and never to `sources.csv`.
 
 `npm run frontier:next` reviews one entry a month, oldest first, in the same rotation discipline as the asset review. Every frontier prompt carries the graveyard and a confirmed theme's signal readings alongside the entry's own, so the assessment is forced to name which dead theme the candidate resembles and to read its growth rate against a reference case rather than in isolation. Concluding that an entry should be rejected is a good outcome; a file that never removes anything is a collection rather than an instrument.
 

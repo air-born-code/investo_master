@@ -11,6 +11,12 @@
 //      threshold. These carry an asset_id and no theme_id, like filing rows;
 //      attribute them to themes through asset_themes.csv.
 //
+// It also writes data/frontier_policy.csv, which is a separate store for candidate
+// themes and fringe entries and never touches sources.csv. That pass reads proposed
+// and final agency rules as well as presidential documents, because the frontier
+// tier is watching for the moment a field first becomes legible to a regulator, and
+// that happens in rulemaking years before it reaches a presidential document.
+//
 // Scope, deliberately: this records that a policy action EXISTS, what it is
 // called, and which theme its language touches. It does not interpret the action
 // or claim a market consequence. Executive orders name policy, not companies —
@@ -35,7 +41,9 @@
 //   --since YYYY-MM-DD   earliest publication date to consider (default: 30 days ago)
 //   --min-award <usd>    materiality floor for federal awards (default: 25000000)
 //   --min-score <n>      theme-match score a document must clear (default: 3)
-//   --skip-awards        presidential documents only
+//   --skip-awards        no federal awards
+//   --skip-frontier      no candidate or fringe pass
+//   --skip-themes        no active-theme pass; writes only data/frontier_policy.csv
 //   --root <path>        project root (default: cwd)
 
 import { readFile, writeFile } from 'node:fs/promises';
@@ -44,6 +52,8 @@ import path from 'node:path';
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
 const skipAwards = argv.includes('--skip-awards');
+const skipFrontier = argv.includes('--skip-frontier');
+const skipThemes = argv.includes('--skip-themes');
 const flag = (name) => {
   const i = argv.indexOf(`--${name}`);
   return i === -1 ? undefined : argv[i + 1];
@@ -93,6 +103,68 @@ const THEME_KEYWORDS = {
     strong: ['space launch', 'commercial space', 'satellite constellation', 'orbital',
       'launch vehicle', 'spectrum allocation'],
     weak: ['space', 'satellite', 'aerospace', 'NASA'],
+  },
+};
+
+// Frontier keywords, for candidate_themes.csv and fringe_watch.csv. Scored by the
+// same rules and written to a different file, because a candidate is a watchlist
+// entry and not evidence — see the note above data/frontier_policy.csv below.
+//
+// The frontier pass reads a wider slice of the Federal Register than the theme
+// pass does, and the reason is structural. Presidential documents name what an
+// administration has already decided to prioritise, which is late. Agency
+// rulemaking — and especially PROPOSED rulemaking — is where a field first becomes
+// legible to the state, which is earlier and is the whole point of watching at this
+// tier. Prediction markets are the clearest case: they are regulated by the CFTC
+// through ordinary rulemaking and have essentially never appeared in a presidential
+// document, so the theme pass would have reported nothing about them forever.
+const FRONTIER_KEYWORDS = {
+  'embodied-ai': {
+    strong: ['humanoid robot', 'autonomous mobile robot', 'robotic workforce',
+      'robot deployment', 'embodied artificial intelligence'],
+    weak: ['robotics', 'robot', 'automation', 'artificial intelligence', 'machine learning'],
+  },
+  'orbital-economics': {
+    strong: ['in-space manufacturing', 'on-orbit servicing', 'commercial space station',
+      'space traffic coordination', 'orbital debris', 'launch licensing'],
+    weak: ['low earth orbit', 'orbital', 'launch', 'commercial space', 'satellite'],
+  },
+  'synthetic-biology': {
+    strong: ['synthetic biology', 'engineering biology', 'biomanufacturing',
+      'nucleic acid synthesis', 'gene synthesis', 'bioeconomy'],
+    weak: ['biotechnology', 'biological', 'fermentation', 'biosecurity'],
+  },
+  'fault-tolerant-quantum': {
+    strong: ['quantum computing', 'post-quantum cryptography', 'quantum information science',
+      'cryptographically relevant quantum computer'],
+    weak: ['quantum', 'cryptographic standard', 'encryption'],
+  },
+  'long-duration-storage': {
+    strong: ['long-duration energy storage', 'grid-scale storage', 'battery energy storage'],
+    weak: ['energy storage', 'battery', 'grid reliability'],
+  },
+  'neural-interfaces': {
+    strong: ['brain-computer interface', 'neural interface', 'neurotechnology', 'neural data'],
+    weak: ['implantable device', 'neurological', 'medical device'],
+  },
+  'fully-homomorphic-encryption': {
+    strong: ['homomorphic encryption', 'privacy-enhancing technolog', 'confidential computing',
+      'secure multiparty computation'],
+    weak: ['encryption', 'privacy', 'cryptography', 'data protection'],
+  },
+  'prediction-markets': {
+    strong: ['event contract', 'prediction market', 'binary option',
+      'designated contract market'],
+    weak: ['Commodity Futures Trading Commission', 'derivatives', 'wagering', 'swap'],
+  },
+  'self-driving-labs': {
+    strong: ['autonomous experimentation', 'self-driving laboratory', 'materials genome',
+      'artificial intelligence for science'],
+    weak: ['laboratory automation', 'research infrastructure', 'high-throughput screening'],
+  },
+  'organoid-compute': {
+    strong: ['organoid intelligence', 'biological computing', 'organoid'],
+    weak: ['neural tissue', 'stem cell', 'in vitro'],
   },
 };
 
@@ -234,10 +306,10 @@ const countTerm = (haystack, term) => {
 // vocabulary of industrial policy carries documents in on its own: a North Korea
 // emergency notice scores on "nuclear", and tariff proclamations on "supply chain"
 // and "domestic production", none of which are evidence about these themes.
-const scoreThemes = (title, body, knownThemes) => {
+const scoreAgainst = (keywordMap, title, body, allowed) => {
   const scores = [];
-  for (const [themeId, terms] of Object.entries(THEME_KEYWORDS)) {
-    if (!knownThemes.has(themeId)) continue;
+  for (const [themeId, terms] of Object.entries(keywordMap)) {
+    if (!allowed.has(themeId)) continue;
     let score = 0;
     let strongHits = 0;
     const matched = new Set();
@@ -259,6 +331,9 @@ const scoreThemes = (title, body, knownThemes) => {
   return scores.sort((a, b) => b.score - a.score);
 };
 
+const scoreThemes = (title, body, knownThemes) =>
+  scoreAgainst(THEME_KEYWORDS, title, body, knownThemes);
+
 // --- presidential documents --------------------------------------------------
 const themes = await readTable('themes.csv');
 const knownThemes = new Set(themes.map((t) => t.theme_id));
@@ -268,41 +343,135 @@ if (unknownKeywordThemes.length) {
   console.warn(`Keyword map references themes absent from themes.csv: ${unknownKeywordThemes.join(', ')} — ignored.\n`);
 }
 
-const frUrl = new URL('https://www.federalregister.gov/api/v1/documents.json');
-frUrl.searchParams.append('conditions[type][]', 'PRESDOCU');
-frUrl.searchParams.append('conditions[publication_date][gte]', since);
-frUrl.searchParams.set('per_page', '100');
-frUrl.searchParams.set('order', 'newest');
-for (const field of ['title', 'document_number', 'publication_date', 'subtype', 'html_url', 'abstract']) {
-  frUrl.searchParams.append('fields[]', field);
-}
-
-const frResponse = await getJson(frUrl);
-const documents = frResponse.results ?? [];
-console.log(`Presidential documents published since ${since}: ${documents.length}`);
-
 const keptDocuments = [];
-for (const doc of documents) {
-  await sleep(200);
-  const body = await getDocumentText(doc);
-  const haystack = `${doc.abstract ?? ''} ${body}`;
-  const scores = scoreThemes(doc.title ?? '', haystack, knownThemes);
-  const best = scores[0];
-  if (!best || best.score < minScore) continue;
-  keptDocuments.push({
-    ...doc,
-    themeId: best.themeId,
-    score: best.score,
-    matched: best.matched.slice(0, 6),
-    textAvailable: Boolean(body),
-  });
+
+if (!skipThemes) {
+  const frUrl = new URL('https://www.federalregister.gov/api/v1/documents.json');
+  frUrl.searchParams.append('conditions[type][]', 'PRESDOCU');
+  frUrl.searchParams.append('conditions[publication_date][gte]', since);
+  frUrl.searchParams.set('per_page', '100');
+  frUrl.searchParams.set('order', 'newest');
+  for (const field of ['title', 'document_number', 'publication_date', 'subtype', 'html_url', 'abstract']) {
+    frUrl.searchParams.append('fields[]', field);
+  }
+
+  const frResponse = await getJson(frUrl);
+  const documents = frResponse.results ?? [];
+  console.log(`Presidential documents published since ${since}: ${documents.length}`);
+
+  for (const doc of documents) {
+    await sleep(200);
+    const body = await getDocumentText(doc);
+    const haystack = `${doc.abstract ?? ''} ${body}`;
+    const scores = scoreThemes(doc.title ?? '', haystack, knownThemes);
+    const best = scores[0];
+    if (!best || best.score < minScore) continue;
+    keptDocuments.push({
+      ...doc,
+      themeId: best.themeId,
+      score: best.score,
+      matched: best.matched.slice(0, 6),
+      textAvailable: Boolean(body),
+    });
+  }
+
+  console.log(`Matched a tracked theme at score >= ${minScore}: ${keptDocuments.length}`);
+  for (const d of keptDocuments) {
+    console.log(`  ${d.publication_date}  ${String(d.subtype ?? 'Document').padEnd(20)} score ${String(d.score).padStart(3)}  ${d.themeId}`);
+    console.log(`      ${d.title.slice(0, 96)}`);
+    console.log(`      matched: ${d.matched.join(', ')}${d.textAvailable ? '' : '  (title/abstract only — full text unavailable)'}`);
+  }
 }
 
-console.log(`Matched a tracked theme at score >= ${minScore}: ${keptDocuments.length}`);
-for (const d of keptDocuments) {
-  console.log(`  ${d.publication_date}  ${String(d.subtype ?? 'Document').padEnd(20)} score ${String(d.score).padStart(3)}  ${d.themeId}`);
-  console.log(`      ${d.title.slice(0, 96)}`);
-  console.log(`      matched: ${d.matched.join(', ')}${d.textAvailable ? '' : '  (title/abstract only — full text unavailable)'}`);
+// --- frontier policy ---------------------------------------------------------
+// Candidate themes and fringe entries, scored against a wider slice of the register.
+//
+// Screening is two-stage on purpose. Thirty days of rules and proposed rules is
+// well over a thousand documents, and fetching full text for each would take hours
+// and hammer govinfo for almost no benefit. So every document is first scored on
+// title and abstract, which is free, and only those already showing a strong term
+// are fetched in full and rescored. It under-reports — a document whose abstract
+// says nothing diagnostic is missed — which is the right way for a watchlist tier
+// to fail.
+const frontierKept = [];
+
+if (!skipFrontier) {
+  const candidates = await readTable('candidate_themes.csv').catch(() => []);
+  const fringe = await readTable('fringe_watch.csv').catch(() => []);
+  const subjectTier = new Map([
+    ...candidates.map((c) => [c.candidate_id, 'candidate']),
+    ...fringe.map((f) => [f.fringe_id, 'fringe']),
+  ]);
+  const knownSubjects = new Set(subjectTier.keys());
+
+  const unknownFrontier = Object.keys(FRONTIER_KEYWORDS).filter((s) => !knownSubjects.has(s));
+  if (unknownFrontier.length) {
+    console.warn(`\nFrontier keyword map references subjects absent from the tier files: ${unknownFrontier.join(', ')} — ignored.`);
+  }
+
+  const frontierUrl = new URL('https://www.federalregister.gov/api/v1/documents.json');
+  for (const type of ['PRESDOCU', 'PRORULE', 'RULE']) {
+    frontierUrl.searchParams.append('conditions[type][]', type);
+  }
+  frontierUrl.searchParams.append('conditions[publication_date][gte]', since);
+  frontierUrl.searchParams.set('per_page', '1000');
+  frontierUrl.searchParams.set('order', 'newest');
+  for (const field of ['title', 'document_number', 'publication_date', 'type', 'subtype', 'html_url', 'abstract', 'agencies']) {
+    frontierUrl.searchParams.append('fields[]', field);
+  }
+
+  let frontierDocs = [];
+  try {
+    frontierDocs = (await getJson(frontierUrl)).results ?? [];
+  } catch (error) {
+    console.warn(`\nFrontier register lookup failed (${error.message}) — frontier pass skipped.`);
+  }
+
+  console.log(`\nRegister documents since ${since} for the frontier pass (presidential, proposed rules, rules): ${frontierDocs.length}`);
+
+  // per_page maxes at 1000 and this pass does not paginate. Hitting the cap means
+  // the window was silently truncated to its most recent 1000 documents, and the
+  // older end of the requested range was never examined. Rules run at roughly 120
+  // a week, so any --since beyond about two months will trip this.
+  if (frontierDocs.length >= 1000) {
+    console.warn('  WARNING: hit the 1000-document page cap. Older documents in this window were not read.');
+    console.warn('  Narrow --since, or run the pass in several shorter windows.');
+  }
+
+  // Stage one: title and abstract only. A document that shows no strong term here
+  // is not worth a full-text fetch.
+  const shortlist = [];
+  for (const doc of frontierDocs) {
+    const scores = scoreAgainst(FRONTIER_KEYWORDS, doc.title ?? '', doc.abstract ?? '', knownSubjects);
+    if (scores[0]) shortlist.push({ doc, preliminary: scores[0] });
+  }
+  console.log(`  showing a strong term in title or abstract: ${shortlist.length}`);
+
+  // Stage two: full text for the shortlist, then the real threshold.
+  for (const { doc, preliminary } of shortlist) {
+    await sleep(200);
+    const body = await getDocumentText(doc);
+    const haystack = `${doc.abstract ?? ''} ${body}`;
+    const scores = scoreAgainst(FRONTIER_KEYWORDS, doc.title ?? '', haystack, knownSubjects);
+    const best = scores[0] ?? preliminary;
+    if (best.score < minScore) continue;
+    frontierKept.push({
+      ...doc,
+      subjectId: best.themeId,
+      tier: subjectTier.get(best.themeId),
+      score: best.score,
+      matched: best.matched.slice(0, 6),
+      textAvailable: Boolean(body),
+      agencyNames: (doc.agencies ?? []).map((a) => a.name).filter(Boolean).join('; '),
+    });
+  }
+
+  console.log(`  matched a frontier subject at score >= ${minScore}: ${frontierKept.length}`);
+  for (const d of frontierKept) {
+    console.log(`  ${d.publication_date}  ${String(d.type ?? 'Document').padEnd(12)} score ${String(d.score).padStart(3)}  ${d.tier}/${d.subjectId}`);
+    console.log(`      ${String(d.title).slice(0, 96)}`);
+    console.log(`      matched: ${d.matched.join(', ')}${d.textAvailable ? '' : '  (title/abstract only — full text unavailable)'}`);
+  }
 }
 
 // --- federal awards ----------------------------------------------------------
@@ -418,18 +587,56 @@ const awardRows = awards
     'high',
   ]);
 
+// Frontier matches go to their own file and never to sources.csv. A candidate is a
+// watchlist entry, not evidence: putting an agency's proposed rule about prediction
+// markets next to an SEC filing would let speculative material reach the weekly
+// issue's evidence base, which is the one thing the frontier tier exists to prevent.
+const frontierPath = path.join(root, 'data', 'frontier_policy.csv');
+const frontierHeader = [
+  'week_id', 'as_of_date', 'policy_id', 'tier', 'subject_id', 'document_type',
+  'document_number', 'title', 'agencies', 'publisher', 'published_at', 'accessed_at',
+  'url', 'matched_terms', 'score', 'claim',
+];
+
+let frontierExisting = [];
+try {
+  frontierExisting = parseCsv(await readFile(frontierPath, 'utf8')).slice(1);
+} catch { /* first run */ }
+const frontierSeen = new Set(frontierExisting.map((r) => r[2]));
+
+const frontierRows = frontierKept
+  .map((d) => ({ d, id: `pol-${d.subjectId}-${d.document_number}` }))
+  .filter(({ id }) => !frontierSeen.has(id))
+  .map(({ d, id }) => [
+    weekId, asOf, id, d.tier, d.subjectId, d.type ?? '', d.document_number,
+    d.title, d.agencyNames, 'Federal Register', d.publication_date, asOf, d.html_url,
+    d.matched.join('; '), d.score,
+    `${d.type === 'PRORULE' ? 'Proposed rule' : d.type === 'RULE' ? 'Final rule' : d.subtype ?? 'Presidential document'} published ${d.publication_date}: "${d.title}". Language matches the ${d.subjectId} ${d.tier} entry (${d.matched.join(', ')}). Contents not reviewed. This records that the state has begun writing about the area, which is a regulatory-motion signal and nothing more.`,
+  ]);
+
 const rows = [...docRows, ...awardRows];
-if (!rows.length) {
-  console.log(`\nNothing to write — all ${keptDocuments.length + awards.length} matched actions already recorded.`);
+if (!rows.length && !frontierRows.length) {
+  const total = keptDocuments.length + awards.length + frontierKept.length;
+  console.log(`\nNothing to write — all ${total} matched actions already recorded.`);
   process.exit(0);
 }
 
-const trimmed = sourcesText.endsWith('\n') ? sourcesText : `${sourcesText}\n`;
-const appended = rows.map((row) => row.map(csvCell).join(',')).join('\n');
-await writeFile(sourcesPath, `${trimmed}${appended}\n`, 'utf8');
+if (rows.length) {
+  const trimmed = sourcesText.endsWith('\n') ? sourcesText : `${sourcesText}\n`;
+  const appended = rows.map((row) => row.map(csvCell).join(',')).join('\n');
+  await writeFile(sourcesPath, `${trimmed}${appended}\n`, 'utf8');
+}
 
-const skipped = (keptDocuments.length + awards.length) - rows.length;
+if (frontierRows.length) {
+  const body = [frontierHeader, ...frontierExisting, ...frontierRows]
+    .map((row) => row.map(csvCell).join(',')).join('\n');
+  await writeFile(frontierPath, `${body}\n`, 'utf8');
+}
+
+const skipped = (keptDocuments.length + awards.length + frontierKept.length)
+  - (rows.length + frontierRows.length);
 console.log(`\nWrote data/sources.csv: +${docRows.length} presidential-action rows, +${awardRows.length} federal-award rows (week ${weekId})`);
+console.log(`Wrote data/frontier_policy.csv: +${frontierRows.length} frontier rows (${frontierExisting.length + frontierRows.length} total)`);
 if (skipped) console.log(`${skipped} already recorded — skipped.`);
 console.log('Claims record that each action exists and which theme its language touches.');
 console.log('Deciding whether it changes a thesis is a research step.');

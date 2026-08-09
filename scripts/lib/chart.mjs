@@ -287,14 +287,22 @@ export const sparkline = (points, width = 60, options = {}) => {
   }).join('');
 };
 
-/** One line of context for the text edition: range, extremes and where we are now. */
+/**
+ * One line of context: the window and its extremes, with dates.
+ *
+ * Deliberately excludes the current reading. Every call site — the board row, the
+ * markdown table, the text digest, the site card, the draft prompt summary — already
+ * renders the latest value immediately adjacent, so including it here printed the
+ * same figure twice in the same line of sight and made the issue look like it was
+ * repeating itself. This is context for a number shown elsewhere, not a restatement
+ * of it.
+ */
 export const rangeSummary = (points, unit, options = {}) => {
   const described = describeSeries(points, options);
   if (!described) return '';
   const { extremes, first, latest } = described;
   return [
     `${yearOf(first.date)}–${yearOf(latest.date)}`,
-    `now ${formatValue(latest.value, unit)}`,
     `low ${formatValue(described.trueMin, unit)} (${monthLabel(extremes.min.date)})`,
     `high ${formatValue(described.trueMax, unit)} (${monthLabel(extremes.max.date)})`,
   ].join(' · ');

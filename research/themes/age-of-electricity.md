@@ -36,7 +36,8 @@ The demand evidence is strong and widely agreed:
 | Data-centre demand growth, 2025 | +17%; AI-focused data centres +50% | IEA |
 | US electricity demand, to 2050 | +0.9%–1.6% a year across cases, after a decade of near-zero | EIA, *AEO 2026* (2026-04-08) |
 | US generating capacity, to 2050 | +50% to +90% across cases | EIA |
-| Hyperscaler capex, 2026 | roughly $725B across Amazon, Microsoft, Alphabet and Meta, up about 77% on 2025's record ~$410B | press aggregation of issuer guidance — **not primary, treat as indicative** |
+| Hyperscaler capex, Q1 2026 (**as reported**) | **$129.8B** across Microsoft, Amazon, Alphabet and Meta, against $71.9B in Q1 2025 — **up 80%** | the four 10-Qs, via SEC XBRL |
+| Hyperscaler capex, 2026 full year | roughly $725B, up about 77% on 2025's ~$410B | press aggregation of forward guidance — **not primary** |
 
 Two things follow, and the second matters more than the first.
 
@@ -159,10 +160,22 @@ dominated by the part that is not growing. Same question, unanswered, for Trane 
 
 ### 5. The bear case, taken seriously
 
-**5.1 The demand forecast is an extrapolation of one extraordinary year.** Hyperscaler capex rising
-~77% in a single year to ~$725B is the input to every order book in this theme. That rate cannot
-persist arithmetically. The relevant question is not whether AI demand is real but whether the
-*second derivative* turning is enough to break order books priced for continuation.
+**5.1 The demand forecast is an extrapolation of one extraordinary year — and the widely-cited
+figure is a promise, not a rate.** This is worth stating precisely, because the primary numbers say
+something the press aggregate does not.
+
+Actual reported Q1 2026 capital expenditure across the four was **$129.8B, up 80%** year over year
+(Microsoft $30.88B, Amazon $44.20B, Alphabet $35.67B, Meta $19.00B — all from 10-Qs). That
+annualises to **$519B**. The ~$725B figure quoted everywhere is *forward guidance*, and reaching it
+requires the remaining three quarters to run roughly 50% above the Q1 rate.
+
+So the order books in this theme are underwritten against a number that has not yet been spent. The
+only Q2 figure filed so far — Amazon at $54.21B, up 23% sequentially — is directionally consistent
+with the step-up, so this is not evidence the guidance is wrong. It is a statement about what is and
+is not yet established, and it identifies the cheapest high-value thing to watch: **the gap between
+the run-rate and the guidance closes, or it does not.** An 80% growth rate cannot persist
+arithmetically in any case; the question is not whether AI demand is real but whether the second
+derivative turning is enough to break order books priced for continuation.
 
 **5.2 The order books are softer than the headline.** GE Vernova discloses 116 GW as 53 GW of firm
 backlog and 63 GW of slot reservation agreements. **The majority is reservations, not orders**, and
@@ -218,15 +231,19 @@ Stated so it can be checked, not admired:
   twenty.
 - **All 13 decision gates read `not_assessed`** for all five existing candidates. Nothing in this
   theme is eligible for decision review regardless of what the analysis above concludes.
-- **The hyperscaler capex aggregate is press-sourced**, not read from the four 10-Qs. It is load
-  bearing for the bear case and should be replaced with primary figures.
+- **Q2 2026 capex is filed for Amazon only** among the four. Microsoft's April–June quarter falls in
+  its 10-K rather than a 10-Q, and Alphabet's and Meta's Q2 figures were not yet tagged in XBRL when
+  this was written. The full-year guidance therefore cannot yet be tested against a half-year rate.
+- **The ~$725B full-year aggregate remains press-sourced.** Q1 actuals are now primary, but the
+  forward figure is not, and no issuer statement of it has been read.
 - **Transformer and switchgear lead times are trade-press sourced.** Directionally consistent
   across several outlets, but not primary.
 
 ### 8. Research queue for this theme
 
-1. Read the four hyperscaler 10-Qs and record actual 2026 capex guidance. This is the single
-   highest-value gap: it is the input to every order book here.
+1. **Collect Q2 2026 capex for Microsoft, Alphabet and Meta** as each becomes available, and test
+   the half-year rate against the ~$725B full-year aggregate. Q1 actuals are recorded; the run-rate
+   gap identified in §5.1 is now the cheapest high-value thing to watch in the whole theme.
 2. Establish GE Vernova's historical slot-reservation conversion rate, if disclosed anywhere.
 3. Find whether Vertiv's 10-Q or slide deck restores orders and backlog disclosure.
 4. Read the NextEra S-4 for the Dominion merger terms and the regulatory conditions sought.

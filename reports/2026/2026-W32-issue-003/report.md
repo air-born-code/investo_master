@@ -1,4 +1,4 @@
-# Investo Master — Issue 003: Weekly Overview
+# Investo Master — Issue 003: Quiet Week
 
 - Week: 2026-W32
 - Report ID: 2026-W32-003
@@ -12,11 +12,11 @@ authored once and reviewed, not rewritten each week; only the numbers move.
 
 | Series | Value | On the month | Observation | Decade range |
 |---|---:|---|---|---|
-| Effective federal funds rate | 3.63% | unchanged on the month | 2026-07-01 | 2016–2026 · now 3.63% · low 0.05% (Apr 2020) · high 5.33% (Aug 2023) |
-| US headline CPI | 3.5% | −0.7 on the month | 2026-06-01 | 2016–2026 · now 3.5% · low 0.2% (May 2020) · high 9% (Jun 2022) |
-| US core CPI | 2.6% | −0.2 on the month | 2026-06-01 | 2016–2026 · now 2.6% · low 1.2% (May 2020) · high 6.6% (Sept 2022) |
-| US unemployment rate | 4.1% | −0.1 on the month | 2026-07-01 | 2016–2026 · now 4.1% · low 3.4% (Apr 2023) · high 14.8% (Apr 2020) |
-| US nonfarm payrolls, monthly change | −23k | — | 2026-07-01 | 2016–2026 · now −23k · low −20,469k (Apr 2020) · high +4,631k (Jun 2020) |
+| Effective federal funds rate | 3.63% | unchanged on the month | 2026-07-01 | 2016–2026 · low 0.05% (Apr 2020) · high 5.33% (Aug 2023) |
+| US headline CPI | 3.5% | −0.7 on the month | 2026-06-01 | 2016–2026 · low 0.2% (May 2020) · high 9% (Jun 2022) |
+| US core CPI | 2.6% | −0.2 on the month | 2026-06-01 | 2016–2026 · low 1.2% (May 2020) · high 6.6% (Sept 2022) |
+| US unemployment rate | 4.1% | −0.1 on the month | 2026-07-01 | 2016–2026 · low 3.4% (Apr 2023) · high 14.8% (Apr 2020) |
+| US nonfarm payrolls, monthly change | −23k | — | 2026-07-01 | 2016–2026 · low −20,469k (Apr 2020) · high +4,631k (Jun 2020) |
 
 `Fed funds` `▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▃▃▁▁▁▁▁▁▁▁▁▁▁▁▂▃▄▆▇▇▇████████▇▇▇▇▇▆▆▆▆▆`
 
@@ -33,23 +33,23 @@ authored once and reviewed, not rewritten each week; only the numbers move.
 Transmission mechanisms, not forecasts. Each states the channel through which a
 series is capable of moving prices; none asserts that it will, or in which direction.
 
-**Effective federal funds rate — 3.63%.** Reaches equities through the discount rate rather than through earnings. A higher rate lowers the present value of distant cash flow more than near cash flow, so long-duration and capital-intensive businesses reprice hardest. For this store's themes the second channel matters more: generation, grid and data-centre capacity is project-financed, so the policy rate is an input cost to the buildout itself, not only a valuation multiplier.
+**Fed funds.** Reaches equities through the discount rate rather than through earnings. A higher rate lowers the present value of distant cash flow more than near cash flow, so long-duration and capital-intensive businesses reprice hardest. For this store's themes the second channel matters more: generation, grid and data-centre capacity is project-financed, so the policy rate is an input cost to the buildout itself, not only a valuation multiplier.
 
 *Read with care:* The effective rate is a monthly average of realised overnight trading, so it lags the target range decision by up to a month. Read the FOMC statement for policy intent, not this series.
 
-**US headline CPI — 3.5%.** Two channels. Through policy: sustained headline inflation removes the option of rate cuts that equity valuations tend to price in advance. Through the income statement: a company growing revenue at the inflation rate is growing units at zero, so inflation determines how much reported growth is actually growth. Pricing power is the variable that decides which of a theme's companies keep the difference.
+**Headline CPI.** Two channels. Through policy: sustained headline inflation removes the option of rate cuts that equity valuations tend to price in advance. Through the income statement: a company growing revenue at the inflation rate is growing units at zero, so inflation determines how much reported growth is actually growth. Pricing power is the variable that decides which of a theme's companies keep the difference.
 
 *Read with care:* Headline includes food and energy and is therefore the noisier series, but it is the one that sets wage expectations and household behaviour. It should not be dismissed as noise merely because core is smoother.
 
-**US core CPI — 2.6%.** The dominant channel is policy expectations. Because core is the series the committee weights, a change in core moves the forward rate curve, and the curve moves equity multiples within days — long before any company's earnings change. That is why a core print can reprice an entire theme in a week without a single fact about any business in it having changed.
+**Core CPI.** The dominant channel is policy expectations. Because core is the series the committee weights, a change in core moves the forward rate curve, and the curve moves equity multiples within days — long before any company's earnings change. That is why a core print can reprice an entire theme in a week without a single fact about any business in it having changed.
 
 *Read with care:* Core excludes food and energy, which is a deliberate signal-extraction choice, not a claim those costs do not matter. Shelter is a large and heavily lagged component, so core turns later than the underlying pressure does.
 
-**US unemployment rate — 4.1%.** Reaches equities through both mandates at once, in opposite directions. A rising unemployment rate weakens demand for cyclical goods and therefore earnings, while simultaneously pulling policy easier and therefore supporting multiples. Which effect dominates is an empirical question about the specific episode, not something that can be asserted in advance. For structurally-driven capital spending the relevant test is whether committed capacity plans survive a labour downturn, and that is answered by order books, not by this series.
+**Unemployment.** Reaches equities through both mandates at once, in opposite directions. A rising unemployment rate weakens demand for cyclical goods and therefore earnings, while simultaneously pulling policy easier and therefore supporting multiples. Which effect dominates is an empirical question about the specific episode, not something that can be asserted in advance. For structurally-driven capital spending the relevant test is whether committed capacity plans survive a labour downturn, and that is answered by order books, not by this series.
 
 *Read with care:* The rate can fall for a good reason (hiring) or a bad one (people leaving the labour force). The level alone cannot distinguish them; the participation rate and the household-survey detail can.
 
-**US nonfarm payrolls, monthly change — −23k.** Moves rate expectations faster than it moves earnings. A surprising print is a repricing event, not an earnings event: nothing about any company's cash flow changed on the morning of the release. The correct response to a payroll surprise is therefore to ask whether it changes the policy path, and separately whether it changes any tracked business — usually the first and not the second.
+**Payrolls.** Moves rate expectations faster than it moves earnings. A surprising print is a repricing event, not an earnings event: nothing about any company's cash flow changed on the morning of the release. The correct response to a payroll surprise is therefore to ask whether it changes the policy path, and separately whether it changes any tracked business — usually the first and not the second.
 
 *Read with care:* Heavily revised, frequently by more than the original surprise. A single month is close to meaningless and a negative print can be revised positive. Three-month averages carry information; one print does not.
 
@@ -74,25 +74,25 @@ Drawn from the 43 names at coverage tier, longest-waiting first. At
 3 a week the full universe is read every 15 weeks. Appearing here
 means the rotation reached the name, not that it is a recommendation.
 
-### AEP — AMERICAN ELECTRIC POWER CO INC
+### CEG — Constellation Energy Corp
 
-*never covered before · Electric Services · age-of-electricity · 5 filings recorded, none read yet*
-
-Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
-
-### ALAB — Astera Labs, Inc.
-
-*never covered before · Semiconductors & Related Devices · high-speed-connectivity · 5 filings recorded, none read yet*
+*never covered before · Electric Services · age-of-electricity · 1 of 9 source rows read*
 
 Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
 
-### ALB — ALBEMARLE CORP
+### ETN — Eaton Corp plc
 
-*never covered before · Plastic Materials, Synth Resins & Nonvulcan Elastomers · critical-minerals-security · 7 filings recorded, none read yet*
+*never covered before · Misc Industrial & Commercial Machinery & Equipment · ai-physical-infrastructure, age-of-electricity · 1 of 12 source rows read*
 
 Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
 
-Next up: ANET · ASTS · AVGO · BWXT · CARR
+### NEE — NEXTERA ENERGY INC
+
+*never covered before · Electric Services · age-of-electricity · 1 of 29 source rows read*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+Next up: PWR · TLN · VST · AEP · ALAB
 
 ## Universe changes
 

@@ -1,8 +1,9 @@
 // Stage 1b — SEC filing detection from EDGAR.
 //
 // Appends a provenance row to data/sources.csv for each new filing by a tracked
-// asset. Append-only and idempotent: rows are keyed by accession number, so a
-// re-run adds nothing.
+// asset. Append-only and idempotent: rows are keyed by (asset, accession), so a
+// re-run adds nothing, and one filing that names two tracked issuers is recorded
+// once against each of them rather than once in total.
 //
 // Scope, deliberately: this records that a filing EXISTS and links to it. It does
 // not read the document or extract figures — the claim text says only what can be
@@ -160,24 +161,52 @@ if (dryRun) {
 const sourcesPath = path.join(root, 'data', 'sources.csv');
 const sourcesText = await readFile(sourcesPath, 'utf8');
 const sourceRows = parseCsv(sourcesText).slice(1);
-const existing = new Set(sourceRows.map((r) => r[0]));
-// Also dedupe on the document URL. Filings recorded by hand before ingestion
-// existed carry their own source_id, so an ID check alone would file the same
-// document twice under two identities.
-const existingUrls = new Set(sourceRows.map((r) => r[9]).filter(Boolean));
 
-// Keyed by accession number: the same filing keeps one identity no matter which
-// week it is picked up in, so a widened --since window cannot duplicate rows.
-const rows = found
-  .map((f) => ({ f, id: `src-edgar-${f.accession.replaceAll('-', '')}` }))
-  .filter(({ f, id }) => !existing.has(id) && !existingUrls.has(f.url))
-  .map(({ f, id }) => [
-    id, asOf, f.assetId, '', 'filing',
+// A filing is identified by (asset, accession), never by accession alone. A merger
+// communication is filed once and then appears in the submissions feed of every
+// issuer party to it, so one accession legitimately yields one row per tracked
+// asset — the same 425 is evidence about Dominion and about NextEra. That overlap
+// is a finding, not a duplicate, and Issue 003 was built on spotting it.
+//
+// Keying on the accession alone gave both rows the same source_id, and on the
+// following run made the first-written asset suppress the other permanently, so
+// which name a filing was filed under depended on assets.csv ordering.
+const accessionOf = (row) =>
+  /^src-edgar-(?:[a-z0-9]+-)?(\d{18})$/.exec(row[0] ?? '')?.[1]
+  ?? /\/Archives\/edgar\/data\/\d+\/(\d{18})\//.exec(row[9] ?? '')?.[1];
+
+// Both keys are per-asset. The URL check stays because filings recorded by hand
+// before ingestion existed carry their own source_id, so an accession check alone
+// would file the same document twice under two identities.
+const seenFilings = new Set();
+const seenUrls = new Set();
+for (const row of sourceRows) {
+  const accession = accessionOf(row);
+  if (accession) seenFilings.add(`${row[2]}|${accession}`);
+  if (row[9]) seenUrls.add(`${row[2]}|${row[9]}`);
+}
+
+// Keys for rows built during this run go back into the sets as they are built.
+// A snapshot of the file taken before the loop cannot catch a collision between
+// two rows of the same run, which is exactly how every duplicate source_id in the
+// store was written: one run, one accession, two tracked parties to one merger.
+const rows = [];
+let skipped = 0;
+for (const f of found) {
+  const accession = f.accession.replaceAll('-', '');
+  const filingKey = `${f.assetId}|${accession}`;
+  const urlKey = `${f.assetId}|${f.url}`;
+  if (seenFilings.has(filingKey) || seenUrls.has(urlKey)) { skipped += 1; continue; }
+  seenFilings.add(filingKey);
+  seenUrls.add(urlKey);
+  rows.push([
+    `src-edgar-${f.assetId}-${accession}`, asOf, f.assetId, '', 'filing',
     `${f.symbol} ${f.form} filed ${f.filingDate}`,
     'SEC EDGAR', f.filingDate, asOf, f.url, 'true', 'context',
     `${f.name} filed a ${f.form} with the SEC on ${f.filingDate}${f.reportDate ? `, covering the period ending ${f.reportDate}` : ''}. Contents not yet reviewed.`,
     'high',
   ]);
+}
 
 if (!rows.length) {
   console.log(`\nNothing to write — all ${found.length} filings already recorded.`);
@@ -188,7 +217,6 @@ const trimmed = sourcesText.endsWith('\n') ? sourcesText : `${sourcesText}\n`;
 const appended = rows.map((row) => row.map(csvCell).join(',')).join('\n');
 await writeFile(sourcesPath, `${trimmed}${appended}\n`, 'utf8');
 
-const skipped = found.length - rows.length;
 console.log(`\nWrote data/sources.csv: +${rows.length} filing rows (week ${weekId})`);
 if (skipped) console.log(`${skipped} already recorded — skipped.`);
 console.log('Claims record that each filing exists. Reading them is a research step.');

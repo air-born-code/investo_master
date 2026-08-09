@@ -158,6 +158,7 @@ const summariseHistory = async (text) => {
   const specs = parseCsv(await read('data', 'macro_series.csv').catch(() => ''));
   const specCol = specs.length ? Object.fromEntries(specs[0].map((k, i) => [k, i])) : {};
   const labelFor = new Map(specs.slice(1).map((r) => [r[specCol.series_id], r[specCol.label]]));
+  const transformFor = new Map(specs.slice(1).map((r) => [r[specCol.series_id], r[specCol.transform]]));
 
   const bySeries = new Map();
   for (const row of body) {
@@ -175,17 +176,36 @@ const summariseHistory = async (text) => {
     const points = raw.sort((a, b) => a.observation_date.localeCompare(b.observation_date));
     const unit = points.at(-1)?.unit;
     const at = (back) => points.at(-1 - back);
+
+    // On a level series the useful figure is how far it has moved. On a change series
+    // — payrolls, say — the difference between this month's change and the change three
+    // months ago is a second difference, which is noise wearing the costume of a trend.
+    // There the useful figure is the mean of the change over the window, which is also
+    // what the series' own caveat in the registry points the reader toward.
+    const isChangeSeries = transformFor.get(id) === 'mom_change';
+    const pp = unit === 'percent' || unit === 'percent_yoy' ? 'pp' : '';
     const move = (back) => {
       const then = at(back);
       const now = at(0);
       if (!then || !now) return 'n/a';
       const d = now.value - then.value;
-      return `${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d).toFixed(2)}`;
+      return `${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d).toFixed(2)}${pp}`;
     };
+    const mean = (back) => {
+      const window = points.slice(-back);
+      if (!window.length) return 'n/a';
+      const avg = window.reduce((sum, p) => sum + p.value, 0) / window.length;
+      return formatValue(avg, unit);
+    };
+
+    const trend = isChangeSeries
+      ? `3-month mean ${mean(3)} · 12-month mean ${mean(12)}`
+      : `3-month change ${move(3)} · 12-month change ${move(12)}`;
+
     lines.push([
       `${id} (${labelFor.get(id) ?? id})`,
       `  window ${points[0].observation_date} → ${points.at(-1).observation_date} (${points.length} monthly observations)`,
-      `  latest ${formatValue(at(0)?.value, unit)} · 3-month change ${move(3)} · 12-month change ${move(12)}`,
+      `  latest ${formatValue(at(0)?.value, unit)} · ${trend}`,
       `  ${rangeSummary(points, unit)}`,
       `  shape  ${sparkline(points, 58, { unit })}`,
     ].join('\n'));

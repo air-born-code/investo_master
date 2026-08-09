@@ -104,14 +104,33 @@ Lead with the structural picture. Individual companies are evidence for it, not 
 
 ### 2. Cycle Position
 
-State where the economy and the relevant sectors sit in their cycles, and what that implies for the themes being tracked. Cover, where data permits:
+**Do not restate the macro levels.** The publishing pipeline renders a regime board above your
+narrative, built from `macro_series.csv` and `macro_history.csv`. It already shows, for every
+tracked series: the current reading, its change on the month, a ten-year chart, the decade high and
+low, and an authored statement of how that series reaches equity prices. Reproducing any of that
+here duplicates it in the same document.
 
-- Monetary conditions, inflation, employment, and the direction of each.
+Your job in this section is the part the board cannot do: **interpretation**. Cover, where the
+evidence permits:
+
 - Which tracked sectors are early, mid, or late cycle, and on what evidence.
 - Which exposures are counter-cyclical, or would be expected to strengthen as conditions deteriorate.
 - Where current expectations appear to assume the present regime continues indefinitely.
+- What the *trajectory* implies that the level does not. The history is supplied to you; a reading
+  means one thing after two years of decline and another after two years of overshoot.
 
-Cycle position changes what a given valuation means. Say so explicitly rather than treating price as cycle-neutral. Second-level thinking applies: the question is not what conditions are, but what conditions are already priced.
+Cite a figure only when the argument turns on it, and then once. Prefer naming the direction and
+what it changes ("core has fallen for three consecutive months, which removes the cut that the
+watchlist multiples appear to assume") over restating the series.
+
+Cycle position changes what a given valuation means. Say so explicitly rather than treating price as
+cycle-neutral. Second-level thinking applies: the question is not what conditions are, but what
+conditions are already priced.
+
+Do not write your own account of how a macro series transmits to equity prices. That mechanism is
+authored once in `macro_series.csv` and reviewed; a second version written from memory would
+conflict with the one printed in the same issue. If you believe the stored transmission text is
+wrong or incomplete, say so explicitly as a recommended amendment rather than quietly replacing it.
 
 ### 3. Structural Change Radar
 

@@ -513,7 +513,7 @@ const body = (archive) => `
       <p style="margin:7px 0 0;color:#52606d;font-size:11px;line-height:18px;">Transmission mechanisms, not forecasts. Each states the channel through which a series is capable of moving prices; none asserts that it will, or in which direction.</p>
     </td></tr>
     ${regime.map((entry) => `<tr><td style="padding:12px 17px 0;">
-      <div style="color:#13263d;font-size:11px;font-weight:800;">${e(entry.spec.label)} · ${e(formatMacro(entry.snapshot))}</div>
+      <div style="color:#13263d;font-size:11px;font-weight:800;">${e(entry.spec.short_label || entry.spec.label)}</div>
       <p style="margin:4px 0 0;color:#354252;font-size:12px;line-height:20px;">${e(entry.spec.equity_transmission)}</p>
       ${entry.spec.caveat ? `<p style="margin:5px 0 0;color:#8a5b1c;font-size:11px;line-height:17px;"><strong>Read with care:</strong> ${e(entry.spec.caveat)}</p>` : ''}
     </td></tr>`).join('')}
@@ -656,7 +656,7 @@ const markdown = [
           'series is capable of moving prices; none asserts that it will, or in which direction.',
           '',
           ...regime.flatMap((entry) => [
-            `**${entry.spec.label} — ${formatMacro(entry.snapshot)}.** ${entry.spec.equity_transmission}`,
+            `**${entry.spec.short_label || entry.spec.label}.** ${entry.spec.equity_transmission}`,
             ...(entry.spec.caveat ? ['', `*Read with care:* ${entry.spec.caveat}`] : []),
             '',
           ]),
