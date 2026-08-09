@@ -1,4 +1,4 @@
-INVESTO MASTER — ISSUE 003: Quiet Week
+INVESTO MASTER — ISSUE 003: Weekly Overview
 Week 2026-W32 | Evidence cut-off 2026-08-08T16:01:50.896Z
 Action: NO ACTION — RESEARCH CONTINUES
 
@@ -35,168 +35,152 @@ IN ROTATION THIS WEEK
 Drawn from 43 coverage-tier names, longest-waiting first.
 At 3 a week the full universe is read every 15 weeks.
 
-CEG — Constellation Energy Corp (never covered before)
-  Electric Services · age-of-electricity · 1 of 9 source rows read
-  Not yet examined. In the issue because the rotation reached it, not because a view has been formed.
-
-ETN — Eaton Corp plc (never covered before)
-  Misc Industrial & Commercial Machinery & Equipment · ai-physical-infrastructure, age-of-electricity · 1 of 12 source rows read
+D — DOMINION ENERGY, INC (never covered before)
+  Electric Services · age-of-electricity · 37 of 63 source rows read
   Not yet examined. In the issue because the rotation reached it, not because a view has been formed.
 
 NEE — NEXTERA ENERGY INC (never covered before)
-  Electric Services · age-of-electricity · 1 of 29 source rows read
+  Electric Services · age-of-electricity · 16 of 29 source rows read
   Not yet examined. In the issue because the rotation reached it, not because a view has been formed.
 
-Next up: PWR · TLN · VST · AEP · ALAB
+USAR — USA Rare Earth, Inc. (never covered before)
+  Metal Mining · critical-minerals-security · 8 of 16 source rows read
+  Not yet examined. In the issue because the rotation reached it, not because a view has been formed.
+
+Next up: NXE · CCJ · CEG · HUBB · JCI
 
 UNIVERSE CHANGES
 Entered: CMI, EME, MYRG, POWL, SPXC, TT
 
-Investo Master — Weekly Issue 2026-W32
-
-Data cut-off: 2026-08-08 (macro observations through July 2026; filing rows accessed 2026-08-08)
-
 1. Executive Summary
 
-Nothing in the store changed a thesis this week. Two things changed at all.
+The quarter's primary filings landed, and they resolved the Age of Electricity question in an unusual direction: the demand evidence got harder, and so did the evidence against the version of the story the market tells. GE Vernova disclosed a unit path rather than a narrative — gas turbine output planned at 20 GW annualised in Q3 2026, 24 GW in 2028, 30 GW in 2030 against 116 GW contracted or reserved (src-2026-w32-gev-gas-capacity) — while the EIA's own outlook puts US electricity demand growth at 0.9–1.6% a year through 2050, *below* the 2.1% of the past five years (src-2026-w32-eia-aeo-2026). Both are high-reliability primary sources. They are not reconcilable at the national level, and the store now holds the contradiction explicitly rather than only the bullish half.
 
-First, the labour data turned. US nonfarm payrolls fell 23,000 in July 2026, against +57,000 in June (src-2026-w32-fred-payems, src-2026-w30-fred-payems). Unemployment ticked down to 4.1% from 4.2% (src-2026-w32-fred-unrate). The effective federal funds rate was unchanged at 3.63% (src-2026-w32-fred-fedfunds). CPI in the store is still the June reading — headline 3.5%, core 2.6% (src-2026-w32-fred-cpiaucsl, src-2026-w32-fred-cpilfesl) — so no new inflation information.
+- Most important change: hyperscaler capital expenditure moved from press aggregate to filed fact. Q1 2026 combined capex across the four was $129.8B against $71.9B (src-2026-w32-hyperscaler-capex-q1) — but that run-rate annualises to $519B, materially below the ~$725B full-year figure the theme narrative leans on (src-2026-w32-hyperscaler-runrate). Amazon's Q2 stepped up 23% sequentially (src-2026-w32-amzn-capex-q2); the other three have not filed. The single most load-bearing input to every thesis in this store is a forward commitment, not an established rate.
+- Thesis upgrade: GE Vernova. Orders +88% organic, backlog $176B, guidance raised (src-2026-w32-gev-q2), and price down 6.4% since W29 (weekly_metrics).
+- Thesis downgrade: Vertiv — not on results, which were strong, but on disclosure. The Q2 release published no orders, no backlog and no book-to-bill (src-2026-w32-vrt-no-orders). That was the exact metric named as W29's open question (tu-2026-w29-vrt-baseline).
+- Biggest emerging risk: FERC rejected the amended Susquehanna interconnection agreement 2-1, pushing the arrangement front-of-the-meter (growth_estimates.csv: tln). Co-location structure, not electricity demand, is now the binding variable for merchant nuclear.
+- What deserves attention: CRDO rose 21.3% and RKLB 22.5% since W29 with no new operating evidence entering the store. MP fell 11.2% with its Q2 10-Q filed and unread.
 
-Second, the June-quarter reporting cycle landed and has not been read. Eighty-one company filing rows were collected, covering 35 of the 48 assets in the universe, including 25 quarterly reports for the period ending 2026-06-30. Every one carries the note "Contents not yet reviewed." Among them are the Vertiv 10-Q and 8-K of 2026-07-29 (src-edgar-000162828026050609, src-edgar-000162828026050323) and the MP Materials 10-Q of 2026-08-07 (src-edgar-000180136826000048). The GE Vernova 10-Q for the period ending 2026-06-30 (src-edgar-000199681026000148, filed 2026-07-22) also remains unreviewed from the prior collection.
-
-So the honest summary is that the binding constraint this week is not the availability of evidence but the reading of it. Three of five tracked candidates have a quarterly filing sitting unopened. The W29 scores, prices and thesis judgements are the most recent underwriting we have, and they are three weeks stale.
-
-- Strongest new idea: none. No candidate was surfaced.
-- Most important upgrade / downgrade: none. No thesis status changed.
-- Biggest emerging risk: a labour market that produced a negative payroll month while GEV and VRT carry W29 valuations of roughly $284.3B and $113.0B (src-2026-w29-gev-market, src-2026-w29-vrt-market) — struck when no cycle deterioration was evident.
-- What deserves attention: reading three quarterly filings, and finding out what the joint NextEra/Dominion merger-communication filings actually are.
-
-Sections omitted: §5 New Candidates (no candidate surfaced; universe unchanged) and §7 Scenario Analysis (the store holds no scenario rows for any asset, and no post-W29 prices or financials against which to build them — restating W29 assumptions would be padding).
+Section 7 (Scenario Analysis) is omitted. Every W32 row in weekly_metrics.csv has blank revenue, margin and net-cash fields; the store holds no per-share or terminal-value inputs this week, and five-scenario tables would be fabrication.
 
 2. Cycle Position
 
-Series · Latest · Prior · Observation date · Source
---- · ---: · ---: · --- · ---
-Effective fed funds rate · 3.63% · 3.63% · 2026-07-01 · src-2026-w32-fred-fedfunds
-Headline CPI, y/y · 3.5% · — · 2026-06-01 · src-2026-w32-fred-cpiaucsl
-Core CPI, y/y · 2.6% · — · 2026-06-01 · src-2026-w32-fred-cpilfesl
-Unemployment rate · 4.1% · 4.2% · 2026-07-01 · src-2026-w32-fred-unrate, src-2026-w30-fred-unrate
-Nonfarm payrolls, monthly change · −23,000 · +57,000 · 2026-07-01 · src-2026-w32-fred-payems, src-2026-w30-fred-payems
+The labour side of the regime board turned, and the two series disagree about which way. The stored caveat for PAYEMS is doing real work here: a single print is close to meaningless and frequently revised by more than the original surprise, and the three-month average is what carries information. The stored caveat for UNRATE is equally load-bearing — the rate can fall for a good reason or a bad one, and the level alone cannot tell you which. I am not treating this month as a turn.
 
-Two observations do not make a trend, and that is all the store holds for payrolls. But a negative print alongside a *falling* unemployment rate is an internal tension the store cannot resolve — the establishment and household survey detail that would explain it is not recorded. Treat the labour signal as unresolved rather than as confirmation of a downturn.
+What matters more for this store is that the easing has stalled: core has stopped falling and the policy rate has stopped declining. Watchlist multiples on capital-intensive, project-financed capacity implicitly assume further cuts. That assumption weakened this period without a single order book changing.
 
-Policy is unchanged, and core inflation at 2.6% is closer to target than headline at 3.5%. The combination of an unmoved policy rate and a possibly softening labour market is the classic setup in which rate expectations move faster than fundamentals.
+On where the buildout sits in its own cycle, the evidence points to *late in demand recognition, early in delivery*:
 
-Implication for the tracked themes, stated as inference rather than evidence: the two W29 thesis updates for GEV and VRT both concluded that demand was confirmed and valuation left little room for ordinary execution (tu-2026-w29-gev-baseline, tu-2026-w29-vrt-baseline). Both scored 1/10 on valuation asymmetry (scores.csv, 2026-07-18). Those judgements were made in a regime where labour data were expanding. If the cycle is turning, the relevant question is not whether data-centre load is real — the IEA and EIA rows already support that (src-2026-w29-iea-electricity, src-2026-w29-eia-aeo) — but whether hyperscaler capital expenditure plans are as cycle-insensitive as current pricing assumes. The store contains no evidence either way. We have no W32 prices at all, so we cannot even say whether the market has begun repricing this.
+- PJM's 2027/2028 base residual auction cleared at the FERC-approved cap of $333.44/MW-day and still fell 6,623 MW short of the reliability requirement (src-2026-w32-pjm-capacity). A market that clears at its administrative ceiling and remains short is not signalling a demand cycle; it is signalling a physical one.
+- Backlogs are growing at multiples of revenue across the chain — Eaton's electrical backlog +43% against 14% organic growth (src-2026-w32-etn-q2), GE Vernova's Electrification equipment backlog $40.6B, +69% (src-2026-w32-gev-dc-orders). Constraint is capacity, not orders.
+
+Counter-cyclical positioning inside the tracked universe is thin but real. Regulated rate base (NEE, AEP) earns an allowed return on invested capital irrespective of realised load, with political tolerance for bills as the ceiling — the $2.25B of Dominion customer bill credits prices that ceiling explicitly (src-2026-w32-nee-d-merger). Merchant generation is the opposite: VST's economics are directionally exposed to power prices both ways, and the same scarcity lifting them reverses if load forecasts prove high (growth_estimates.csv: vst).
+
+Where the present regime is assumed permanent: in the treatment of a 43% backlog build and a 41% order rate as demand rather than as customers reserving delivery slots. Eaton's own falsifier is the tell — order growth turning negative while backlog stays flat, the signature of cancelled duplicate orders (growth_estimates.csv: etn). Double-ordering is invisible until it unwinds.
 
 3. Structural Change Radar
 
-No macro or industry-level source carrying a theme_id was added this week. The most recent theme-level evidence rows all date to 2026-07-18: the IEA electricity and minerals work, the EIA outlook and the NRC advanced-reactor update.
-
-Theme · This period · Basis
+Theme · Direction · Dated evidence
 --- · --- · ---
-The Age of Electricity · Unchanged · No new theme-level source. Latest remains src-2026-w29-iea-electricity (2026-01-01, accessed 2026-07-18).
-AI Physical Infrastructure · Unchanged · No new theme-level source. Latest remains src-2026-w29-eia-aeo (2026-04-01).
-High-Speed Compute Connectivity · Unchanged · No new theme-level source; no new company evidence reviewed.
-Vertically Integrated Space · Unchanged · No new theme-level source; the Iridium transaction evidence is still the June filings (src-2026-w29-rklb-iridium).
-Critical Minerals Security · Unchanged · No new theme-level source. Latest remain src-2026-w29-iea-minerals (2026-07-16) and src-2026-w29-iea-rare-earths.
-Advanced Nuclear Enablers · Unchanged · No new theme-level source. Latest remains src-2026-w29-nrc (2026-04-15). Status stays monitoring.
+Age of Electricity · Strengthened, with a genuine counter-source now in the store · For: GEV Q2 2026-07-22 (src-2026-w32-gev-q2); ETN Q2 2026-07-30 (src-2026-w32-etn-q2); PWR Q2 2026-07-30, FY raised (src-2026-w32-pwr-q2); PJM auction (src-2026-w32-pjm-capacity); IEA global demand +3.6%/yr, data centres 415→945 TWh (src-2026-w32-iea-electricity-2026). Against: EIA AEO 0.9–1.6% US growth (src-2026-w32-eia-aeo-2026); capex run-rate gap (src-2026-w32-hyperscaler-runrate)
+AI Physical Infrastructure · Strengthened on demand, weakened on measurability · GEV data-centre orders >$5B YTD, more than double the 2025 total (src-2026-w32-gev-dc-orders); VRT sales +24%, margin +410bp (src-2026-w32-vrt-q2) — but orders and backlog withdrawn from disclosure (src-2026-w32-vrt-no-orders)
+High-Speed Compute Connectivity · Unchanged · No new operating evidence. ALAB and ANET 10-Qs filed 2026-08-05, contents not reviewed
+Vertically Integrated Space · Unchanged · No reviewed evidence since the June Iridium 8-K. The four 425s and the RDW, SATL, LUNR and KRMN filings are logged unread
+Critical Minerals Security · Policy strengthened; company evidence unknown · DPA §101 determination 2026-08-04 (src-fedreg-2026-15859); EO on defense supply chains 2026-07-23 (src-fedreg-2026-15003); two monument modifications 2026-07-17. All four: contents not reviewed, policy named, companies not. MP's Q2 10-Q (src-edgar-000180136826000048) unread
+Advanced Nuclear Enablers · Weakened on structure · FERC rejected the Susquehanna amended interconnection agreement 2-1 (growth_estimates.csv: tln)
 
-A deliberate discipline point: 81 new filings arrived across five of the six themes, and none of them can move a theme judgement, because none has been read. High filing *volume* is a fact about the calendar, not about structural change. Recording these themes as "unchanged" is the correct answer, not an evasion.
+The most expensive error in this store remains the third case — theme real, economics captured elsewhere — and this period produced three clean examples of a related failure: theme real, vehicle too large to feel it. Cummins' Power Systems grew 19% but is only ~24% of consolidated revenue, so consolidated growth arithmetic lands near 4.6% (growth_estimates.csv: cmi). Hubbell's data-centre sales grew 65% on a base bounded above by a 37% segment and never disclosed (growth_estimates.csv: hubb). Trane's Stellar Energy is $350M targeting >$1B against group revenue (growth_estimates.csv: tt). All three exposures are genuine. None has been shown capable of moving its parent.
 
 4. Signal Scanner
 
-The only observable signal this week is filing flow. Joining sources.csv to asset_themes.csv:
+Order and backlog signals, all from this period's issuer releases:
 
-Theme · Assets in universe · Assets with new filings (accessed 2026-08-08) · Quarterly reports (period ending 2026-06-30)
---- · ---: · --- · ---:
-AI Physical Infrastructure · 10 · pwr, smci, mod, nvt, etn, jci, hubb, carr, vrt · 9
-Age of Electricity · 10 · d, vst, nee, ceg, so, tln, duk, exc · 5
-Advanced Nuclear Enablers · 9 · oklo, leu, smr, uuuu, nxe, ccj, bwxt, dnn · 6 (plus 6-K filings)
-Vertically Integrated Space · 7 · rdw, krmn, satl, lunr · 3
-High-Speed Compute Connectivity · 9 · alab, anet, lite · 3
-Critical Minerals Security · 4 · usar, alb, mp · 3
+Asset · Signal · Source
+--- · --- · ---
+GEV · Orders $24.2B, +88% organic; backlog $176B; gas contracted+reserved 100→116 GW · src-2026-w32-gev-q2
+GEV · Electrification orders $6.3B +66% organic, book-to-bill ~1.7 · src-2026-w32-gev-dc-orders
+ETN · 12-month rolling orders +41% Americas, +33% Global; backlog +43% · src-2026-w32-etn-q2
+POWL · Fiscal Q2 orders $490M, book-to-bill 1.7x, gross margin 29.6%; >$400M data-centre order post-quarter, largest ever · growth_estimates.csv: powl
+TT · Orders +37%, backlog $12.1B; Americas applied bookings +130%, fourth consecutive triple-digit quarter · growth_estimates.csv: tt
+CEG · 920 MW of new PPAs at 18.5-year average duration · src-2026-w32-ceg-ppa (low reliability)
+VST · 20-year PPAs for >2,600 MW nuclear (2,176 MW operating + 433 MW uprates) · growth_estimates.csv: vst
+VRT · Adjusted operating margin 22.6%, +410bp; orders not disclosed · src-2026-w32-vrt-q2 / src-2026-w32-vrt-no-orders
 
-Three observations worth carrying forward.
+Management-language signal worth recording: Credo's CEO received performance RSUs tied to trailing four-quarter revenue goals from $2.5B to $7.5B and average stock-price goals from $244.70 to $489.40, over a period ending 2031-06-30 (src-edgar-000162828026039474). Against FY2026 revenue of $1.335B, the lowest revenue tranche requires an 87% increase. The lowest *price* hurdle has already been crossed — CRDO closed at $249.89 (weekly_metrics). Read as evidence of ambition and of how much of the incentive is price rather than delivery.
 
-A joint NextEra / Dominion transaction is visible in the filing metadata. Identical accession numbers appear under both CIKs — src-edgar-000110465926086666, ...86667, ...86699 (2026-07-24), ...83962, ...83963, ...84003 (2026-07-16), ...92381 (2026-08-07) — alongside a NextEra S-4 filed 2026-07-09 (src-edgar-000110465926082301). Form 425 and S-4 are merger-communication and registration forms. Two large age-of-electricity names appear to be party to the same transaction. Contents are unreviewed, so terms, direction and even the identity of the acquiring entity are unknown from the store. This is the highest-value unread item in the file, because a combination at that scale would change the competitive structure of the theme rather than just one company's numbers.
+5. New Candidates
 
-Two ai-physical-infrastructure names filed 425s. Modine on 2026-07-31 (src-edgar-000110465926089191) and Eaton on 2026-07-31 (src-edgar-000155118226000027… specifically the 425 at src-edgar-000095014226002234). These are separate accession numbers, so I make no inference that they relate to the same transaction or to each other. Both are unreviewed.
+No candidate is introduced for full workup. Six assets entered the universe on 2026-08-08 at universe tier — CMI, POWL, SPXC, TT, EME, MYRG — completing chain coverage of the Age of Electricity from prime-movers through build-and-install.
 
-Two tracked candidates filed nothing in this collection. No new Credo row since 2026-06-01 (src-edgar-000162828026039474) and no new Rocket Lab row since the 425 cluster of 2026-06-29. The W29 next checkpoint for Rocket Lab was explicitly "Form S-4, permanent financing plan, Neutron milestones and transaction approvals" (scores.csv). No S-4 for RKLB appears in the store. Absence of a row is not proof of non-filing — the collection may lag or the withheld rows may hold it — so this is an open question, not a finding.
+One deserves promotion work: Powell Industries (POWL). Book-to-bill of 1.7x with a post-quarter order above $400M against a small revenue base is the highest-torque arithmetic in the twenty (growth_estimates.csv: powl), and its own stated risk is the honest one — extreme order concentration, where one award is transformative and its absence is equally so. Recommended move: discovered → watchlist, dated 2026-08-08, conditional on reading the 10-Q filed 2026-08-04 (src-edgar-powl-000008042026000107). Note the evidence chain is incomplete: POWL's figures enter the store through growth_estimates.csv marked issuer_release, with no corresponding row in sources.csv.
 
-Also worth flagging as a collection artefact: the earliest filing in this batch is dated 2026-07-27 and all carry accessed_at 2026-08-08, which implies no separate W31 collection occurred. The batch spans two weeks of filings.
+Eight of the twenty chain rows read "Not yet verified from a primary filing in this store" (NVT, SPXC, BWXT, MOD, EME, MYRG, AEP, CCJ). Those are hypotheses, not candidates.
 
 6. Existing Thesis Updates
 
-No thesis_updates row was written for W32. All five active theses remain at their W29 baseline, and no kill criterion has been tested for any of them (kill_criterion_status: not_tested across all five rows).
+GE Vernova — strengthened. Q2 delivered on every W29 open question except one. Orders +88% organic, revenue +22% (+12% organic), backlog $176B, FY26 guidance raised to $45.5–46.5B revenue and $11.5–12.5B free cash flow (src-2026-w32-gev-q2). The unit path is now disclosed rather than inferred (src-2026-w32-gev-gas-capacity). The new and specific risk: of 116 GW, only 53 GW is firm backlog — 63 GW is slot reservations whose conversion rate under a capex slowdown has never been observed (growth_estimates.csv: gev). Kill criterion not triggered. Valuation: market cap $263.8B (weekly_metrics) against guided FY26 FCF implies roughly 21–23× (Investo Master arithmetic on the two rows named). Price fell 6.4% while guidance rose — expected return improved, from a demanding base.
 
-Asset · Stage · Thesis status · Change this week · Pending evidence in store
---- · --- · --- · --- · ---
-GE Vernova (gev) · Watchlist · Unchanged from tu-2026-w29-gev-baseline · None reviewed · 10-Q and 8-K of 2026-07-22 (src-edgar-000199681026000148, src-edgar-000199681026000147) unreviewed
-Vertiv (vrt) · Watchlist · Unchanged from tu-2026-w29-vrt-baseline · None reviewed · 10-Q and 8-K of 2026-07-29 (src-edgar-000162828026050609, src-edgar-000162828026050323) unreviewed
-MP Materials (mp) · Researching · Unchanged from tu-2026-w29-mp-baseline · None reviewed · 10-Q of 2026-08-07 and 8-K of 2026-08-06 (src-edgar-000180136826000048, src-edgar-000180136826000047) unreviewed
-Credo (crdo) · Researching · Unchanged from tu-2026-w29-crdo-baseline · None · No filing since 2026-06-01
-Rocket Lab (rklb) · Researching · Unchanged from tu-2026-w29-rklb-baseline · None · S-4 checkpoint not present in store
+Vertiv — mixed, net weaker. Results strengthened: net sales $3,274M +24% (18% organic), adjusted operating margin +410bp, FY26 organic guidance 30–32% (src-2026-w32-vrt-q2). But the release published no orders, no backlog and no book-to-bill (src-2026-w32-vrt-no-orders), which is precisely the durability question W29 flagged. A company cannot be advanced on the strength of a metric its issuer has stopped publishing. Market cap $104.9B against guided adjusted FCF of $2.4–2.6B is roughly 40–44× (Investo Master arithmetic; note this is *adjusted* FCF, not the comparable GEV basis). Widest gap between business quality and price in the store. Remains watchlist.
 
-The W29 open questions all stand unanswered: what portion of GEV's data-centre orders is repeatable and at what backlog margin; how durable VRT's book-to-bill is; what MP's magnet chain earns without the $110/kg floor that contributed $42.3M of price-protection income in Q1 (src-2026-w29-mp-10q); whether Credo can diversify away from two customers at 49% and 32% of FY2026 revenue (src-2026-w29-crdo-10k); and what Rocket Lab's fully financed per-share return distribution looks like after a transaction supported by a $3.6B bridge commitment (src-2026-w29-rklb-iridium).
+Credo — unchanged on evidence, materially worse on price. No new operating disclosure this period. Price +21.3% and market cap $38.4B → $46.6B. The W29 question — whether customer concentration (81% across two customers, FY2026 10-K) can fall without a growth reset — is exactly where it was, and now costs 21% more to underwrite.
+
+Rocket Lab — unchanged on evidence, worse on price. +22.5%; market cap $47.9B. The per-share question is unanswered and unanswerable from the store: the S-4 is not held, the four 425s are unread, and the financing stack combines a $3.6B bridge (src-2026-w29-rklb-iridium) with a $3.0B equity distribution agreement (src-edgar-000181999426000045). Until dilution is quantified, no further advance.
+
+MP Materials — cannot be updated. Price -11.2%, and the Q2 10-Q filed 2026-08-07 and 8-K filed 2026-08-06 are both logged unreviewed. Policy support strengthened at the federal level, but from document titles only. Additionally, MP's market cap rose from $8.09B to $9.10B while its price fell — this reflects a change in market-cap methodology between W29 (third-party snapshot) and W32 (derived from the 10-Q share count), not an observed change in shares. Do not read it as dilution; do not read it as anything until the filing is read.
 
 8. Decision Dashboard
 
-Stage · Assets · Count
---- · --- · ---:
-Discovered · 43 universe-tier assets (assets.csv, added 2026-07-26) · 43
-Watchlist · gev, vrt · 2
-Researching · crdo, rklb, mp · 3
-High Conviction · — · 0
-Waiting for Price · — · 0
-Owned · — · 0
-Rejected · — · 0
-Thesis Broken · — · 0
+Stage · Assets · Note
+--- · --- · ---
+Discovered · 49 universe-tier assets · Six added 2026-08-08 (CMI, POWL, SPXC, TT, EME, MYRG)
+Watchlist · GEV, VRT · GEV thesis strengthened 2026-08-08; VRT forward disclosure withdrawn 2026-07-29
+Researching · CRDO, RKLB, MP · No stage change; MP's Q2 filing unread
+High Conviction · — · 
+Waiting for Price · — · 
+Owned · — · Not supplied by the investor
+Rejected / Thesis Broken · — · 
 
-No stage change occurred this week, so there is no dated reason to record.
+Recommended change, dated 2026-08-08: POWL discovered → watchlist, reason — book-to-bill 1.7x and a record post-quarter order at the grid-equipment bottleneck, conditional on primary verification.
 
-Gate ledger. All 13 decision gates read not_assessed for all five candidates — gev, vrt, crdo, rklb and mp (gates.csv, no assessed_date on any row). Outstanding gate numbers for each of the five: 1 through 13, inclusive. No candidate is eligible for decision review, and none can become eligible until the ledger is worked through against reviewed primary evidence.
-
-Distance to actionable, stated plainly: *interesting* describes all five. *High conviction* describes none. *Actionable at this price* describes none — and both W29 valuation-asymmetry scores in the watchlist tier were 1 out of 10.
-
-9. Research Queue
-
-Ranked by value of the answer, not by ease.
-
-1. Read the three unreviewed quarterly filings for tracked candidates — GEV (src-edgar-000199681026000148), VRT (src-edgar-000162828026050609), MP (src-edgar-000180136826000048). Each maps directly onto a stated W29 next checkpoint: GEV segment orders and backlog margin composition; VRT organic orders, book-to-bill and cancellation commentary; MP 10X budget, Independence yields and the split between price-protection income and unsupported economics.
-2. Establish what the NEE/D 425 and S-4 cluster is. Read src-edgar-000110465926082301 (NEE S-4, 2026-07-09) and the most recent joint 425 (src-edgar-000110465926092381, 2026-08-07). A transaction between two of the ten age-of-electricity names changes the theme's structure, not just a screen entry.
-3. Locate or rule out the Rocket Lab S-4. The W29 checkpoint cannot be evaluated without it. If it has not been filed, that delay is itself information about the Iridium timetable.
-4. Refresh W32 weekly metrics. Without prices and market caps we cannot say whether a softening labour market has moved the valuations that drove the 1/10 asymmetry scores. This is the cheapest gap to close and currently blocks any re-underwriting.
-5. Read the Eaton and Modine 425s (src-edgar-000095014226002234, src-edgar-000110465926089191) to determine whether either involves a ai-physical-infrastructure asset already in the universe.
-6. Explain the July payroll/unemployment divergence with primary BLS detail rather than the FRED level series alone.
-7. Begin gate 1 and gate 2 documentation for whichever candidate the Q2 filings most clarify. Thirteen unassessed gates across five candidates is the structural reason nothing can advance; it should start being reduced.
+Gate ledger: all thirteen gates read not_assessed for GEV, VRT, CRDO, RKLB and MP. Outstanding for every candidate: gates 1–13. No asset is eligible for decision review.
 
 10. Data gaps
 
-Stated as gaps rather than worked around:
-
-- No W32 prices, market caps or financial metrics. weekly_metrics.csv holds only 2026-07-18 rows. Every valuation reference in this issue is three weeks old and labelled as such. We cannot assess expected return, asymmetry or whether the cycle signal has been priced.
-- No W32 scores. scores.csv ends at 2026-W29. Rankings and confidence levels in this issue are carried forward, not re-derived.
-- Eighty-one filings are collected but unread. This includes 25 quarterly reports for the period ending 2026-06-30 and every filing for GEV, VRT and MP since the W29 baseline. This is the largest gap in the store by a wide margin.
-- No July CPI. The inflation rows in the W32 macro set carry a June observation date. Any statement about the inflation trajectory into July would be invention.
-- Payroll history is two observations deep. June and July only. Insufficient to characterise a trend.
-- The store holds no scenario data for any asset. There is no failure/bear/base/bull/generational structure recorded for gev, vrt, crdo, rklb or mp. §7 was omitted for that reason.
-- Every gate for every candidate is not_assessed. The ledger contains no evidence references and no assessment dates.
-- Universe source history is incomplete in this working set. 231 older source rows for universe-tier assets were withheld. Statements about which universe assets have or have not filed are statements about the visible rows only.
-- Filing metadata does not describe contents. Where a form type implies something (a 425 implies merger communication), I have said so and stopped there. Counterparties, terms and consideration for the NEE/D, ETN and MOD filings are unknown from the store.
-- No W31 collection appears to have occurred. The batch accessed 2026-08-08 covers filings from 2026-07-27, spanning two weeks. Whether anything between collections was missed cannot be determined from the store.
-- Forty-three universe-tier assets carry last_reviewed_date blank and notes reading "Web-sourced lead, unverified thesis." Their theme mappings are screen assignments, not researched conclusions.
+- Gates. 65 of 65 gate rows are not_assessed. The store contains no gate assessments at all, so the distance from researching to actionable is currently unmeasured rather than merely large.
+- No W32 scores and no W32 thesis_updates rows. Score movement cannot be reported; this narrative is the update of record.
+- All W32 fundamentals are blank — revenue, growth, margins, net cash. Valuation work this week is limited to market cap against issuer guidance.
+- MP Q2 2026 unread — the highest-priority unread document in the store, against an 11% price decline and a thesis whose Q1 profitability included $42.3M of price-protection income.
+- Three of four hyperscalers have not filed Q2 capex in this store. The second-half step-up on which the ~$725B aggregate depends rests on one company.
+- Four Federal Register critical-minerals documents unreviewed. Direction inferred from titles; no mechanism, no named beneficiary.
+- Incomplete citation chains. POWL's order figures and TLN's FERC rejection enter only through growth_estimates.csv, with no sources.csv row. The FERC order itself is not held.
+- Low-reliability load-bearing sources: the CEG PPA data (secondary press, issuer release unread), transformer and switchgear lead times (trade press), and the $725B capex aggregate (press aggregation).
+- Unusable market caps. Share counts for LEU (2022-03-01), SATL (2022-04-25) and LUNR (2023-03-29) are years stale; AEP, HUBB, JCI, SMR, PL and ASTS have no market cap at all. Cross-week market-cap comparisons are not clean for any asset given the W29→W32 methodology change.
+- No new inflation print. The W32 macro row carries the June observation.
 
 11. Action posture
 
-Continue research.
+No action.
 
-Not "no action," because there is a specific, identified body of unread primary evidence — three quarterly filings on tracked candidates and a probable large-cap utility merger inside a core theme — that bears directly on questions we have already written down as checkpoints. The work is defined and the sources are in hand.
+Three independent reasons, none of which is discomfort with waiting. First, the gate ledger is empty: not one of the thirteen decision gates is documented for any candidate, so no asset can be proposed for decision review regardless of what the price does. Second, the two names whose theses strengthened this week trade at roughly 21–23× (GEV) and 40–44× (VRT) guided cash flow, and the store holds no scenario inputs with which to test whether either is asymmetric. Third, the two names that rose more than 20% produced no new evidence at all — the correct response to price moving without facts is to do nothing, and to notice that the thing which improved was other people's opinion.
 
-Not "waiting for price," because we do not currently know the price. And not "decision review," which is not arguable: all 13 gates are not_assessed for all five candidates, so no asset is eligible under the conviction policy regardless of what the filings turn out to say.
+The most valuable outcome of this week is not GE Vernova's order book. It is that the EIA's demand forecast and the hyperscaler capex run-rate now sit in the store as high-reliability contradictions, next to the bull case, dated. A theme that survives its own disconfirming evidence is worth more than one that has never met any.
 
-The labour print deserves attention but not reaction. One negative payroll month, against an unchanged policy rate and an unmoved core inflation reading, is a reason to re-examine what the W29 valuations assume about the durability of AI capital expenditure — it is not evidence about any tracked business. Nothing this week brought evidence, asymmetry and price into alignment. The correct behaviour is to read what has already arrived.
+9. Research Queue
+
+1. Read MP's Q2 10-Q and 8-K (src-edgar-000180136826000048, src-edgar-000180136826000047). Isolate price-protection income and magnetics gross margin; answer what the chain earns without the $110/kg floor.
+2. Read GEV's 10-Q (src-edgar-000199681026000148) for the 53 GW / 63 GW split and backlog margin. Then open gates 1, 2, 3 and 11 — GEV has the most primary evidence of any candidate and the emptiest ledger.
+3. Determine whether VRT's 10-Q or slide deck restores orders and backlog (src-edgar-000162828026050609). If not, formally downgrade the forward-indicator evidence quality and record that the W29 checkpoint is now unobservable.
+4. Pull Microsoft, Alphabet and Meta Q2 2026 capex from XBRL and test the second-half step-up against Amazon's +23% sequential.
+5. Obtain the RKLB S-4 and quantify per-share dilution across the $3.6B bridge and $3.0B ATM against Iridium's contribution.
+6. Verify POWL's orders, book-to-bill and whether the >$400M award has entered backlog (src-edgar-powl-000008042026000107), and create the missing sources.csv row.
+7. Source the FERC Susquehanna order directly; establish whether front-of-the-meter economics are materially worse than the rejected structure.
+8. Reconcile IEA 3.6% global against EIA 0.9–1.6% US. Decide which geography and which unit the Age of Electricity thesis is actually about — the answer changes which layer of the chain captures the economics.
+9. Read the four Federal Register critical-minerals documents and establish whether any names a mechanism reaching MP or USAR.
+10. Replace the CEG secondary source with the issuer release.
+11. Process: populate W32 scores; standardise market-cap methodology so cross-week comparisons are valid.
+
+*Data cut-off: 2026-08-08. Prices observed 2026-08-07. This is research, not advice; no position is recommended.*
 
 SAFETY BOUNDARY
 Research and decision support only. No trades, promised returns, or personalised financial, tax or legal advice. The human investor retains responsibility for every decision.
