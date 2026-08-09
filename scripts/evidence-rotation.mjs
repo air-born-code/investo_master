@@ -35,7 +35,16 @@ const flag = (name) => {
 };
 const dryRun = args.includes('--dry-run');
 const root = path.resolve(flag('root') ?? process.cwd());
-const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-5';
+// Reading a filing is bounded extraction from one document, not synthesis, so it
+// does not need the model that writes the weekly issue — and across a queue of
+// several hundred batches the price difference is the whole cost of working it
+// down: measured over ten batches, $0.0045 each against $0.041 on claude-opus-5.
+//
+// Deliberately its own variable rather than OPENROUTER_MODEL, which draft-issue.mjs
+// also reads: a single shared variable means any attempt to make the cheap model
+// stick here silently downgrades the weekly narrative too. Set EVIDENCE_MODEL to
+// override just this script; nothing here changes what writes the issue.
+const model = process.env.EVIDENCE_MODEL || 'deepseek/deepseek-v4-pro';
 const maxDocs = Number(flag('max-docs') ?? 6);
 const maxChars = Number(flag('max-chars') ?? 20_000);
 
