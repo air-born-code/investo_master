@@ -770,6 +770,37 @@ await Promise.all([
   writeFile(path.join(reportDir, 'email.txt'), `${text}\n`, 'utf8'),
 ]);
 
+// The comment sidecar, written once and then left alone forever. Every other file
+// above is regenerated on each build, so a note written into one of them would be
+// destroyed by the next rebuild; this is the file that survives. Created empty so
+// that the place to write is already there when the issue is read, rather than
+// having to be remembered.
+const commentsPath = path.join(reportDir, 'comments.md');
+const commentsExists = await readFile(commentsPath, 'utf8').then(() => true).catch(() => false);
+if (!commentsExists) {
+  await writeFile(commentsPath, [
+    `# Comments — Issue ${issue} (${weekId})`,
+    '',
+    'Write freely. Anything marked `@comment` is harvested into `data/issue_comments.csv`',
+    'by `npm run comments:scan`, and next week\'s issue has to answer it before it writes',
+    'anything else. A comment is attributed to the nearest heading above it, so putting it',
+    'under the right heading is the only addressing needed.',
+    '',
+    'Two forms, both equivalent:',
+    '',
+    '    <!-- @comment Why is this layer core rather than adjacent? -->',
+    '',
+    '    @comment: Why is this layer core rather than adjacent?',
+    '',
+    'This file is created once and never rewritten by the build. Comments in report.md',
+    'are also picked up, but that file IS regenerated, so anything left there is lost on',
+    'the next rebuild unless it has been scanned first.',
+    '',
+    '---',
+    '',
+  ].join('\n'), 'utf8');
+}
+
 const relative = path.relative(root, reportDir);
 
 // Hand the path to the next workflow step rather than making it recompute it.

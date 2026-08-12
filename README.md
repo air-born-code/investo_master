@@ -88,6 +88,37 @@ recorded as a dated baseline to check against; they may be cited as claims, attr
 evidence. `research/sections/digital-assets.md` sets out where the thread that opened the section
 does not survive checking.
 
+## Commenting on an issue
+
+Every built issue gets a `comments.md` sidecar next to `report.md`. Write in it freely; anything
+marked `@comment` becomes a tracked row in `data/issue_comments.csv`, and the next issue has to
+answer it before it writes anything else.
+
+```
+<!-- @comment Why is this layer core rather than adjacent? -->
+```
+
+A bare `@comment: ...` line works identically. A comment is attributed to **the nearest heading
+above it**, so writing it under the right heading is the only addressing there is — no anchors or
+ids to look up.
+
+| Command | Does |
+| --- | --- |
+| `npm run comments:scan` | Harvest comments into the CSV. Idempotent — a comment left in place is recorded once. |
+| `npm run comments:list` | Show what is still open. |
+| `npm run comments:add -- --section "Cycle Position" --text "..."` | Add one without opening the file. |
+| `npm run comments:close -- cmt-2026-W33-cycle-position-01 --note "..."` | Mark it answered. |
+
+Comments in `report.md` are picked up too, but **that file is regenerated on every build**, so
+anything left there is lost on the next rebuild unless it has been scanned first. `comments.md` is
+written once and never touched by the build, which is why it is the safe place. The workflow runs
+the harvest before both the draft and the issue rebuild for exactly this reason.
+
+Comments are never deleted. An answered one becomes `addressed` with the week that answered it,
+because the record exists to show whether a question actually got dealt with — and deleting it
+would erase precisely that. Closing is a human step: the model is instructed that it may never mark
+its own answer as sufficient.
+
 ## The frontier tier
 
 Active themes describe what is already investable. A separate and deliberately lower-quality tier tracks what might become a theme, on the argument that the two largest waves of the last twenty-five years — the internet and AI — were both publicly observable for years before attention arrived, and that attention itself is a lagging indicator.

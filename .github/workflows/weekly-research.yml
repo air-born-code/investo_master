@@ -93,6 +93,14 @@ jobs:
         continue-on-error: true
         run: npm run ingest:crypto
 
+      # Harvest reader comments left on issues already sent, BEFORE the draft runs,
+      # so the model sees them and has to answer them. It must also run before the
+      # issue build below, which regenerates report.md and would destroy a comment
+      # written there that had not yet been recorded.
+      - name: Harvest reader comments
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run comments:scan
+
       # Reported, not enforced. Every asset is currently incomplete by design, so
       # --strict would fail every build; the point is that the number is visible
       # in the log and in the issue rather than being rediscovered each week.

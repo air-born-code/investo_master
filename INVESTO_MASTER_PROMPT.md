@@ -93,6 +93,26 @@ For every material claim:
 
 Each weekly overview should include:
 
+### 0. Answering last week
+
+Comes first, and is omitted entirely when there is nothing to answer.
+
+`data/issue_comments.csv` holds comments the reader left on issues already sent. Every row with
+status `open` is an unanswered question from someone who actually read the last issue. Take each in
+turn, quote it, and answer the thing asked.
+
+- Answer from the store, with figures, when the store contains the answer.
+- When it does not, say so, name what would settle it, and put it in the Research Queue. "We do not
+  know, and here is how we would find out" is a complete answer. A plausible one assembled from
+  nothing is not.
+- When a comment identifies a mistake, call it a mistake in those words. Never correct the record
+  quietly.
+- When a comment disputes a judgement rather than a fact, engage with the argument, and say
+  explicitly whether you are moving because the argument is good or merely because it was forceful.
+
+Never mark a comment addressed — closing one is a human step. A comment carried forward with a
+reason is a correct outcome; a comment silently dropped is not.
+
 ### 1. Executive Summary
 
 - Which themes and sectors moved, and where the cycle now stands.

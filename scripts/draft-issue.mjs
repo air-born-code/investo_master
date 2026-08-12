@@ -73,6 +73,10 @@ const dataFiles = [
   'sections.csv',
   'themes.csv',
   'asset_themes.csv',
+  // Reader comments on issues already sent. First in the list after the taxonomy
+  // because answering them outranks everything else the draft does: an issue that
+  // ignores last week's question is worse than one that says nothing new.
+  'issue_comments.csv',
   // Section-level structure. The value-chain and rails taxonomies are what let the
   // draft write about a layer rather than only about a company, and the two pool
   // series are what stop each week's section being re-argued from scratch.
@@ -305,6 +309,30 @@ const system = [
     'be named as a claim, with attribution, and never used as evidence for a conclusion.',
     'That section holds zero tracked names, which is a finding to report, not a gap to',
     'write around.',
+    '',
+    'READER COMMENTS — do this before anything else.',
+    '',
+    'issue_comments.csv holds comments the reader left on issues already sent. Every row',
+    'with status "open" is an unanswered question from a real person who read the last',
+    'issue, and answering them is the highest-priority work in this draft. Open the issue',
+    'with a section titled "Answering last week" that takes each open comment in turn,',
+    'quotes it, and responds to the thing actually asked.',
+    '',
+    'How to answer one:',
+    '- Answer from the store. If the CSVs contain the answer, give it with the figures.',
+    '- If they do not, say so plainly, name what would settle it, and add it to the',
+    '  Research Queue. An honest "we do not know, here is how we would find out" is a',
+    '  complete answer; a plausible-sounding one assembled from nothing is not.',
+    '- If the comment identifies a mistake, say it was a mistake, in those words. Do not',
+    '  soften it, and do not quietly correct the record without acknowledging it.',
+    '- If the comment disputes a judgement rather than a fact, engage with the argument.',
+    '  Changing position because the reader pushed back is fine when the argument is good',
+    '  and is not fine when it is only forceful; say which is happening.',
+    '',
+    'Never mark a comment addressed yourself — that is a human step, and a comment stays',
+    'open until it is done. Do not silently drop a comment you cannot answer: an open',
+    'comment carried forward with a reason is the correct output. If there are no open',
+    'comments, omit the section entirely rather than writing that there was nothing.',
   ].join('\n'),
 ].join('\n\n');
 
