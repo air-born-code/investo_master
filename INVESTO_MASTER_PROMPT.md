@@ -31,6 +31,8 @@ The objective is not to predict short-term prices. The objective is to identify 
 - Do not exclude an opportunity merely because it is volatile. Distinguish temporary price declines from permanent impairment of value.
 - Maintain a tracked universe of roughly 50–100 companies, selected for exposure to the themes above rather than for individual appeal. The universe sits above the Decision Dashboard stages: membership implies coverage, not interest.
 - Record for every company in the universe why it is there and which theme it expresses. A company that expresses no tracked theme should be removed or the theme should be made explicit.
+- Themes sit inside **sections** (`data/sections.csv`), which are the top level of the taxonomy. A theme with no section is a gap in the taxonomy and should be visible as one rather than silently tolerated.
+- Coverage is judged at the section level as well as the name level. A section can hold fifty names and still be absent from the layers where its economics accumulate; counting names is not the same as covering a chain.
 - Candidates may enter the funnel by screen as well as by inspiration. State which screen surfaced a candidate when one did.
 
 ## Intellectual Foundations
@@ -134,11 +136,65 @@ wrong or incomplete, say so explicitly as a recommended amendment rather than qu
 
 ### 3. Structural Change Radar
 
-Track changes in technology cost curves, capital expenditure, regulation, consumer behaviour, demographics, energy, supply chains, and geopolitics. Explain which industries and companies could benefit or suffer.
+Themes are organised into **sections**, defined in `data/sections.csv`. The radar is written section
+by section, in the order below, because a theme's evidence means something different depending on
+where in its section's value chain it sits.
 
-For every tracked theme, state whether the evidence this period strengthened it, weakened it, or left it unchanged, and which dated evidence supports that judgement. A theme with no new evidence should be recorded as unchanged rather than restated.
+- **Artificial Intelligence.** The parent section. Contains the Age of Electricity, AI physical
+  infrastructure, high-speed connectivity and advanced nuclear. **Electricity is a layer of the AI
+  value chain, not a peer of it**, and must be written that way: the returns available to a turbine
+  maker or a switchgear supplier cannot be assessed without the chain above them, which decides how
+  much money reaches that layer at all.
+- **Digital Assets.** Stablecoin settlement rails and agentic commerce. Kept separate from AI on
+  purpose. The demand hypothesis overlaps, but the binding constraints are regulatory and monetary
+  rather than industrial and the falsifiers are different, so nesting it under AI would import the
+  AI narrative as an assumption instead of testing it. Say so if a week's evidence starts to
+  collapse that distinction.
+- **Industrial Frontier.** Space platforms and critical minerals.
 
-Distinguish a theme that is real but early, real but already priced, and real but captured by someone other than the obvious beneficiary. The third case is the most common and the most expensive to miss.
+Within each section, track changes in technology cost curves, capital expenditure, regulation,
+consumer behaviour, demographics, energy, supply chains, and geopolitics. Explain which industries
+and companies could benefit or suffer.
+
+For every tracked theme, state whether the evidence this period strengthened it, weakened it, or
+left it unchanged, and which dated evidence supports that judgement. A theme with no new evidence
+should be recorded as unchanged rather than restated.
+
+Distinguish a theme that is real but early, real but already priced, and real but captured by
+someone other than the obvious beneficiary. The third case is the most common and the most expensive
+to miss.
+
+#### 3a. The AI profit pool
+
+**Do not restate the layer table.** The publishing pipeline renders a value-chain board from
+`ai_value_chain.csv` and `ai_profit_pool.csv` showing, for every layer: the benchmark profit per
+dollar of AI spend, how many names we track there, our aggregate market value in that layer and its
+change on the week. Reproducing those figures duplicates them in the same document.
+
+The benchmark cents are **one house's estimate on one date** — an iCapital exhibit dated July 2026
+that publishes no allocation methodology. They are frozen as a dated reference point and are never
+recomputed. Do not present them as measured, and do not build an argument that only works if they
+are precise. What updates weekly is our own position, not the estimate.
+
+Your job here is the interpretation the board cannot do:
+
+- Whether profit is moving down the stack toward the physical layers as the buildout matures, or
+  staying concentrated at the top. This is the series' whole purpose; one observation is not a trend
+  and should not be written as one.
+- What our own concentration implies. We cover roughly 7.7¢ of every AI dollar directly, 13.0¢ only
+  adjacently, and 38.5¢ not at all — including the largest single slice. State plainly when a week's
+  evidence bears on whether that is a defensible mandate choice or unexamined drift.
+- Whether the external funding entering at the model layer is still arriving. It is the chain's
+  least durable input and the layer that places the orders every tracked name depends on.
+
+#### 3b. Digital-asset rails
+
+The section currently holds **zero tracked names**, and that absence is a finding to be restated, not
+a gap to be quietly filled. Report the float — stablecoin supply, its composition and where it sits —
+from `agent_traffic.csv`, and say what moved. Do not use token prices as a thesis input.
+
+Claims in that file whose `data_quality` begins with `UNVERIFIED` are second-hand reports of
+management statements. They may be cited as claims, attributed, and never as evidence.
 
 ### 4. Signal Scanner
 

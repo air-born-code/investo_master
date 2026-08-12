@@ -60,12 +60,14 @@ const e = (v) => String(v ?? '')
   .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 
-const [assets, themes, links, scores, metrics, macro, gates, sources, macroSpecs, macroHistory] =
+const [assets, themes, links, scores, metrics, macro, gates, sources, macroSpecs, macroHistory,
+  sections, aiChain, aiPool, cryptoRails, agentSeries] =
   await Promise.all([
     readTable('assets.csv'), readTable('themes.csv'), readTable('asset_themes.csv'),
     readTable('scores.csv'), readTable('weekly_metrics.csv'), readTable('macro.csv'),
     readTable('gates.csv'), readTable('sources.csv'), readTable('macro_series.csv'),
-    readTable('macro_history.csv'),
+    readTable('macro_history.csv'), readTable('sections.csv'), readTable('ai_value_chain.csv'),
+    readTable('ai_profit_pool.csv'), readTable('crypto_rails.csv'), readTable('agent_traffic.csv'),
   ]);
 
 // --- issues -------------------------------------------------------------------
@@ -84,9 +86,13 @@ issues.sort((a, b) => (a.week_id < b.week_id ? 1 : -1));
 const latest = issues[0];
 
 // --- shared layout ------------------------------------------------------------
+// Sections sit above themes in the navigation as well as in the store. Electricity
+// is indented under AI rather than listed beside it, because it is a layer of the AI
+// value chain and presenting the two as peers is the framing the restructure removes.
 const NAV = [
   ['index.html', 'Dashboard'], ['coverage.html', 'Coverage'], ['universe.html', 'Universe'],
-  ['themes.html', 'Themes'], ['electricity.html', 'Electricity'], ['gates.html', 'Gates'],
+  ['ai.html', 'AI'], ['electricity.html', '· Electricity'], ['crypto.html', 'Digital Assets'],
+  ['themes.html', 'Themes'], ['gates.html', 'Gates'],
   ['evidence.html', 'Evidence'], ['archive.html', 'Archive'],
 ];
 
@@ -285,22 +291,287 @@ ${table(['Symbol', 'Name', 'Tier', 'Stage', 'Industry', 'Themes'],
 `;
 
 // --- themes -------------------------------------------------------------------
-const themesPage = `
-<h1>Themes</h1>
-<p class="sub">Structural changes being tracked, and the assets that express them.</p>
-${themes.map((t) => {
+// Grouped by section. A theme with no section_id is rendered under "Unsectioned"
+// rather than silently dropped — an unclassified theme is a gap in the taxonomy and
+// should be visible as one.
+const themeBlock = (t) => {
   const members = links.filter((l) => l.theme_id === t.theme_id);
-  return `<h2>${e(t.name)}</h2>
+  return `<h3 style="font-family:Georgia,serif;font-weight:500;font-size:17px;margin:22px 0 8px">${e(t.name)}</h3>
   <p class="sub"><span class="pill ${t.status === 'active' ? 'cand' : 'warn'}">${e(t.status)}</span>
   &nbsp;${e(t.time_horizon)} · ${e(t.confidence)} confidence</p>
   <p style="margin:-12px 0 14px">${e(t.summary)}</p>
-  ${table(['Symbol', 'Name', 'Role', '>Relevance'], members.map((m) => `<tr>
+  ${members.length ? table(['Symbol', 'Name', 'Role', '>Relevance'], members.map((m) => `<tr>
     <td><strong>${e(symbolOf.get(m.asset_id) ?? m.asset_id)}</strong></td>
     <td>${e(nameOf.get(m.asset_id))}</td>
     <td>${e(m.role)}</td>
-    <td class="r">${e(m.relevance)}</td></tr>`))}`;
+    <td class="r">${e(m.relevance)}</td></tr>`))
+    : '<p class="sub">No assets tracked against this theme yet. The absence is the current finding.</p>'}`;
+};
+
+const sectionOrder = sections.length
+  ? sections.map((s) => s.section_id)
+  : [...new Set(themes.map((t) => t.section_id).filter(Boolean))];
+const unsectioned = themes.filter((t) => !sectionOrder.includes(t.section_id));
+
+const themesPage = `
+<h1>Themes</h1>
+<p class="sub">Structural changes being tracked, and the assets that express them.
+Themes sit inside sections; ${e(sections.length)} sections, ${e(themes.length)} themes.</p>
+${sectionOrder.map((id) => {
+  const section = sections.find((s) => s.section_id === id);
+  const members = themes.filter((t) => t.section_id === id);
+  if (!members.length) return '';
+  return `<h2>${e(section?.name ?? id)}</h2>
+  <p class="sub" style="margin-bottom:6px">${e(section?.summary ?? '')}</p>
+  ${members.map(themeBlock).join('')}`;
 }).join('')}
+${unsectioned.length ? `<h2>Unsectioned</h2>
+<p class="sub">Themes not yet assigned to a section. This list should normally be empty.</p>
+${unsectioned.map(themeBlock).join('')}` : ''}
 `;
+
+// --- AI section ---------------------------------------------------------------
+// The parent section. The point of this page is the one comparison no per-theme page
+// can make: where the benchmark says profit sits, against where our coverage sits.
+// The cents are a single third-party estimate on a single date and are labelled as
+// such everywhere they appear — the page is built so a reader cannot mistake the
+// benchmark for a measurement.
+const aiSection = sections.find((s) => s.section_id === 'ai');
+const aiThemes = themes.filter((t) => t.section_id === 'ai');
+const poolWeek = [...new Set(aiPool.map((r) => r.week_id))].sort().at(-1);
+const poolRows = aiPool.filter((r) => r.week_id === poolWeek);
+const poolOf = new Map(poolRows.map((r) => [r.layer_id, r]));
+
+const centsIn = (cls) => aiChain
+  .filter((l) => (l.exposure_class || 'none') === cls)
+  .reduce((sum, l) => sum + Math.max(Number(l.profit_cents) || 0, 0), 0);
+const coreCents = centsIn('core');
+const adjacentCents = centsIn('adjacent');
+const noneCents = centsIn('none');
+const chainNameCount = aiChain.reduce((sum, l) => {
+  const ids = (l.asset_ids || '').split(',').filter(Boolean);
+  return sum + (l.parent_layer_id === 'dc-chips-servers' && l.layer_id === 'custom-asics' ? 0 : ids.length);
+}, 0);
+
+// A profit bar scaled to the largest slice, so 29.7c against 0.2c is visible as the
+// order-of-magnitude difference it is rather than two similar-looking table cells.
+const centsMax = Math.max(...aiChain.map((l) => Number(l.profit_cents) || 0), 1);
+const centsBar = (cents, cls) => {
+  const v = Number(cents);
+  if (!Number.isFinite(v) || v <= 0) return '<span style="color:var(--muted);font-size:11px">no profit box</span>';
+  const fill = cls === 'core' ? '#2f6f54' : (cls === 'adjacent' ? '#9a6b18' : '#b64f4f');
+  return `<div class="rb"><div class="rb-fill" style="width:${((v / centsMax) * 100).toFixed(1)}%;background:${fill}"></div></div>`;
+};
+
+// The red "none" is reserved for layers that actually have a profit box. Marking a
+// routing bucket or a cost line as a coverage gap would inflate the count of things
+// we are supposedly missing, which is the same dishonesty as understating it.
+const exposurePill = (cls, count, hasProfitBox) => {
+  if (count > 0) {
+    return cls === 'adjacent'
+      ? `<span class="pill warn">${count} adjacent</span>`
+      : `<span class="pill cand">${count} held</span>`;
+  }
+  return hasProfitBox
+    ? '<span class="pill" style="background:rgba(182,79,79,.16);color:#b64f4f">none</span>'
+    : '<span style="color:var(--muted);font-size:11px">n/a</span>';
+};
+
+const aiPage = aiChain.length ? `
+<h1>Artificial Intelligence</h1>
+<p class="sub">${e(aiSection?.summary ?? '')}
+<br><strong>Central question:</strong> ${e(aiSection?.central_question ?? '')}</p>
+
+<div class="grid">
+  <div class="card"><div class="n">${e(coreCents.toFixed(1))}¢</div><div class="l">Profit we cover directly</div></div>
+  <div class="card"><div class="n">${e(adjacentCents.toFixed(1))}¢</div><div class="l">Covered only adjacently</div></div>
+  <div class="card"><div class="n">${e(noneCents.toFixed(1))}¢</div><div class="l">No coverage at all</div></div>
+  <div class="card"><div class="n">${e(aiThemes.length)}</div><div class="l">Themes in section</div></div>
+</div>
+
+<div class="note">
+  <strong>Read the cents as one house's estimate, not a measurement.</strong> Every profit figure on
+  this page comes from a single iCapital exhibit dated July 2026, which publishes no allocation
+  methodology and describes itself as illustrative. It is stored as a dated benchmark so that later
+  estimates can be compared against it. Nothing here is recomputed weekly — what <em>is</em> updated
+  weekly is our own observable position in each layer.
+</div>
+
+<h2>Where the dollar goes</h2>
+<p class="sub">A user pays $1.00. Because the model layer loses money, a further 17.3¢ of external
+funding enters alongside it, so $1.173 flows through the chain against $1.00 of real demand — roughly
+15% of everything moving through this chart is subsidy rather than revenue.</p>
+
+${table(['Layer', '>Profit per $1', '>Share', 'Our coverage', 'What the position is'],
+  aiChain
+    .filter((l) => l.frame_position !== 'outside-frame' || l.layer_id === 'application-layer')
+    .sort((a, b) => Number(a.flow_order) - Number(b.flow_order))
+    .map((l) => {
+      const ids = (l.asset_ids || '').split(',').map((s) => s.trim()).filter(Boolean);
+      const cls = l.exposure_class || 'none';
+      const cents = Number(l.profit_cents);
+      const indent = l.parent_layer_id ? 'padding-left:26px' : '';
+      return `<tr>
+        <td style="${indent}"><strong>${e(l.name)}</strong>
+          <div style="color:var(--muted);font-size:11px">${e(l.what_it_is)}</div></td>
+        <td class="r" style="white-space:nowrap">${Number.isFinite(cents) && cents !== 0
+          ? `<strong>${cents > 0 ? '' : '−'}${Math.abs(cents).toFixed(1)}¢</strong>`
+          : '<span style="color:var(--muted)">—</span>'}</td>
+        <td>${centsBar(l.profit_cents, cls)}</td>
+        <td>${exposurePill(cls, ids.length, l.has_profit_box === 'true')}
+          ${ids.length ? `<div style="color:var(--muted);font-size:10px;margin-top:3px">${
+            e(ids.map((id) => symbolOf.get(id) ?? id).join(' '))}</div>` : ''}</td>
+        <td style="font-size:12px">${e(l.exposure_verdict)}</td></tr>`;
+    }))}
+
+<div class="note">
+  <strong>The finding.</strong> ${e(coreCents.toFixed(1))}¢ of every AI dollar lands in layers we
+  cover directly, ${e(adjacentCents.toFixed(1))}¢ in a layer we touch only adjacently, and
+  ${e(noneCents.toFixed(1))}¢ in layers we do not track at all — including the single largest slice
+  in the chain. Our deepest coverage sits in flows this exhibit draws as spending leaving the frame
+  with no profit box drawn. That may be the exhibit's blind spot or it may be ours; both readings are
+  set out in <code>research/sections/ai.md</code> and neither is settled here.
+</div>
+
+${poolRows.length ? `<h2>Position by layer · ${e(poolWeek)}</h2>
+<p class="sub">Updated every week by <code>scripts/ingest-ai-chain.mjs</code>. The benchmark cents are
+frozen; these columns are ours and they move.</p>
+${table(['Layer', '>Benchmark', '>Names', '>Tracked market cap', '>Change', '>Median growth', '>On primary evidence'],
+  poolRows
+    .filter((r) => Number(r.our_name_count) > 0 || Number(r.benchmark_profit_cents) > 0)
+    .sort((a, b) => (Number(b.benchmark_profit_cents) || 0) - (Number(a.benchmark_profit_cents) || 0))
+    .map((r) => `<tr>
+      <td><strong>${e(r.layer_name)}</strong></td>
+      <td class="r">${r.benchmark_profit_cents ? `${e(r.benchmark_profit_cents)}¢` : '—'}</td>
+      <td class="r">${e(r.our_name_count)}</td>
+      <td class="r">${e(usd(r.aggregate_market_cap_usd))}</td>
+      <td class="r" style="color:${Number(r.market_cap_change_pct) >= 0 ? '#2f6f54' : '#9a6b18'}">${
+        r.market_cap_change_pct ? `${Number(r.market_cap_change_pct) >= 0 ? '+' : ''}${e(r.market_cap_change_pct)}%` : '—'}</td>
+      <td class="r">${r.median_revenue_growth_yoy ? `${(Number(r.median_revenue_growth_yoy) * 100).toFixed(1)}%` : '—'}</td>
+      <td class="r">${e(r.names_on_primary_evidence)}/${e(r.our_name_count)}</td></tr>`))}
+<p class="sub" style="margin-top:10px">Market caps are from <code>weekly_metrics.csv</code>
+(${e(poolRows[0]?.metrics_from_week ?? '—')}); the change column compares against
+${e(poolRows.find((r) => r.compared_with_week)?.compared_with_week || 'no prior snapshot')} and is
+left blank rather than estimated where the two weeks do not cover the same names.</p>` : ''}
+
+<h2>Themes in this section</h2>
+<p class="sub">Electricity is one of these, not a peer of the section.</p>
+${table(['Theme', 'Status', 'Horizon', '>Assets', ''],
+  aiThemes.map((t) => `<tr>
+    <td><strong>${e(t.name)}</strong>
+      <div style="color:var(--muted);font-size:11px">${e(t.summary)}</div></td>
+    <td><span class="pill ${t.status === 'active' ? 'cand' : 'warn'}">${e(t.status)}</span></td>
+    <td style="font-size:12px">${e(t.time_horizon)}</td>
+    <td class="r">${links.filter((l) => l.theme_id === t.theme_id).length}</td>
+    <td class="r">${t.theme_id === 'age-of-electricity'
+      ? '<a href="electricity.html">open</a>' : ''}</td></tr>`))}
+
+<h2>Section evidence</h2>
+${table(['Published', 'Stance', 'Claim', '>Reliability'],
+  sources.filter((s) => aiThemes.some((t) => t.theme_id === s.theme_id) && s.source_type !== 'filing')
+    .sort((a, b) => (a.published_at < b.published_at ? 1 : -1))
+    .slice(0, 20)
+    .map((s) => `<tr>
+      <td style="white-space:nowrap">${e(s.published_at)}</td>
+      <td><span class="pill ${s.stance === 'contradicts' ? 'warn' : ''}">${e(s.stance)}</span></td>
+      <td style="font-size:12px">${e(s.claim)}</td>
+      <td class="r" style="font-size:11px">${e(s.reliability)}${s.is_primary === 'true' ? ' · primary' : ''}</td></tr>`))}
+
+<p class="sub" style="margin-top:20px">Section note: <code>research/sections/ai.md</code>.
+Layer taxonomy: <code>data/ai_value_chain.csv</code>. Weekly series:
+<code>data/ai_profit_pool.csv</code>.</p>
+` : '<h1>Artificial Intelligence</h1><p class="sub">No value-chain taxonomy recorded yet.</p>';
+
+// --- Digital assets section ---------------------------------------------------
+// Separate from AI on purpose. The demand hypothesis overlaps; the constraints, the
+// failure modes and the falsifiers do not, and nesting it under AI would import the
+// AI narrative as an assumption rather than testing it.
+const cryptoSection = sections.find((s) => s.section_id === 'digital-assets');
+const cryptoThemes = themes.filter((t) => t.section_id === 'digital-assets');
+const seriesWeek = [...new Set(agentSeries.map((r) => r.week_id))].sort().at(-1);
+const seriesRows = agentSeries.filter((r) => r.week_id === seriesWeek);
+const claimRows = agentSeries.filter((r) => r.data_quality?.startsWith('UNVERIFIED'));
+
+const fmtSeries = (r) => {
+  const v = Number(r.value);
+  if (!Number.isFinite(v)) return e(r.value);
+  if (r.unit === 'usd') return usd(v);
+  if (r.unit === 'percent') return `${Number(v.toFixed(2)).toLocaleString()}%`;
+  if (r.unit === 'requests_per_second') return `${(v / 1e6).toFixed(0)}M/s`;
+  return v.toLocaleString();
+};
+
+const cryptoPage = cryptoRails.length ? `
+<h1>Digital Assets</h1>
+<p class="sub">${e(cryptoSection?.summary ?? '')}
+<br><strong>Central question:</strong> ${e(cryptoSection?.central_question ?? '')}</p>
+
+<div class="grid">
+  <div class="card"><div class="n">0</div><div class="l">Names tracked</div></div>
+  <div class="card"><div class="n">${e(cryptoRails.length)}</div><div class="l">Stack layers mapped</div></div>
+  <div class="card"><div class="n">${e(seriesRows.length)}</div><div class="l">Weekly series</div></div>
+  <div class="card"><div class="n">${e(claimRows.length)}</div><div class="l">Unverified claims</div></div>
+</div>
+
+<div class="note">
+  <strong>Zero positions, and that is the current finding.</strong> This section was opened on the
+  strength of one promotional thread reporting management statements from an earnings call that has
+  not yet been read. Nothing here is screened, scored or recommended. The tracker starts now
+  precisely because the argument for the section is a trend and we do not yet have one.
+</div>
+
+${seriesRows.length ? `<h2>The float · ${e(seriesWeek)}</h2>
+<p class="sub">Stablecoin supply is the cleanest fact in this area: it grows only if somebody funds
+it, so unlike announcements, TVL and token prices it cannot be talked up. Token prices are
+deliberately not tracked as a thesis input.</p>
+${table(['Series', '>Value', '>Prior week', '>Change', 'Note'],
+  seriesRows
+    .filter((r) => !r.data_quality?.startsWith('UNVERIFIED'))
+    .sort((a, b) => (Number(b.value) || 0) - (Number(a.value) || 0))
+    .map((r) => `<tr>
+      <td><strong>${e(r.label)}</strong></td>
+      <td class="r" style="white-space:nowrap"><strong>${e(fmtSeries(r))}</strong></td>
+      <td class="r" style="white-space:nowrap;color:var(--muted)">${
+        r.value_prior_week ? e(fmtSeries({ ...r, value: r.value_prior_week })) : '—'}</td>
+      <td class="r" style="color:${Number(r.change_pct) >= 0 ? '#2f6f54' : '#9a6b18'}">${
+        r.change_pct ? `${Number(r.change_pct) >= 0 ? '+' : ''}${Number(r.change_pct).toFixed(2)}%` : '—'}</td>
+      <td style="font-size:11px;color:var(--muted)">${e(r.note)}</td></tr>`))}` : ''}
+
+<h2>The stack, and who might capture it</h2>
+<p class="sub">Mapped so the section can be argued with. No name below has been screened; the
+candidates column records who would be looked at, not who should be owned.</p>
+${table(['Layer', 'What it is', 'Value capture', '>Confidence', 'Why it might not capture'],
+  cryptoRails.sort((a, b) => Number(a.flow_order) - Number(b.flow_order)).map((l) => `<tr>
+    <td><strong>${e(l.name)}</strong>
+      ${l.listed_candidates_unscreened ? `<div style="color:var(--muted);font-size:10px;margin-top:3px">${e(l.listed_candidates_unscreened)}</div>` : ''}</td>
+    <td style="font-size:12px">${e(l.what_it_is)}</td>
+    <td style="font-size:12px">${e(l.value_capture)}</td>
+    <td class="r"><span class="pill ${l.capture_confidence === 'high' ? 'cand' : 'warn'}">${e(l.capture_confidence)}</span></td>
+    <td style="font-size:12px">${e(l.why_it_might_not_capture)}</td></tr>`))}
+
+${claimRows.length ? `<h2>Claims recorded as unverified</h2>
+<p class="sub">Second-hand reports of management statements from the Cloudflare Q2 2026 call, stored
+as a dated baseline to check against rather than as evidence. Two of them are projections. Verifying
+these against the transcript is the section's first research task.</p>
+${table(['Claim', '>Reported value', 'Why it is held at arm\'s length'],
+  claimRows.map((r) => `<tr>
+    <td><strong>${e(r.label)}</strong></td>
+    <td class="r" style="white-space:nowrap">${e(fmtSeries(r))}</td>
+    <td style="font-size:12px">${e(r.note)}</td></tr>`))}` : ''}
+
+<h2>Themes in this section</h2>
+${table(['Theme', 'Status', 'Horizon', '>Confidence'],
+  cryptoThemes.map((t) => `<tr>
+    <td><strong>${e(t.name)}</strong>
+      <div style="color:var(--muted);font-size:11px">${e(t.summary)}</div></td>
+    <td><span class="pill ${t.status === 'active' ? 'cand' : 'warn'}">${e(t.status)}</span></td>
+    <td style="font-size:12px">${e(t.time_horizon)}</td>
+    <td class="r">${e(t.confidence)}</td></tr>`))}
+
+<p class="sub" style="margin-top:20px">Section note: <code>research/sections/digital-assets.md</code>,
+which sets out where the thread that opened this section does not survive checking. Stack taxonomy:
+<code>data/crypto_rails.csv</code>. Weekly series: <code>data/agent_traffic.csv</code>.</p>
+` : '<h1>Digital Assets</h1><p class="sub">No rail taxonomy recorded yet.</p>';
 
 // --- Age of Electricity tracking page -----------------------------------------
 // The theme with a growth table gets its own page, because the point of that table
@@ -362,8 +633,14 @@ const priceCell = (assetId) => {
 };
 
 const electricityPage = growth.length ? `
+<p class="sub" style="margin-bottom:4px"><a href="ai.html">Artificial Intelligence</a> ›
+The Age of Electricity</p>
 <h1>The Age of Electricity</h1>
-<p class="sub">${e(electricityTheme?.summary ?? '')}
+<p class="sub"><strong>A layer of the AI value chain, not a peer of it.</strong> Nineteen of the names
+below sit in the energy-spending flow that the profit-pool benchmark on the
+<a href="ai.html">AI section page</a> draws as spending leaving the frame with no profit box. Read
+this page against that one.<br>
+${e(electricityTheme?.summary ?? '')}
 ${electricityTheme ? `<br><span class="pill cand">${e(electricityTheme.status)}</span> ${e(electricityTheme.time_horizon)} · ${e(electricityTheme.confidence)} confidence · updated ${e(electricityTheme.last_updated_date)}` : ''}</p>
 
 <div class="grid">
@@ -577,7 +854,9 @@ await Promise.all([
   writeFile(path.join(outDir, 'coverage.html'), page('coverage.html', 'Coverage', coveragePage), 'utf8'),
   writeFile(path.join(outDir, 'universe.html'), page('universe.html', 'Universe', universePage), 'utf8'),
   writeFile(path.join(outDir, 'themes.html'), page('themes.html', 'Themes', themesPage), 'utf8'),
+  writeFile(path.join(outDir, 'ai.html'), page('ai.html', 'Artificial Intelligence', aiPage), 'utf8'),
   writeFile(path.join(outDir, 'electricity.html'), page('electricity.html', 'The Age of Electricity', electricityPage), 'utf8'),
+  writeFile(path.join(outDir, 'crypto.html'), page('crypto.html', 'Digital Assets', cryptoPage), 'utf8'),
   writeFile(path.join(outDir, 'gates.html'), page('gates.html', 'Gates', gatesPage), 'utf8'),
   writeFile(path.join(outDir, 'evidence.html'), page('evidence.html', 'Evidence', evidencePage), 'utf8'),
   writeFile(path.join(outDir, 'archive.html'), page('archive.html', 'Archive', archivePage), 'utf8'),

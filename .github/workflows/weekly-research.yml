@@ -77,6 +77,22 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: npm run ingest:mentions
 
+      # Section trackers. Both write a dated row per week so that the two newest
+      # sections accumulate a series rather than being re-argued from scratch each
+      # issue. Neither invents a number: the AI tracker reads the store only, and
+      # the crypto tracker exits non-zero rather than estimating if its API is
+      # unreachable, leaving a gap in the series instead of a wrong figure.
+      - name: Track AI value-chain profit pool
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run ingest:ai
+
+      # Allowed to fail the step without failing the week: a missed stablecoin
+      # reading is a gap, not a reason to block the issue.
+      - name: Track stablecoin rails
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: npm run ingest:crypto
+
       # Reported, not enforced. Every asset is currently incomplete by design, so
       # --strict would fail every build; the point is that the number is visible
       # in the log and in the issue rather than being rediscovered each week.

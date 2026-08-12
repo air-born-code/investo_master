@@ -39,6 +39,55 @@ The system separates:
 
 Every important thesis must include primary evidence, a serious bear case, explicit falsification criteria, valuation scenarios, and a pre-mortem.
 
+## Sections
+
+Themes sit inside sections, defined in `data/sections.csv`. Sections are the top level of the
+taxonomy and the level at which the weekly issue is organised.
+
+| Section | Contains | Central question |
+| --- | --- | --- |
+| `ai` | Age of Electricity, AI physical infrastructure, high-speed connectivity, advanced nuclear | Where in the AI value chain does profit accumulate, and are we in those layers? |
+| `digital-assets` | Stablecoin payment rails, agentic commerce | Does the agent economy need a new settlement layer, or does it net off-chain? |
+| `industrial-frontier` | Vertically integrated space, critical minerals security | Independent structural change, or second-order AI demand? |
+
+**Electricity is a layer of the AI section, not a peer of it.** The site nests it under AI, the
+issue writes it that way, and the reason is in `research/sections/ai.md`: the returns available to
+a turbine maker cannot be assessed without the chain above it, which decides how much money reaches
+that layer at all.
+
+### The AI profit pool
+
+`data/ai_value_chain.csv` maps the chain's layers and which of our names sit in each.
+`npm run ingest:ai` writes one dated row per layer per week to `data/ai_profit_pool.csv`.
+
+The benchmark profit-per-dollar figures come from a single iCapital exhibit dated July 2026. They
+are **frozen as a dated reference point and never recomputed** — the exhibit publishes no allocation
+methodology, so treating it as a measurement would put a made-up precision into the store. What the
+weekly run updates is our own observable position: aggregate market value per layer, its change, the
+layer's median growth, and — restated every week so it cannot become invisible — the layers we hold
+nothing in.
+
+The mapping's finding, as at 2026-W33: **7.7¢ of every AI dollar lands in layers we cover directly,
+13.0¢ in a layer we touch only adjacently, and 38.5¢ in layers we do not track at all**, including
+the largest single slice in the chain. Nineteen of our names sit in flows the exhibit draws as
+spending leaving the frame with no profit box drawn.
+
+### Digital-asset rails
+
+`data/crypto_rails.csv` maps the settlement stack. `npm run ingest:crypto` writes
+`data/agent_traffic.csv` weekly from public stablecoin supply data.
+
+The section tracks the float, not the narrative: supply grows only if somebody funds it, so unlike
+announcements, TVL and token prices it cannot be talked up. Token prices are deliberately excluded
+as a thesis input. If the API is unreachable the run exits non-zero and leaves a gap in the series
+rather than writing an estimate.
+
+The section holds **zero tracked names**, which is a finding rather than a gap to be filled quietly.
+Rows whose `data_quality` begins with `UNVERIFIED` are second-hand reports of management statements
+recorded as a dated baseline to check against; they may be cited as claims, attributed, and never as
+evidence. `research/sections/digital-assets.md` sets out where the thread that opened the section
+does not survive checking.
+
 ## The frontier tier
 
 Active themes describe what is already investable. A separate and deliberately lower-quality tier tracks what might become a theme, on the argument that the two largest waves of the last twenty-five years — the internet and AI — were both publicly observable for years before attention arrived, and that attention itself is a lagging indicator.

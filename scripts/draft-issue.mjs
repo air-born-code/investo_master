@@ -70,8 +70,16 @@ if (strategyName) {
 // macro.csv is optional: it only exists once ingestion has run at least once.
 const dataFiles = [
   'assets.csv',
+  'sections.csv',
   'themes.csv',
   'asset_themes.csv',
+  // Section-level structure. The value-chain and rails taxonomies are what let the
+  // draft write about a layer rather than only about a company, and the two pool
+  // series are what stop each week's section being re-argued from scratch.
+  'ai_value_chain.csv',
+  'ai_profit_pool.csv',
+  'crypto_rails.csv',
+  'agent_traffic.csv',
   'growth_estimates.csv',
   'weekly_metrics.csv',
   'macro.csv',
@@ -277,6 +285,26 @@ const system = [
     'asset. An asset cannot be proposed for decision review unless every one of its',
     'gates reads "documented". Do not assess a gate yourself or infer that one is met:',
     'report the ledger as it stands, and name the outstanding gate numbers.',
+    '',
+    'Sections: sections.csv is the top level of the taxonomy and themes.csv now carries',
+    'a section_id. Write the Structural Change Radar section by section. Electricity is',
+    'a LAYER of the AI section, never a peer of it — the returns available to a turbine',
+    'or switchgear maker depend on the chain above them, which decides how much money',
+    'reaches that layer at all.',
+    '',
+    'ai_value_chain.csv carries the profit-per-dollar benchmark for each layer of the AI',
+    'chain. Those cents are one third-party estimate on ONE date with no published',
+    'methodology. Cite them as a benchmark, attributed and dated; never as measurement,',
+    'and never build an argument that needs them to be precise. ai_profit_pool.csv is',
+    'the weekly series of OUR position by layer — that is the part that moves and the',
+    'part worth writing about. One observation is not a trend; say so until there are',
+    'several.',
+    '',
+    'agent_traffic.csv holds the digital-assets series. Any row whose data_quality',
+    'begins with "UNVERIFIED" is a second-hand report of a management statement: it may',
+    'be named as a claim, with attribution, and never used as evidence for a conclusion.',
+    'That section holds zero tracked names, which is a finding to report, not a gap to',
+    'write around.',
   ].join('\n'),
 ].join('\n\n');
 
