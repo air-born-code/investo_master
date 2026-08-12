@@ -32,8 +32,9 @@
 //
 // Options:
 //   --week <id>      ISO week id to write (default: current week)
-//   --seed-claims    write the unverified 2026-W32 Cloudflare call claims as a
-//                    dated baseline, marked unverified. One-time; safe to repeat.
+//   --seed-claims    re-write the 2026-W32 Cloudflare baseline rows. Verified
+//                    against Cloudflare's own Q2 FY2026 deck and call on
+//                    2026-08-12. One-time; safe to repeat.
 //   --root <path>    project root (default: cwd)
 
 import { readFile, writeFile } from 'node:fs/promises';
@@ -260,27 +261,42 @@ if (paymentTotal) {
 }
 
 // --- one-time seed of the claims that opened the section ----------------------
-// These are recorded so the section has a dated baseline to verify against, NOT
-// because they are believed. Every one is a second-hand report of a management
-// statement, and two of them are projections. They are written with the same schema
-// as the measured rows precisely so that a later primary read supersedes them in
-// place rather than living in a separate file nobody opens.
+// These opened the section as a second-hand thread report, recorded as a dated
+// baseline to verify against rather than because they were believed. They were
+// written with the same schema as the measured rows precisely so that a later
+// primary read could supersede them in place, and on 2026-08-12 it did.
+//
+// All five values survived. What did not survive was the framing of two of them:
+// the 1,700% is Cloudflare's own figure for DAILY AGENT REQUESTS from its investor
+// deck and was never said on the call, and the 50% is NON-HUMAN traffic, which is
+// not the same claim as "agents crossed 50%". The agent share within that majority
+// is still unpublished and is the number the thesis actually needs. Re-seeding now
+// reproduces the verified rows; see research/sections/digital-assets.md.
 const CLAIM_WEEK = '2026-W32';
+const CALL = 'Cloudflare Q2 FY2026 earnings call (Matthew Prince)';
+const CALL_Q = 'VERIFIED 2026-08-12 against src-2026-w33-cloudflare-q2-call. Third-party transcript of a primary event; Cloudflare\'s own transcript was not retrievable.';
 const CLAIMS = [
-  ['cf-agent-request-growth', 'AI agent requests, year-over-year growth', 'percent', 1700,
-    'Attributed to Cloudflare Q2 2026 call. Not verified against the transcript.'],
+  ['cf-agent-request-growth', 'Daily AI agent requests, year-over-year growth', 'percent', 1700,
+    'true', 'Cloudflare Q2 FY2026 investor presentation',
+    'VERIFIED 2026-08-12 against src-2026-w33-cloudflare-q2-deck. Cloudflare states it directly.',
+    'Value confirmed, SCOPE CORRECTED: Cloudflare states this of DAILY AI AGENT REQUESTS, not of agent share of traffic. It appears in the investor deck and was not said on the call. A base one year ago that was near zero makes a four-figure percentage arithmetically easy; the level matters more than the rate.'],
   ['cf-nonhuman-traffic-share', 'Non-human share of Cloudflare network traffic', 'percent', 50,
-    'Attributed to management as "crossed 50% this quarter". Load-bearing for the whole section and unverified. Note also that bot, crawler and agent are three different definitions.'],
+    'false', CALL, CALL_Q,
+    'Prince: "more than 50% of the traffic flowing across Cloudflare\'s network was not human." The label was already right and the thread\'s framing was not: the company says NON-HUMAN, never that AI agents crossed 50%. Cloudflare\'s own bot report publishes no definition separating bots, crawlers, scrapers and agents.'],
   ['cf-requests-per-second', 'Cloudflare requests handled per second', 'requests_per_second', 500_000_000,
-    'Quoted in the thread without a source. It is the input to every throughput figure downstream and needs checking against Cloudflare\'s own published averages.'],
+    'false', CALL,
+    'VERIFIED 2026-08-12 against src-2026-w33-cloudflare-q2-call, but as a rounded conversational figure rather than a disclosed metric.',
+    'Prince: "We handle, let\'s say, about half a billion requests per second." The hedge is his. Treat as an order of magnitude: it will not carry two-significant-figure arithmetic.'],
   ['cf-monetizable-share-low', 'Share of requests management considers monetizable (low end)', 'percent', 1,
-    'Management estimate, range 1-10%. Note the thread\'s own TPS figures are roughly double what this range implies.'],
+    'false', CALL, CALL_Q.replace('Third-party transcript of a primary event; Cloudflare\'s own transcript was not retrievable.', 'Quoted verbatim.'),
+    'Prince: "somewhere between 1% and 10% of those you could monetize through some sort of a micro transaction." A ten-fold range offered as an estimate, and the low end is the honest planning figure.'],
   ['cf-monetizable-share-high', 'Share of requests management considers monetizable (high end)', 'percent', 10,
-    'Management estimate, range 1-10%.'],
+    'false', CALL, CALL_Q.replace('Third-party transcript of a primary event; Cloudflare\'s own transcript was not retrievable.', 'Quoted verbatim.'),
+    'Prince: "somewhere between 1% and 10% of those you could monetize through some sort of a micro transaction." Upper end of a management estimate, not a forecast.'],
 ];
 
 if (seedClaims) {
-  for (const [id, label, unit, value, note] of CLAIMS) {
+  for (const [id, label, unit, value, isPrimary, sourceName, quality, note] of CLAIMS) {
     rows.push({
       week_id: CLAIM_WEEK,
       as_of_date: '2026-08-07',
@@ -291,11 +307,11 @@ if (seedClaims) {
       value,
       value_prior_week: '',
       change_pct: '',
-      source_type: 'social_media',
-      source_name: 'Lorenzo Valente (@LorenzoARK), reporting Cloudflare Q2 2026 call',
+      source_type: 'issuer_results',
+      source_name: sourceName,
       source_url: '',
-      is_primary: 'false',
-      data_quality: 'UNVERIFIED. Second-hand report of management statements; two entries are projections. Recorded as a baseline to check against, not as evidence.',
+      is_primary: isPrimary,
+      data_quality: quality,
       note,
       recorded_at: now,
     });
@@ -324,7 +340,7 @@ console.log(`  fiat-backed               ${fmt(fiatNow)}  (${pct(fiatNow, fiatPr
 if (usdc) console.log(`  USDC share                ${((usd(usdc.circulating) / total) * 100).toFixed(1)}%`);
 if (paymentTotal) console.log(`  on payment-oriented chains ${fmt(paymentTotal)}  (${pct(paymentTotal, paymentPrior)}% w/w)`);
 console.log(`  ${rows.length} rows across weeks ${[...writtenWeeks].join(', ')}`);
-if (seedClaims) console.log('  seeded 5 UNVERIFIED claim rows for 2026-W32 — verify against the transcript');
+if (seedClaims) console.log('  seeded 5 verified Cloudflare claim rows for 2026-W32 (primary read 2026-08-12)');
 
 if (dryRun) {
   console.log('\n--dry-run: data/agent_traffic.csv not written');

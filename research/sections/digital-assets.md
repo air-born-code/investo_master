@@ -190,3 +190,102 @@ is a trend and we do not yet have one.
 The observation to carry forward if only one: **the thread's real finding was not about crypto at
 all. It was that the party sitting in front of the traffic gets to choose the settlement rail — and
 that party is a public infrastructure company, not a token.**
+
+---
+
+## Entry 2026-08-12 — Primary read: every number held, the argument built on them did not
+
+Clearing verification items 1, 2 and 4 from the entry above. Sources added:
+`src-2026-w33-cloudflare-q2-deck`, `src-2026-w33-cloudflare-q2-call`,
+`src-2026-w33-cloudflare-monetization-gateway`, `src-2026-w33-x402-batch-settlement`,
+`src-2026-w33-x402-foundation-adoption`.
+
+**Caveat on sourcing, stated first because it bounds everything below.** Cloudflare's own investor
+site did not serve the transcript or shareholder letter. The management quotations here come from a
+third-party transcript of the call, and the x402 batching change is trade press reporting a Jesse
+Pollak post rather than a protocol specification. These are a large improvement on a promotional
+thread and are not the same thing as reading the filed document. The residual reads are queued in §3.
+
+### 1. The seven claims, checked
+
+| # | Claim as the thread put it | Verdict |
+|---|---|---|
+| 1 | Agent requests +1,700% YoY | **True, wrong venue and narrower scope.** Cloudflare's own figure, from the Q2 investor deck, not the call. It is *daily AI agent requests*. |
+| 2 | Agents crossed 50% of traffic | **Number true, subject false.** Prince: "more than 50% of the traffic flowing across Cloudflare's network was not human." Non-human ≠ agents. |
+| 3 | Faster than management's models | **True, and understated.** Prince forecast the crossover for 2H2027 in late 2025 and 1H2027 in March 2026; Seifert says the team told him in May 2026 it had happened. Prince: "I've called it wrong at every point along the way." |
+| 4 | Non-human 1000× human within 5 years | **Quoted accurately, and it is the softest thing on the call.** Seifert, explicitly conditional — "if the current trends continue" — and phrased as *as much as* 1,000×, an upper bound presented by the thread as a forecast. |
+| 5 | ~500M requests/second | **True, now sourced, and hedged by the speaker.** Prince: "We handle, let's say, about half a billion requests per second." |
+| 6 | 1–10% monetizable | **Verbatim.** Prince, "somewhere between 1% and 10% of those you could monetize through some sort of a micro transaction." |
+| 7 | Block bad bots free, charge agents fractions of a penny | **True, and now a shipped product.** Monetization Gateway, waitlist-only since 1 July, settling in USDC and Open USD over x402. |
+
+**Every value held. Two of the seven were true of something narrower than claimed**, and both
+narrowings cut against the thesis rather than for it. The 1,700% is growth in daily agent requests
+off a base that was near zero a year ago, which makes a four-figure percentage arithmetically cheap;
+the level is the interesting number and it is not published. And the 50% is *non-human* traffic —
+Cloudflare's own bot report publishes no definition separating bots, crawlers, scrapers and agents,
+so **the agent share of traffic, which is the number this entire section needs, remains unpublished
+by the one company positioned to measure it.**
+
+The 10M-scaling-to-100M TPS figure appears in no Cloudflare material — not the call, not the deck,
+not the Monetization Gateway announcement. It is the thread's own construction, as §1 of the
+previous entry suspected.
+
+### 2. The netting question is answered, and the previous entry was right
+
+Verification item 4 asked whether the leading agent-payment standard settles per request or by
+netting, on the grounds that the answer decides which theme in this section is investable. It is
+answered: **x402 added batched settlement in May 2026.** Many small claims are verified off-chain
+and redeemed on-chain in bulk, spreading one blockchain fee across many payments. The stated reason
+is exactly the arithmetic the previous entry used: a $0.0001 call cannot clear on-chain at a few
+cents per transaction without losing money.
+
+Three consequences, and they are the most important paragraphs in this section so far:
+
+1. **Agent request volume and settlement-layer transaction count are decoupled by design.** "Being
+   short L1 throughput is being short agentic workflows" does not follow, and the $315B base-fee
+   figure is dead — not because the arithmetic was wrong, but because the transactions it counts
+   will not exist on-chain.
+2. **This moves value up to the edge, not down to the chain.** Whoever meters the requests holds the
+   commercial relationship; the chain sees a periodic net settlement. `crypto_rails.csv` has been
+   updated accordingly — `edge-distribution` to medium-high confidence, `settlement-layer`'s
+   objection restated as confirmed rather than argued.
+3. **The observed behaviour is not micropayments.** x402 is reported to have logged 160M+
+   transactions at roughly **$0.30 average value**. That is three orders of magnitude above the
+   fraction-of-a-penny narrative. Whatever x402 is being used for today, it is not the thing the
+   thesis describes.
+
+### 3. What this changes, and what is still open
+
+**Strengthened:** the bottleneck is real, it arrived a year ahead of the schedule of the person best
+placed to forecast it, and a listed infrastructure company is monetising it. Cloudflare **co-governs
+the x402 Foundation with Coinbase** — it is setting the standard, not merely sitting in front of the
+traffic. That is a stronger version of the previous entry's closing observation than the thread
+supported.
+
+**Weakened:** the case for the settlement layer capturing this, on every available reading. And the
+card networks look less displaced, not more — Visa and Mastercard are both x402 Foundation members,
+which is the defensive case in `crypto_rails.csv` playing out rather than the disruption case.
+
+Still open, carried forward:
+
+1. Read the filed Q2 shareholder letter and Cloudflare's own transcript directly. The quotes here are
+   third-party and the deck figure is reported rather than read.
+2. Read the x402 specification on batch settlement — cadence, triggers, and whether per-request
+   on-chain settlement remains available. Trade press is not adequate for a fact this load-bearing.
+3. **Get the agent share of non-human traffic.** Unpublished, and it is the number the section needs.
+4. Verify the 160M transactions / $0.30 average independently. If it holds, it is the single most
+   deflationary fact available about agentic micropayments.
+5. Build the initial universe. Still **zero tracked names**, and the case for Cloudflare being the
+   obvious first candidate got stronger this week, not weaker.
+
+### 4. Position of this entry
+
+**No action, and the section's centre of gravity moves.** Nothing is screened or scored. But the
+question the section was opened to answer has shifted: it is no longer "does the agent economy need
+a new settlement layer" — the evidence says it largely does not, because batching makes the rail
+count net rather than gross. It is now **"who owns the meter?"** That is an infrastructure and
+standards question, and the assets that answer it are equities.
+
+The observation to carry forward if only one: **we checked seven numbers, all seven were real, and
+the thesis built on them still failed — because the argument's load-bearing assumption was never one
+of the numbers.**
