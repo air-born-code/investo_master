@@ -39,3 +39,4 @@ site/
 drafts/*.prompt.md
 research/*.prompt.md
 research/**/*.prompt.md
+reviews/**/*.prompt.md

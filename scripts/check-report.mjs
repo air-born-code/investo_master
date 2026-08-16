@@ -1,6 +1,49 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
+// Minimal reader for the two committee ledgers. Kept here rather than imported so
+// that validation depends on nothing that a build step could have rewritten.
+const parseCsv = (text) => {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { cell += '"'; i += 1; } else quoted = false;
+      } else cell += ch;
+      continue;
+    }
+    if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(cell); cell = ''; }
+    else if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+    else if (ch !== '\r') cell += ch;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  const clean = rows.filter((r) => r.some((c) => c !== ''));
+  if (!clean.length) return [];
+  const header = clean.shift();
+  return clean.map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
+};
+
+const readLedger = async (name) =>
+  readFile(path.join(process.cwd(), 'data', name), 'utf8').then(parseCsv).catch(() => []);
+
+// A committee row is against this issue if it names the report, or if it was raised
+// against the week's draft before the issue had a report_id. Reviewing the draft and
+// then building must not lose the review.
+const appliesTo = (row, metadata) =>
+  row.report_id === metadata.report_id
+  || (!row.report_id && row.week_id === metadata.week_id);
+
+const MINIMUM_SEATS = 3;
+// Issues 001 to 003 were written and sent before the committee existed. They cannot
+// be retroactively reviewed, and rebuilding them is a regression gate that has to
+// keep passing, so the requirement starts at the week it was adopted.
+const COMMITTEE_FROM = '2026-W33';
+
 const args = process.argv.slice(2);
 // A freshly built issue is unapproved by design. This flag lets CI validate the
 // structure without asserting send-readiness; the default stays a send gate.
@@ -29,6 +72,25 @@ if (failures.length === 0) {
     if (!metadata[field]) failures.push(`report.json missing ${field}`);
   }
   if (metadata.approved_for_send !== true && !allowUnapproved) failures.push('report is not approved for send');
+
+  // The committee gate is part of the send gate, not of structural validation: a
+  // freshly built issue is deliberately unreviewed, exactly as it is deliberately
+  // unapproved. CI validates with --allow-unapproved and skips both.
+  if (!allowUnapproved && (metadata.week_id ?? '') >= COMMITTEE_FROM) {
+    const [reviews, findings] = await Promise.all([
+      readLedger('committee_reviews.csv'),
+      readLedger('committee_findings.csv'),
+    ]);
+    const seats = new Set(reviews.filter((r) => appliesTo(r, metadata)).map((r) => r.member_id));
+    if (seats.size < MINIMUM_SEATS) {
+      failures.push(`committee has reviewed this issue with ${seats.size} seat(s); ${MINIMUM_SEATS} required (npm run review:issue)`);
+    }
+    for (const f of findings) {
+      if (appliesTo(f, metadata) && f.status === 'open' && f.severity === 'blocking') {
+        failures.push(`blocking committee finding ${f.finding_id} is unresolved: ${f.finding.slice(0, 80)}`);
+      }
+    }
+  }
   if (!html.toLowerCase().includes('<!doctype html>')) failures.push('email.html is not a complete HTML document');
   if (!html.includes(metadata.report_id)) failures.push('email.html is missing report ID');
   if (!html.includes(metadata.action_posture)) failures.push('email.html is missing action posture');

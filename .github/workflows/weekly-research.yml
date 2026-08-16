@@ -142,6 +142,25 @@ jobs:
         if: steps.issue.outcome == 'success'
         run: node scripts/check-report.mjs "${{ steps.issue.outputs.issue_dir }}" --allow-unapproved
 
+      # Three or four committee seats read the built issue before a human sees it,
+      # so the pull request arrives with the objections already in it. Costs money,
+      # so it runs only when the draft ran. It never sends and never approves: a
+      # blocking finding fails the send gate later, and the chair closes findings by
+      # hand. See COMMITTEE.md.
+      - name: Committee review
+        if: steps.issue.outcome == 'success'
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          REVIEW_MODEL: ${{ vars.REVIEW_MODEL }}
+        run: npm run review:issue
+
+      # Reported, not enforced, at this point in the week. The issue is unapproved
+      # and unsendable regardless; this puts the open findings in the run log where
+      # the reviewer of the pull request will see them.
+      - name: Report open committee findings
+        if: steps.issue.outcome == 'success'
+        run: npm run review:list
+
       - name: Check for changes
         id: diff
         run: |
