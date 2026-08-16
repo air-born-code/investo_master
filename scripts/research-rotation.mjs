@@ -22,6 +22,7 @@
 import { appendFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isReviewed, reviewedEvidence, selectCoverage } from './lib/rotation.mjs';
+import { formatUsd, recordCost } from './lib/cost.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -30,7 +31,7 @@ const flag = (name) => {
 };
 const dryRun = args.includes('--dry-run');
 const root = path.resolve(flag('root') ?? process.cwd());
-const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-5';
+const model = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-v4-pro';
 
 const parseCsv = (text) => {
   const rows = [];
@@ -282,4 +283,8 @@ await writeFile(path.join(root, 'data', 'assets.csv'),
 console.log(`\n\nAppended to research/${chosen.asset_id}.md`);
 console.log(`Marked ${chosen.symbol} reviewed ${today}.`);
 console.log(`Tokens — prompt ${usage.prompt_tokens ?? '?'}, completion ${usage.completion_tokens ?? '?'}`);
-if (usage.cost !== undefined) console.log(`Cost — $${usage.cost}`);
+
+// Attributed to the week this dive is preparing, which is the edition that will
+// carry its conclusions and so the edition that should carry its cost.
+const recorded = await recordCost({ root, weekId: upcomingWeek, stage: 'research', model, usage });
+if (recorded.pricing === 'metered') console.log(`Cost — ${formatUsd(Number(recorded.cost_usd))}, recorded to data/model_costs.csv`);

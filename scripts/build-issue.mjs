@@ -31,6 +31,7 @@ import {
   COVERAGE_HEADER, DEFAULT_ROTATION_SLOTS, coverageRowsFor, describeDelta,
   describeGap, describeStaleness, mergeCoverage, reviewedEvidence, selectCoverage,
 } from './lib/rotation.mjs';
+import { describeCost, summariseWeek } from './lib/cost.mjs';
 
 const argv = process.argv.slice(2);
 const flag = (name) => {
@@ -623,6 +624,14 @@ const text = [
   `Report ID: ${reportId}`,
 ].join('\n');
 
+// What this edition cost to produce, summed from the metered ledger. Printed at the
+// top rather than in a footer because it is a number to act on: an edition that
+// costs more than it is worth should be visible before the prose, not after it.
+// Absent for editions built before the ledger existed — printing "$0.00" for a week
+// that genuinely spent money would be a false claim.
+const costRows = await readTable('model_costs.csv').catch(() => []);
+const costLine = describeCost(summariseWeek(costRows, weekId));
+
 const markdown = [
   `# ${subject}`,
   '',
@@ -630,6 +639,7 @@ const markdown = [
   `- Report ID: ${reportId}`,
   `- Evidence cut-off: ${cutoff}`,
   `- Action posture: ${posture}`,
+  ...(costLine ? [`- Cost to produce: ${costLine}`] : []),
   '',
   ...(macroRows.length
     ? [

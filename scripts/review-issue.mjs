@@ -45,6 +45,7 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { DEFAULT_PANEL_SIZE, selectPanel } from './lib/committee.mjs';
+import { formatUsd, recordCost } from './lib/cost.mjs';
 
 const argv = process.argv.slice(2);
 const has = (n) => argv.includes(`--${n}`);
@@ -58,11 +59,31 @@ const root = path.resolve(flag('root') ?? process.cwd());
 const dryRun = has('dry-run');
 const force = has('force');
 // Reviewing is adversarial synthesis over a whole issue — the hardest thing this
-// repository asks a model to do, and the one place a cheap model fails invisibly
-// by producing a plausible memo with no finding in it. Its own variable, for the
-// same reason EVIDENCE_MODEL is separate: one shared variable means an attempt to
-// economise anywhere silently downgrades everywhere.
-const model = process.env.REVIEW_MODEL || 'anthropic/claude-opus-5';
+// repository asks a model to do, and the one place a cheap model fails invisibly by
+// producing a plausible memo with no finding in it.
+//
+// So this seat is the deliberate exception to the 2026-08-16 move to a cheap model.
+// Everything else in the pipeline drafts and reads on deepseek-v4-pro; the panel
+// stays on a strong one. The reason is asymmetry, not quality in the abstract: a
+// weak DRAFT is visible to a human reader before it is sent, while a weak REVIEW
+// looks exactly like a clean issue. Only one of those two failures announces itself,
+// and the committee exists to catch what the draft could not see about itself.
+//
+// At four seats it costs roughly $0.38 an edition more than the cheap model. That is
+// the whole price of the check.
+//
+// Note what dominates that number. Each seat's prompt is ~61k tokens and only ~6k of
+// it is the issue under review; the rest — master prompt, conviction policy, roster,
+// store context — is identical across all four seats and is paid for four times.
+// Prompt caching on a shared prefix would cut more from this stage than any further
+// model downgrade, and without giving up the reader.
+//
+// The residual risk is still not zero, and it is not detectable in one issue: an
+// empty findings list is a legitimate result. Watch the RATE across issues. A panel
+// that stops finding anything has either fixed the file or stopped reading, and only
+// the trend says which — `npm run review:list` and the findings ledger are where
+// that shows up.
+const model = process.env.REVIEW_MODEL || 'anthropic/claude-sonnet-5';
 const now = new Date().toISOString();
 
 const read = (...p) => readFile(path.join(root, ...p), 'utf8');
@@ -738,7 +759,11 @@ for (const m of panel) {
   const { text, usage } = result;
   await writeFile(path.join(reviewDir, `${m.member_id}.md`), `${text}\n`, 'utf8');
   const line = recordMemo(m, text, { modelUsed: model });
-  console.log(line + (usage.cost !== undefined ? ` · $${usage.cost}` : ''));
+  // One row per seat, not per panel. A panel is the largest single cost in an
+  // edition precisely because it is several calls, and a total that hid that would
+  // point at the wrong lever.
+  await recordCost({ root, weekId, stage: `review:${m.member_id}`, model, usage });
+  console.log(line + (usage.cost !== undefined ? ` · ${formatUsd(usage.cost)}` : ''));
 }
 
 if (!newReviews.length) {

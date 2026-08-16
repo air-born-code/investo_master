@@ -176,6 +176,22 @@ anyway.
 the one place a cheap one fails invisibly, by returning a plausible memo with nothing
 in it. A single shared variable would mean economising anywhere economises here.
 
+That separation is now load-bearing. On 2026-08-16 the pipeline moved to
+`deepseek/deepseek-v4-pro` on cost grounds, and **this seat was deliberately left on
+`anthropic/claude-sonnet-5`** — the only stage that did not move. The argument is
+asymmetry rather than quality in the abstract: a weak draft is visible to a human
+before it is sent, while a weak review is indistinguishable from a clean issue. At
+four seats the exception costs roughly $0.38 an edition, which is the entire price of
+the check, and each edition now prints its own measured cost at the top.
+
+The panel is the most expensive stage in the pipeline, and not because of the model:
+each seat's prompt is ~61k tokens of which only ~6k is the issue being reviewed. The
+other ~55k is identical across all four seats and is paid for four times. Caching that
+shared prefix is a larger saving than any further downgrade, and it costs no rigour.
+
+The residual risk cannot be seen in a single issue, because an empty findings list is
+a legitimate result. Watch the rate across issues instead.
+
 ## Safety boundary
 
 The committee is an internal editorial control. It does not make investment decisions,

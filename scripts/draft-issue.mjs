@@ -1,8 +1,13 @@
 // Drafts the weekly narrative from the canonical CSV store, via OpenRouter.
 //
-// This script writes prose only. It never writes to data/*.csv — every figure in
-// the draft has to trace back to a row that was already in the store before the
-// model ran, so the research memory stays human-authored and auditable.
+// This script writes prose only. Nothing the model returns ever becomes a row in
+// the research store — every figure in the draft has to trace back to a row that was
+// already there before the model ran, so the research memory stays human-authored
+// and auditable.
+//
+// The one file it appends to is data/model_costs.csv, which is the meter reading for
+// its own API call: written by this script rather than by the model, never read by
+// any prompt, and never citable as evidence. See lib/cost.mjs.
 //
 // Output lands in drafts/<week_id>.md for review. Publishing an issue is still
 // build-baseline.mjs, and sending is still send-report.mjs behind approved_for_send.
@@ -21,6 +26,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { formatValue, rangeSummary, sparkline } from './lib/chart.mjs';
 import { DEFAULT_PANEL_SIZE, renderPanel, selectPanel } from './lib/committee.mjs';
+import { formatUsd, recordCost } from './lib/cost.mjs';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
@@ -36,7 +42,7 @@ const positional = args.find((arg, i) => {
   return !(prev?.startsWith('--') && FLAGS_WITH_VALUES.has(prev.slice(2)));
 });
 const root = path.resolve(positional ?? process.cwd());
-const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-5';
+const model = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-v4-pro';
 
 // ISO-8601 week, matching the week_id format used across data/ and reports/.
 const isoWeekId = (date) => {
@@ -533,4 +539,8 @@ await writeFile(draftPath, `${markdown}\n`, 'utf8');
 
 console.log(`\nWrote drafts/${weekId}.md`);
 console.log(`Tokens — prompt ${usage.prompt_tokens ?? '?'}, completion ${usage.completion_tokens ?? '?'}`);
-if (usage.cost !== undefined) console.log(`Cost — $${usage.cost}`);
+
+const recorded = await recordCost({ root, weekId, stage: 'draft', model, usage });
+console.log(recorded.pricing === 'metered'
+  ? `Cost — ${formatUsd(Number(recorded.cost_usd))}, recorded to data/model_costs.csv`
+  : 'Cost — the gateway returned no cost for this call; recorded as unpriced.');
