@@ -1,0 +1,2 @@
+review_id,week_id,report_id,member_id,seat,artifact,model,verdict,findings_total,findings_blocking,summary,reviewed_at
+rev-2026-W33-chancellor,2026-W33,2026-W33-004,chancellor,Capital cycle,reports/2026/2026-W33-issue-004/report.md,anthropic/claude-sonnet-5,publish-with-fixes,4,0,Sound on demand-side capex scrutiny but never asks the supply-response question directly of the equipment/energy layers it covers most deeply.,2026-08-16T09:05:43.758Z

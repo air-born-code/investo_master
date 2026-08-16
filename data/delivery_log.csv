@@ -4,3 +4,4 @@ delivery_id,report_id,provider,recipient_label,attempted_at,status,provider_mess
 "2026-W32-003-1786205190605","2026-W32-003","resend","owner","2026-08-08T16:06:30.605Z","sent","ed8246af-7a19-424d-a22c-ed1fa6d0f0e2","investo-2026-W32-003",""
 "2026-W30-002-1786205316462","2026-W30-002","resend","owner","2026-08-08T16:08:36.461Z","sent","0aec678b-d3f3-4239-b958-eb616e80797a","investo-2026-W30-002",""
 "2026-W32-003-1786306441969","2026-W32-003","resend","owner","2026-08-09T20:14:01.968Z","sent","9a67e79f-b068-4389-947a-3540558d4fa5","investo-2026-W32-003",""
+"2026-W33-004-1786908599608","2026-W33-004","resend","owner","2026-08-16T19:29:59.608Z","sent","771e45ab-a0ee-4088-a298-53af23806a98","investo-2026-W33-004",""

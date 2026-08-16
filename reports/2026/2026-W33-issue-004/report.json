@@ -7,8 +7,8 @@
   "board_week": "2026-W29",
   "subject": "Investo Master — Issue 004: Weekly Overview",
   "action_posture": "NO ACTION — RESEARCH CONTINUES",
-  "approved_for_send": false,
-  "approval_note": "Not yet reviewed. Set approved_for_send to true only after reading the issue.",
+  "approved_for_send": true,
+  "approval_note": "Approved by Stephen Browne on 2026-08-16 by explicit instruction to send. Sent with committee coverage incomplete: 1 of 4 seats (chancellor) completed; damodaran, buffett and chanos failed on connection termination and did not review. No blocking findings. Four open findings (3 material, 1 minor) from the chancellor seat were raised and NOT addressed in this text; verdict was publish-with-fixes.",
   "from": "Investo Master <onboarding@resend.dev>",
   "narrative_source": "drafts/2026-W33.md",
   "coverage": {

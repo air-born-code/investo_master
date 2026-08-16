@@ -1,0 +1,2 @@
+week_id,stage,model,prompt_tokens,completion_tokens,reasoning_tokens,cost_usd,pricing,recorded_at
+2026-W33,review:chancellor,anthropic/claude-sonnet-5,111375,3367,0,0.25642,metered,2026-08-16T09:06:29.544Z

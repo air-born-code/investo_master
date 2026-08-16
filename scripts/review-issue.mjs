@@ -709,11 +709,18 @@ const runSeat = async (m) => {
     headers: {
       authorization: `Bearer ${apiKey}`,
       'content-type': 'application/json',
-      'x-title': 'Investo Master — review committee',
+      // ASCII only. HTTP header values are ByteString, so the em dash this repo
+      // uses everywhere in prose throws before the request is even sent.
+      'x-title': 'Investo Master - review committee',
     },
     body: JSON.stringify({
       model,
-      max_tokens: 8000,
+      // max_tokens is the budget for reasoning AND the memo, not the memo alone. At
+      // 8000 with effort high, a reasoning model spent the whole allowance thinking
+      // and returned finish_reason "length" with no text — billed in full, useless.
+      // 24000 leaves room for the memo after the thinking. Raising the cap does not
+      // buy more reasoning; the effort setting governs that.
+      max_tokens: 24000,
       reasoning: { effort: 'high' },
       usage: { include: true },
       messages: [
@@ -729,6 +736,12 @@ const runSeat = async (m) => {
   }
   const body = await response.json();
   if (body.error) throw new Error(body.error.message ?? JSON.stringify(body.error));
+
+  // Recorded before the response is judged usable. A call truncated by max_tokens
+  // is billed in full for the reasoning it did, and a ledger that only counted
+  // memos that arrived would report a wasted run as free.
+  await recordCost({ root, weekId, stage: `review:${m.member_id}`, model, usage: body.usage ?? {} });
+
   const text = body.choices?.[0]?.message?.content?.trim();
   if (!text) throw new Error(`no memo returned (finish_reason: ${body.choices?.[0]?.finish_reason ?? 'unknown'})`);
   return { text, usage: body.usage ?? {} };
@@ -736,6 +749,7 @@ const runSeat = async (m) => {
 
 await mkdir(reviewDir, { recursive: true });
 
+let failed = 0;
 console.log(`Reviewing ${artifactLabel} with ${panel.length} seat(s) on ${model}.`);
 console.log('Each seat is a separate call and can take a few minutes.\n');
 
@@ -753,22 +767,28 @@ for (const m of panel) {
     // One seat failing must not discard the seats that succeeded. The panel is
     // recorded short, and the missing seat is reported so it can be rerun.
     console.log(`failed — ${err.message}`);
+    failed += 1;
     continue;
   }
 
   const { text, usage } = result;
   await writeFile(path.join(reviewDir, `${m.member_id}.md`), `${text}\n`, 'utf8');
   const line = recordMemo(m, text, { modelUsed: model });
-  // One row per seat, not per panel. A panel is the largest single cost in an
-  // edition precisely because it is several calls, and a total that hid that would
-  // point at the wrong lever.
-  await recordCost({ root, weekId, stage: `review:${m.member_id}`, model, usage });
+  // Cost was already written inside runSeat, one row per seat — a panel is the most
+  // expensive stage precisely because it is several calls, and a total that hid that
+  // would point at the wrong lever.
   console.log(line + (usage.cost !== undefined ? ` · ${formatUsd(usage.cost)}` : ''));
 }
 
 if (!newReviews.length) {
-  console.log('\nNothing recorded.');
-  process.exit(0);
+  // Non-zero when seats were attempted and every one failed. Exiting 0 there would
+  // paint the workflow step green on a total panel failure, and the only thing that
+  // would notice is the send gate days later — by which time the run log has scrolled
+  // away. Nothing to do (an already-reviewed week) is still a success.
+  console.log(failed
+    ? `\nNothing recorded: all ${failed} attempted seat(s) failed.`
+    : '\nNothing recorded.');
+  process.exit(failed ? 1 : 0);
 }
 
 await persist();
