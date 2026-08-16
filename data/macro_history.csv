@@ -119,6 +119,7 @@ CPIAUCSL,2026-03-01,3.3,percent_yoy,yoy_percent,330.293,https://fred.stlouisfed.
 CPIAUCSL,2026-04-01,3.8,percent_yoy,yoy_percent,332.407,https://fred.stlouisfed.org/series/CPIAUCSL
 CPIAUCSL,2026-05-01,4.2,percent_yoy,yoy_percent,333.979,https://fred.stlouisfed.org/series/CPIAUCSL
 CPIAUCSL,2026-06-01,3.5,percent_yoy,yoy_percent,332.568,https://fred.stlouisfed.org/series/CPIAUCSL
+CPIAUCSL,2026-07-01,3.3,percent_yoy,yoy_percent,332.813,https://fred.stlouisfed.org/series/CPIAUCSL
 CPILFESL,2016-06-01,2.3,percent_yoy,yoy_percent,247.54,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2016-07-01,2.2,percent_yoy,yoy_percent,247.829,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2016-08-01,2.3,percent_yoy,yoy_percent,248.423,https://fred.stlouisfed.org/series/CPILFESL
@@ -239,6 +240,7 @@ CPILFESL,2026-03-01,2.6,percent_yoy,yoy_percent,334.165,https://fred.stlouisfed.
 CPILFESL,2026-04-01,2.7,percent_yoy,yoy_percent,335.423,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2026-05-01,2.8,percent_yoy,yoy_percent,336.121,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2026-06-01,2.6,percent_yoy,yoy_percent,336.065,https://fred.stlouisfed.org/series/CPILFESL
+CPILFESL,2026-07-01,2.5,percent_yoy,yoy_percent,336.789,https://fred.stlouisfed.org/series/CPILFESL
 FEDFUNDS,2016-08-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2016-09-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2016-10-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS

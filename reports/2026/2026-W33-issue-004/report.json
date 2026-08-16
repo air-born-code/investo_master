@@ -1,0 +1,32 @@
+{
+  "report_id": "2026-W33-004",
+  "issue": "004",
+  "edition": "Weekly Overview",
+  "week_id": "2026-W33",
+  "data_cutoff": "2026-08-15T06:28:24.359Z",
+  "board_week": "2026-W29",
+  "subject": "Investo Master — Issue 004: Weekly Overview",
+  "action_posture": "NO ACTION — RESEARCH CONTINUES",
+  "approved_for_send": false,
+  "approval_note": "Not yet reviewed. Set approved_for_send to true only after reading the issue.",
+  "from": "Investo Master <onboarding@resend.dev>",
+  "narrative_source": "drafts/2026-W33.md",
+  "coverage": {
+    "core": [
+      "GEV",
+      "VRT",
+      "CRDO",
+      "MP",
+      "RKLB"
+    ],
+    "rotation": [
+      "CCJ",
+      "ETN",
+      "HUBB"
+    ],
+    "entered": 0,
+    "dropped": [],
+    "queue_depth": 49,
+    "cycle_weeks": 17
+  }
+}
