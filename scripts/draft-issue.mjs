@@ -1,8 +1,13 @@
 // Drafts the weekly narrative from the canonical CSV store, via OpenRouter.
 //
-// This script writes prose only. It never writes to data/*.csv — every figure in
-// the draft has to trace back to a row that was already in the store before the
-// model ran, so the research memory stays human-authored and auditable.
+// This script writes prose only. Nothing the model returns ever becomes a row in
+// the research store — every figure in the draft has to trace back to a row that was
+// already there before the model ran, so the research memory stays human-authored
+// and auditable.
+//
+// The one file it appends to is data/model_costs.csv, which is the meter reading for
+// its own API call: written by this script rather than by the model, never read by
+// any prompt, and never citable as evidence. See lib/cost.mjs.
 //
 // Output lands in drafts/<week_id>.md for review. Publishing an issue is still
 // build-baseline.mjs, and sending is still send-report.mjs behind approved_for_send.
@@ -11,10 +16,17 @@
 //
 // --dry-run assembles the prompt and reports its size without calling the API,
 // so you can see what a run will cost before spending anything.
+//
+// Committee flags:
+//   --committee <ids>     comma-separated member_ids, sat instead of the rotation
+//   --committee-size <n>  seats this week (default 4)
+//   --no-committee        draft with no review committee at all
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { formatValue, rangeSummary, sparkline } from './lib/chart.mjs';
+import { DEFAULT_PANEL_SIZE, renderPanel, selectPanel } from './lib/committee.mjs';
+import { formatUsd, recordCost } from './lib/cost.mjs';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
@@ -23,14 +35,14 @@ const flag = (name) => {
   return i === -1 ? undefined : args[i + 1];
 };
 // A flag's value must not be mistaken for the project root.
-const FLAGS_WITH_VALUES = new Set(['strategy']);
+const FLAGS_WITH_VALUES = new Set(['strategy', 'committee', 'committee-size', 'emit-prompt']);
 const positional = args.find((arg, i) => {
   if (arg.startsWith('--')) return false;
   const prev = args[i - 1];
   return !(prev?.startsWith('--') && FLAGS_WITH_VALUES.has(prev.slice(2)));
 });
 const root = path.resolve(positional ?? process.cwd());
-const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-5';
+const model = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-v4-pro';
 
 // ISO-8601 week, matching the week_id format used across data/ and reports/.
 const isoWeekId = (date) => {
@@ -245,6 +257,36 @@ const store = (await Promise.all(
 
 const weekId = isoWeekId(new Date());
 
+// The review committee. It is loaded here and rendered into the system prompt as
+// instruction — deliberately NOT added to dataFiles, because the seats are a way of
+// interrogating the store and not rows of evidence in it. A seat in the "Current
+// research store" block would be a practitioner's opinion sitting alongside filings,
+// and the evidence rules would then let it be cited as a fact.
+const committeeSize = Number(flag('committee-size') ?? DEFAULT_PANEL_SIZE);
+const pinnedSeats = (flag('committee') ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+
+let panel = { seats: [], missing: [], pinned: false, cycleWeeks: 0 };
+if (!args.includes('--no-committee')) {
+  const text = await read('data', 'committee.csv').catch(() => '');
+  if (text.trim()) {
+    const [header, ...body] = parseCsv(text);
+    const members = body.map((cells) =>
+      Object.fromEntries(header.map((key, i) => [key, cells[i] ?? ''])));
+    panel = selectPanel({ members, weekId, size: committeeSize, only: pinnedSeats });
+  }
+  // A misspelled seat id must not silently produce a smaller panel: the run would
+  // look successful and quietly drop the review the flag asked for.
+  if (panel.missing.length) {
+    console.error(`No active committee seat with id: ${panel.missing.join(', ')}.`);
+    process.exit(1);
+  }
+  if (pinnedSeats.length && !panel.seats.length) {
+    console.error('--committee matched no active seats in data/committee.csv.');
+    process.exit(1);
+  }
+}
+const committeeBlock = renderPanel({ ...panel, weekId });
+
 const system = [
   masterPrompt,
   '---',
@@ -263,6 +305,7 @@ const system = [
       '---',
     ]
     : []),
+  ...(committeeBlock ? [committeeBlock, '---'] : []),
   [
     'You are drafting the narrative section of a weekly Investo Master issue.',
     '',
@@ -353,7 +396,11 @@ const userTurn = [
   'Then two closing sections this publishing pipeline requires:',
   '',
   '  10. Data gaps — what the store cannot answer, stated plainly',
-  '  11. Action posture — the decision, and why',
+  '  11. Committee review — which seats sat, and what each one changed',
+  '  12. Action posture — the decision, and why',
+  '',
+  'Omit section 11 entirely if no committee is sitting on this issue. Action posture',
+  'stays last: it is the decision, and nothing follows it.',
   '',
   'Omit any numbered section with nothing evidenced to report rather than padding',
   'it, and say in the Executive Summary which sections you omitted and why. A quiet',
@@ -384,6 +431,10 @@ if (dryRun) {
   console.log(`Model:         ${model} (reasoning effort high)`);
   console.log(`System prompt: ${chars(system)} chars`);
   console.log(`User turn:     ${chars(userTurn)} chars (${store.length} CSV files)`);
+  console.log(`Committee:     ${panel.seats.length
+    ? `${panel.seats.map((s) => s.member_id).join(', ')}`
+      + `${panel.pinned ? ' (pinned)' : ` (rotating, full roster every ${panel.cycleWeeks} weeks)`}`
+    : 'none'}`);
   console.log('\nDry run — no API call made, no draft written.');
   process.exit(0);
 }
@@ -395,6 +446,9 @@ if (!apiKey) {
 }
 
 console.log(`Drafting ${weekId} with ${model}. This can take several minutes.`);
+if (panel.seats.length) {
+  console.log(`Committee: ${panel.seats.map((s) => s.name).join(', ')}.`);
+}
 
 // Note: temperature and other sampling parameters are deliberately omitted.
 // Claude Opus 5 rejects them, so passing one through the gateway fails the call.
@@ -485,4 +539,8 @@ await writeFile(draftPath, `${markdown}\n`, 'utf8');
 
 console.log(`\nWrote drafts/${weekId}.md`);
 console.log(`Tokens — prompt ${usage.prompt_tokens ?? '?'}, completion ${usage.completion_tokens ?? '?'}`);
-if (usage.cost !== undefined) console.log(`Cost — $${usage.cost}`);
+
+const recorded = await recordCost({ root, weekId, stage: 'draft', model, usage });
+console.log(recorded.pricing === 'metered'
+  ? `Cost — ${formatUsd(Number(recorded.cost_usd))}, recorded to data/model_costs.csv`
+  : 'Cost — the gateway returned no cost for this call; recorded as unpriced.');

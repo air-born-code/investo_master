@@ -11,6 +11,51 @@ if (!recipient) throw new Error('INVESTO_RECIPIENT_EMAIL is not set');
 const metadata = JSON.parse(await readFile(path.join(reportDir, 'report.json'), 'utf8'));
 if (metadata.approved_for_send !== true) throw new Error('Report is not approved for send');
 
+// Checked here as well as in check-report.mjs, and deliberately not by importing it.
+// Delivery is the irreversible step, so it re-reads the ledger itself rather than
+// trusting that validation ran. A finding's text is free prose containing commas and
+// newlines, so this parses the CSV properly: splitting on lines would miss a blocking
+// row whose text happens to wrap. See COMMITTEE.md.
+const parseCsv = (text) => {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { cell += '"'; i += 1; } else quoted = false;
+      } else cell += ch;
+      continue;
+    }
+    if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(cell); cell = ''; }
+    else if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+    else if (ch !== '\r') cell += ch;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  const clean = rows.filter((r) => r.some((c) => c !== ''));
+  if (!clean.length) return [];
+  const header = clean.shift();
+  return clean.map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
+};
+
+const blocking = await readFile(path.join(process.cwd(), 'data', 'committee_findings.csv'), 'utf8')
+  .then(parseCsv)
+  .then((rows) => rows.filter((f) =>
+    f.status === 'open'
+    && f.severity === 'blocking'
+    && (f.report_id === metadata.report_id || (!f.report_id && f.week_id === metadata.week_id))))
+  .catch(() => []);
+if (blocking.length) {
+  throw new Error(
+    `${blocking.length} unresolved blocking committee finding(s) for this issue: `
+    + `${blocking.map((f) => f.finding_id).join(', ')}. `
+    + 'Run "npm run review:list", then resolve each before sending.',
+  );
+}
+
 const [html, text] = await Promise.all([
   readFile(path.join(reportDir, 'email.html'), 'utf8'),
   readFile(path.join(reportDir, 'email.txt'), 'utf8'),

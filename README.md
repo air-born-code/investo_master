@@ -22,6 +22,7 @@ Issue 001 established the operational baseline. Version 1 now provides:
 
 - [Core research prompt](./INVESTO_MASTER_PROMPT.md)
 - [Patience and conviction policy](./CONVICTION_POLICY.md)
+- [Review committee charter](./COMMITTEE.md)
 - [Weekly research system plan](./WEEKLY_RESEARCH_SYSTEM_PLAN.md)
 - [Research source master prompt](./RESEARCH_SOURCE_MASTER_PROMPT.md)
 
@@ -118,6 +119,84 @@ Comments are never deleted. An answered one becomes `addressed` with the week th
 because the record exists to show whether a question actually got dealt with — and deleting it
 would erase precisely that. Closing is a human step: the model is instructed that it may never mark
 its own answer as sufficient.
+
+## The review committee
+
+Every issue from 2026-W33 is read by three or four seats before it can be sent.
+[COMMITTEE.md](./COMMITTEE.md) is the charter; the roster is `data/committee.csv`.
+
+The problem it solves: until now every check on the issue was applied by the same
+model that wrote it. The evidence rules, the anti-bias rules and the conviction gates
+all sit in the drafting prompt, so they catch carelessness but not a draft that reasons
+its way somewhere wrong — the reasoning and the check share every assumption.
+
+A seat is a **documented investment method**, not a person speaking. The nineteen seats
+carry the method in one line, the standing questions it asks of any issue, the failure
+it is best placed to catch, what does not transfer to this file, and where the seat is
+systematically wrong. Memos are never written in a practitioner's voice, never quote
+one, and never appear in a sent issue as endorsement.
+
+Panels are composed rather than sampled — one macro seat, one valuation seat, one
+quality seat, then the longest-waiting remaining seat, except when the issue proposes a
+decision review, where the fourth chair goes to a forensic seat. Selection is
+deterministic and longest-waiting-first, so nineteen seats cycle in five issues and an
+awkward seat cannot be quietly skipped.
+
+```bash
+npm run review:panel          # who is reviewing this week, and who is next
+npm run review:issue          # run the panel
+npm run review:list           # what is still open
+```
+
+A `blocking` finding stops delivery: `check-report.mjs` fails the send gate and
+`send-report.mjs` re-reads the ledger itself rather than trusting that validation ran.
+`material` and `minor` findings are recorded and the chair decides. Only a human closes
+a finding, with a required reason — the same rule as reader comments, for the same
+reason.
+
+### Seats also sit on the draft
+
+The committee sits **twice**, and the two stages do different jobs:
+
+```text
+ingest → COMMITTEE (drafting panel) → draft → build issue
+       → COMMITTEE (review panel) → human approval → send
+```
+
+The review panel above catches an issue that is already written. The drafting panel puts the
+questions in front of the model while it is still deciding what to say, which is cheaper than
+finding the same problem afterwards and is the only one of the two that can change how an argument
+is framed rather than whether it survives.
+
+Four seats sit on the draft, rendered into the drafting prompt from `data/committee.csv`. Selection
+is deterministic and derived from the week id alone — redrafting a week reproduces the same panel.
+There is no ledger here, unlike the review panel: `draft-issue.mjs` never writes to `data/*.csv`,
+and the drafting step must stay incapable of editing the research memory.
+
+```bash
+npm run draft:issue -- --committee-size 6
+npm run draft:issue -- --committee chanos,munger
+npm run draft:issue -- --no-committee
+```
+
+`--committee` pins named seats for one issue — reach for it when a week's material has an obvious
+adversary, such as putting the forensic seat on a capex boom. An unrecognised `member_id` fails the
+run rather than quietly producing a smaller panel. Setting a seat's `status` to anything other than
+`active` retires it from both panels with no code change.
+
+Two properties hold the stages together:
+
+- **Seats do not review their own work.** `review-issue.mjs` reproduces the drafting panel and
+  prefers reviewers who did not sit on it, so a method is not marking its own homework. This is why
+  `--committee-size` on the draft and `--draft-seats` on the review must agree: change one without
+  the other and the exclusion set is computed against a panel that never sat.
+- **The committee is instruction, not evidence.** It is deliberately kept out of the "Current
+  research store" block in the drafting prompt, because a practitioner's opinion sitting alongside
+  filings is a row the evidence rules would then permit to be cited as a fact.
+
+Drafts carry a **Committee review** section recording which seats sat and what each one actually
+changed. "This seat changed nothing this week" is a legitimate entry; a section where every seat
+always produces a change would mean the model is inventing work to look productive.
 
 ## The frontier tier
 

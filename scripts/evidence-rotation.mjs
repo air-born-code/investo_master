@@ -27,6 +27,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isReviewed, reviewedEvidence } from './lib/rotation.mjs';
+import { currentWeekId, formatUsd, recordCost } from './lib/cost.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -269,6 +270,7 @@ const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     model,
     max_tokens: 4000,
     response_format: { type: 'json_object' },
+    usage: { include: true },
     messages: [{ role: 'system', content: system }, { role: 'user', content: userTurn }],
   }),
   signal: AbortSignal.timeout(600_000),
@@ -282,6 +284,15 @@ if (!response.ok) {
 
 const payload = await response.json();
 const content = payload.choices?.[0]?.message?.content ?? '';
+
+// Recorded before the JSON is validated: a call that returned unusable output still
+// cost money, and a ledger that only counts successes understates the real bill.
+const recorded = await recordCost({
+  root, weekId: currentWeekId(), stage: 'evidence', model, usage: payload.usage ?? {},
+});
+if (recorded.pricing === 'metered') {
+  console.log(`Cost — ${formatUsd(Number(recorded.cost_usd))}, recorded to data/model_costs.csv`);
+}
 let claims;
 try {
   claims = JSON.parse(content.replace(/^```(?:json)?\s*|\s*```$/g, ''));
