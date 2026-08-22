@@ -683,6 +683,14 @@ const markdown = [
   '|---|---|---|---|---|---|---|',
   ...board.map((c) => `| ${c.symbol} — ${c.name} | ${c.stage} | ${c.total ?? '—'} | ${c.movement} | ${c.asymmetry ?? '—'}/10 | ${c.confidence ?? '—'} | ${usd(c.marketCap)} |`),
   '',
+  // A score with no business attached is a number, not coverage. Written from
+  // assets.csv rather than by the model, so it cannot drift issue to issue, and
+  // stated as missing rather than guessed when the row has not been authored.
+  ...board.flatMap((c) => {
+    const a = byAsset.get(c.assetId) ?? {};
+    if (!a.what_it_does) return [`**${c.symbol}** — business description not yet authored in \`assets.csv\`.`, ''];
+    return [`**${c.symbol}** — ${a.what_it_does}${a.why_tracked ? ` *Why tracked:* ${a.why_tracked}` : ''}`, ''];
+  }),
   boardIsStale
     ? `Movement reads against the last issue that carried each name. An unchanged column means the assessment has not been revisited, not that it was re-confirmed.\n`
     : '',
@@ -697,6 +705,9 @@ const markdown = [
         `### ${r.symbol} — ${r.name}`, '',
         `*${describeGap(r)} · ${r.asset.industry || 'industry not recorded'}${r.themes.length ? ` · ${r.themes.join(', ')}` : ''} · ${r.evidenceLine}*`,
         '',
+        ...(r.asset.what_it_does
+          ? [`${r.asset.what_it_does}${r.asset.why_tracked ? ` **Why tracked:** ${r.asset.why_tracked}` : ''}`, '']
+          : ['Business description not yet authored in `assets.csv`.', '']),
         r.note
           ? `${r.note.body.split('\n\n')[0]}\n\n*From the rotating research note of ${r.note.date}.*`
           : 'Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.',

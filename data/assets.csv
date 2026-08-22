@@ -1,55 +1,55 @@
-asset_id,symbol,name,asset_type,exchange,country,sector,industry,currency,website,stage,added_date,last_reviewed_date,tier
-gev,GEV,GE Vernova,equity,NYSE,United States,Industrials,Electrical equipment and power systems,USD,https://www.gevernova.com/investors,watchlist,2026-07-18,2026-07-18,candidate
-vrt,VRT,Vertiv Holdings,equity,NYSE,United States,Industrials,Critical digital infrastructure,USD,https://investors.vertiv.com/,watchlist,2026-07-18,2026-07-18,candidate
-crdo,CRDO,Credo Technology Group,equity,Nasdaq,Cayman Islands,Technology,Semiconductors and connectivity,USD,https://investors.credosemi.com/,researching,2026-07-18,2026-07-18,candidate
-rklb,RKLB,Rocket Lab,equity,Nasdaq,United States,Industrials,Aerospace and space systems,USD,https://investors.rocketlabcorp.com/,researching,2026-07-18,2026-07-18,candidate
-mp,MP,MP Materials,equity,NYSE,United States,Materials,Rare earth mining and magnetics,USD,https://investors.mpmaterials.com/,researching,2026-07-18,2026-07-18,candidate
-nee,NEE,NEXTERA ENERGY INC,equity,NYSE,FL,,Electric Services,USD,,discovered,2026-07-26,,universe
-duk,DUK,Duke Energy CORP,equity,NYSE,NC,,Electric & Other Services Combined,USD,,discovered,2026-07-26,,universe
-so,SO,SOUTHERN CO,equity,NYSE,GA,,Electric Services,USD,,discovered,2026-07-26,,universe
-ceg,CEG,Constellation Energy Corp,equity,Nasdaq,MD,,Electric Services,USD,,discovered,2026-07-26,,universe
-vst,VST,Vistra Corp.,equity,NYSE,TX,,Electric Services,USD,,discovered,2026-07-26,,universe
-tln,TLN,Talen Energy Corp,equity,Nasdaq,TX,,Electric Services,USD,,discovered,2026-07-26,,universe
-aep,AEP,AMERICAN ELECTRIC POWER CO INC,equity,Nasdaq,OH,,Electric Services,USD,,discovered,2026-07-26,,universe
-exc,EXC,EXELON CORP,equity,Nasdaq,IL,,Electric & Other Services Combined,USD,,discovered,2026-07-26,,universe
-d,D,"DOMINION ENERGY, INC",equity,NYSE,VA,,Electric Services,USD,,discovered,2026-07-26,,universe
-etn,ETN,Eaton Corp plc,equity,NYSE,Ireland,,Misc Industrial & Commercial Machinery & Equipment,USD,,discovered,2026-07-26,,universe
-pwr,PWR,"QUANTA SERVICES, INC.",equity,NYSE,TX,,Electrical Work,USD,,discovered,2026-07-26,,universe
-hubb,HUBB,HUBBELL INC,equity,NYSE,CT,,Electronic Components & Accessories,USD,,discovered,2026-07-26,,universe
-nvt,NVT,nVent Electric plc,equity,NYSE,,,Special Industry Machinery (No Metalworking Machinery),USD,,discovered,2026-07-26,,universe
-jci,JCI,Johnson Controls International plc,equity,NYSE,Ireland,,Air-Cond & Warm Air Heatg Equip & Comm & Indl Refrig Equip,USD,,discovered,2026-07-26,,universe
-carr,CARR,CARRIER GLOBAL Corp,equity,NYSE,FL,,Air-Cond & Warm Air Heatg Equip & Comm & Indl Refrig Equip,USD,,discovered,2026-07-26,,universe
-mod,MOD,MODINE MANUFACTURING CO,equity,NYSE,WI,,Motor Vehicle Parts & Accessories,USD,,discovered,2026-07-26,,universe
-smci,SMCI,"Super Micro Computer, Inc.",equity,Nasdaq,CA,,Electronic Computers,USD,,discovered,2026-07-26,,universe
-anet,ANET,"Arista Networks, Inc.",equity,NYSE,CA,,Computer Communications Equipment,USD,,discovered,2026-07-26,,universe
-mrvl,MRVL,"Marvell Technology, Inc.",equity,Nasdaq,DE,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe
-cohr,COHR,COHERENT CORP.,equity,NYSE,PA,,Optical Instruments & Lenses,USD,,discovered,2026-07-26,,universe
-lite,LITE,Lumentum Holdings Inc.,equity,Nasdaq,CA,,"Communications Equipment, NEC",USD,,discovered,2026-07-26,,universe
-alab,ALAB,"Astera Labs, Inc.",equity,Nasdaq,CA,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe
-fn,FN,Fabrinet,equity,NYSE,,,Telephone & Telegraph Apparatus,USD,,discovered,2026-07-26,,universe
-cien,CIEN,CIENA CORP,equity,NYSE,MD,,Telephone & Telegraph Apparatus,USD,,discovered,2026-07-26,,universe
-avgo,AVGO,Broadcom Inc.,equity,Nasdaq,CA,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe
-leu,LEU,CENTRUS ENERGY CORP,equity,NYSE,MD,,Mining & Quarrying of  Nonmetallic Minerals (No Fuels),USD,,discovered,2026-07-26,,universe
-oklo,OKLO,Oklo Inc.,equity,NYSE,CA,,Electric Services,USD,,discovered,2026-07-26,,universe
-ccj,CCJ,CAMECO CORP,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe
-uec,UEC,URANIUM ENERGY CORP,equity,NYSE,"British Columbia, Canada",,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe
-dnn,DNN,DENISON MINES CORP.,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe
-nxe,NXE,NexGen Energy Ltd.,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe
-uuuu,UUUU,ENERGY FUELS INC,equity,NYSE,CO,,Mining & Quarrying of  Nonmetallic Minerals (No Fuels),USD,,discovered,2026-07-26,,universe
-smr,SMR,NUSCALE POWER Corp,equity,NYSE,OR,,Fabricated Plate Work (Boiler Shops),USD,,discovered,2026-07-26,,universe
-bwxt,BWXT,"BWX Technologies, Inc.",equity,NYSE,VA,,Engines & Turbines,USD,,discovered,2026-07-26,,universe
-usar,USAR,"USA Rare Earth, Inc.",equity,Nasdaq,OK,,Metal Mining,USD,,discovered,2026-07-26,,universe
-tmc,TMC,TMC the metals Co Inc.,equity,Nasdaq,"British Columbia, Canada",,Metal Mining,USD,,discovered,2026-07-26,,universe
-alb,ALB,ALBEMARLE CORP,equity,NYSE,NC,,"Plastic Materials, Synth Resins & Nonvulcan Elastomers",USD,,discovered,2026-07-26,,universe
-pl,PL,Planet Labs PBC,equity,NYSE,CA,,Radio & Tv Broadcasting & Communications Equipment,USD,,discovered,2026-07-26,,universe
-satl,SATL,Satellogic Inc.,equity,Nasdaq,NC,,Radio & Tv Broadcasting & Communications Equipment,USD,,discovered,2026-07-26,,universe
-krmn,KRMN,Karman Holdings Inc.,equity,NYSE,CA,,"Aircraft Parts & Auxiliary Equipment, NEC",USD,,discovered,2026-07-26,,universe
-rdw,RDW,Redwire Corp,equity,NYSE,FL,,Guided Missiles & Space Vehicles & Parts,USD,,discovered,2026-07-26,,universe
-lunr,LUNR,"Intuitive Machines, Inc.",equity,Nasdaq,TX,,"Search, Detection, Navigation, Guidance, Aeronautical Sys",USD,,discovered,2026-07-26,,universe
-asts,ASTS,"AST SpaceMobile, Inc.",equity,Nasdaq,TX,,"Communications Services, NEC",USD,,discovered,2026-07-26,,universe
-cmi,CMI,CUMMINS INC,equity,NYSE,IN,,Engines & Turbines,USD,,discovered,2026-08-08,,universe
-powl,POWL,POWELL INDUSTRIES INC,equity,Nasdaq,TX,,Switchgear & Switchboard Apparatus,USD,,discovered,2026-08-08,,universe
-spxc,SPXC,"SPX Technologies, Inc.",equity,NYSE,NC,,Metalworkg Machinery & Equipment,USD,,discovered,2026-08-08,,universe
-tt,TT,Trane Technologies plc,equity,NYSE,Ireland,,Auto Controls For Regulating Residential & Comml Environments,USD,,discovered,2026-08-08,,universe
-eme,EME,"EMCOR Group, Inc.",equity,NYSE,CT,,Electrical Work,USD,,discovered,2026-08-08,,universe
-myrg,MYRG,MYR GROUP INC.,equity,Nasdaq,CO,,"Water, Sewer, Pipeline, Comm & Power Line Construction",USD,,discovered,2026-08-08,,universe
+asset_id,symbol,name,asset_type,exchange,country,sector,industry,currency,website,stage,added_date,last_reviewed_date,tier,what_it_does,why_tracked
+gev,GEV,GE Vernova,equity,NYSE,United States,Industrials,Electrical equipment and power systems,USD,https://www.gevernova.com/investors,watchlist,2026-07-18,2026-07-18,candidate,"Builds gas and wind turbines, grid transformers and switchgear, and services the installed base.",Age of Electricity and AI physical infrastructure: the equipment layer that has to be built before a data centre can draw power.
+vrt,VRT,Vertiv Holdings,equity,NYSE,United States,Industrials,Critical digital infrastructure,USD,https://investors.vertiv.com/,watchlist,2026-07-18,2026-07-18,candidate,"Makes power and thermal management kit for data centres — UPS, busway, liquid cooling.","AI physical infrastructure: sells directly into the data-centre build, so its orders lead capacity."
+crdo,CRDO,Credo Technology Group,equity,Nasdaq,Cayman Islands,Technology,Semiconductors and connectivity,USD,https://investors.credosemi.com/,researching,2026-07-18,2026-07-18,candidate,Designs high-speed connectivity silicon and active electrical cables for data centres.,High-speed connectivity: the interconnect layer that scales with cluster size rather than with chip count.
+rklb,RKLB,Rocket Lab,equity,Nasdaq,United States,Industrials,Aerospace and space systems,USD,https://investors.rocketlabcorp.com/,researching,2026-07-18,2026-07-18,candidate,Launches small orbital rockets and builds satellite components and spacecraft.,"Vertically integrated space: owns launch and the satellite bus, so it captures more of each mission."
+mp,MP,MP Materials,equity,NYSE,United States,Materials,Rare earth mining and magnetics,USD,https://investors.mpmaterials.com/,researching,2026-07-18,2026-07-18,candidate,Mines and refines rare earths and makes sintered neodymium magnets in the United States.,Critical minerals security: one of the few non-Chinese magnet supply chains at scale.
+nee,NEE,NEXTERA ENERGY INC,equity,NYSE,FL,,Electric Services,USD,,discovered,2026-07-26,,universe,Regulated Florida utility plus the largest US renewables development arm.,"Age of Electricity: the scale developer of new generation, so its backlog is a demand signal."
+duk,DUK,Duke Energy CORP,equity,NYSE,NC,,Electric & Other Services Combined,USD,,discovered,2026-07-26,,universe,,
+so,SO,SOUTHERN CO,equity,NYSE,GA,,Electric Services,USD,,discovered,2026-07-26,,universe,,
+ceg,CEG,Constellation Energy Corp,equity,Nasdaq,MD,,Electric Services,USD,,discovered,2026-07-26,,universe,,
+vst,VST,Vistra Corp.,equity,NYSE,TX,,Electric Services,USD,,discovered,2026-07-26,,universe,"Operates a large independent US generation fleet, including nuclear, selling into wholesale power markets.",Age of Electricity: merchant generation is the layer that prices scarcity when data-centre demand arrives.
+tln,TLN,Talen Energy Corp,equity,Nasdaq,TX,,Electric Services,USD,,discovered,2026-07-26,,universe,,
+aep,AEP,AMERICAN ELECTRIC POWER CO INC,equity,Nasdaq,OH,,Electric Services,USD,,discovered,2026-07-26,,universe,,
+exc,EXC,EXELON CORP,equity,Nasdaq,IL,,Electric & Other Services Combined,USD,,discovered,2026-07-26,,universe,,
+d,D,"DOMINION ENERGY, INC",equity,NYSE,VA,,Electric Services,USD,,discovered,2026-07-26,,universe,"Regulated electric utility serving Virginia, including the largest US data-centre cluster.",Age of Electricity: its service territory is where data-centre load growth shows up first in regulated filings.
+etn,ETN,Eaton Corp plc,equity,NYSE,Ireland,,Misc Industrial & Commercial Machinery & Equipment,USD,,discovered,2026-07-26,,universe,"Makes electrical distribution and power management equipment for buildings, utilities and industry.",AI physical infrastructure: the switchgear and distribution layer between the grid and the rack.
+pwr,PWR,"QUANTA SERVICES, INC.",equity,NYSE,TX,,Electrical Work,USD,,discovered,2026-07-26,,universe,,
+hubb,HUBB,HUBBELL INC,equity,NYSE,CT,,Electronic Components & Accessories,USD,,discovered,2026-07-26,,universe,"Makes electrical connectors, enclosures, grounding and utility grid components.",AI physical infrastructure and Age of Electricity: the unglamorous grid-connection hardware every new load needs.
+nvt,NVT,nVent Electric plc,equity,NYSE,,,Special Industry Machinery (No Metalworking Machinery),USD,,discovered,2026-07-26,,universe,,
+jci,JCI,Johnson Controls International plc,equity,NYSE,Ireland,,Air-Cond & Warm Air Heatg Equip & Comm & Indl Refrig Equip,USD,,discovered,2026-07-26,,universe,,
+carr,CARR,CARRIER GLOBAL Corp,equity,NYSE,FL,,Air-Cond & Warm Air Heatg Equip & Comm & Indl Refrig Equip,USD,,discovered,2026-07-26,,universe,,
+mod,MOD,MODINE MANUFACTURING CO,equity,NYSE,WI,,Motor Vehicle Parts & Accessories,USD,,discovered,2026-07-26,,universe,,
+smci,SMCI,"Super Micro Computer, Inc.",equity,Nasdaq,CA,,Electronic Computers,USD,,discovered,2026-07-26,,universe,,
+anet,ANET,"Arista Networks, Inc.",equity,NYSE,CA,,Computer Communications Equipment,USD,,discovered,2026-07-26,,universe,,
+mrvl,MRVL,"Marvell Technology, Inc.",equity,Nasdaq,DE,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe,,
+cohr,COHR,COHERENT CORP.,equity,NYSE,PA,,Optical Instruments & Lenses,USD,,discovered,2026-07-26,,universe,,
+lite,LITE,Lumentum Holdings Inc.,equity,Nasdaq,CA,,"Communications Equipment, NEC",USD,,discovered,2026-07-26,,universe,,
+alab,ALAB,"Astera Labs, Inc.",equity,Nasdaq,CA,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe,,
+fn,FN,Fabrinet,equity,NYSE,,,Telephone & Telegraph Apparatus,USD,,discovered,2026-07-26,,universe,,
+cien,CIEN,CIENA CORP,equity,NYSE,MD,,Telephone & Telegraph Apparatus,USD,,discovered,2026-07-26,,universe,,
+avgo,AVGO,Broadcom Inc.,equity,Nasdaq,CA,,Semiconductors & Related Devices,USD,,discovered,2026-07-26,,universe,"Supplies networking silicon and custom accelerators, plus infrastructure software.","High-speed connectivity: the switching layer between accelerators, and a custom-silicon alternative to merchant GPUs."
+leu,LEU,CENTRUS ENERGY CORP,equity,NYSE,MD,,Mining & Quarrying of  Nonmetallic Minerals (No Fuels),USD,,discovered,2026-07-26,,universe,,
+oklo,OKLO,Oklo Inc.,equity,NYSE,CA,,Electric Services,USD,,discovered,2026-07-26,,universe,,
+ccj,CCJ,CAMECO CORP,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe,Mines and processes uranium and holds an interest in fuel conversion and enrichment.,Advanced nuclear enablers: fuel is the bottleneck that binds before any reactor is built.
+uec,UEC,URANIUM ENERGY CORP,equity,NYSE,"British Columbia, Canada",,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe,,
+dnn,DNN,DENISON MINES CORP.,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe,,
+nxe,NXE,NexGen Energy Ltd.,equity,NYSE,,,Miscellaneous Metal Ores,USD,,discovered,2026-07-26,,universe,,
+uuuu,UUUU,ENERGY FUELS INC,equity,NYSE,CO,,Mining & Quarrying of  Nonmetallic Minerals (No Fuels),USD,,discovered,2026-07-26,,universe,,
+smr,SMR,NUSCALE POWER Corp,equity,NYSE,OR,,Fabricated Plate Work (Boiler Shops),USD,,discovered,2026-07-26,,universe,,
+bwxt,BWXT,"BWX Technologies, Inc.",equity,NYSE,VA,,Engines & Turbines,USD,,discovered,2026-07-26,,universe,,
+usar,USAR,"USA Rare Earth, Inc.",equity,Nasdaq,OK,,Metal Mining,USD,,discovered,2026-07-26,,universe,Developing a US rare-earth mine and a magnet manufacturing facility; pre-revenue.,"Critical minerals security: a second potential domestic magnet source, tracked against MP as the reference case."
+tmc,TMC,TMC the metals Co Inc.,equity,Nasdaq,"British Columbia, Canada",,Metal Mining,USD,,discovered,2026-07-26,,universe,,
+alb,ALB,ALBEMARLE CORP,equity,NYSE,NC,,"Plastic Materials, Synth Resins & Nonvulcan Elastomers",USD,,discovered,2026-07-26,,universe,,
+pl,PL,Planet Labs PBC,equity,NYSE,CA,,Radio & Tv Broadcasting & Communications Equipment,USD,,discovered,2026-07-26,,universe,,
+satl,SATL,Satellogic Inc.,equity,Nasdaq,NC,,Radio & Tv Broadcasting & Communications Equipment,USD,,discovered,2026-07-26,,universe,,
+krmn,KRMN,Karman Holdings Inc.,equity,NYSE,CA,,"Aircraft Parts & Auxiliary Equipment, NEC",USD,,discovered,2026-07-26,,universe,,
+rdw,RDW,Redwire Corp,equity,NYSE,FL,,Guided Missiles & Space Vehicles & Parts,USD,,discovered,2026-07-26,,universe,"Builds space infrastructure components — solar arrays, structures, in-space manufacturing.","Vertically integrated space: a components supplier, tracked to test whether the integration thesis pays at the part level."
+lunr,LUNR,"Intuitive Machines, Inc.",equity,Nasdaq,TX,,"Search, Detection, Navigation, Guidance, Aeronautical Sys",USD,,discovered,2026-07-26,,universe,,
+asts,ASTS,"AST SpaceMobile, Inc.",equity,Nasdaq,TX,,"Communications Services, NEC",USD,,discovered,2026-07-26,,universe,,
+cmi,CMI,CUMMINS INC,equity,NYSE,IN,,Engines & Turbines,USD,,discovered,2026-08-08,,universe,,
+powl,POWL,POWELL INDUSTRIES INC,equity,Nasdaq,TX,,Switchgear & Switchboard Apparatus,USD,,discovered,2026-08-08,,universe,,
+spxc,SPXC,"SPX Technologies, Inc.",equity,NYSE,NC,,Metalworkg Machinery & Equipment,USD,,discovered,2026-08-08,,universe,,
+tt,TT,Trane Technologies plc,equity,NYSE,Ireland,,Auto Controls For Regulating Residential & Comml Environments,USD,,discovered,2026-08-08,,universe,,
+eme,EME,"EMCOR Group, Inc.",equity,NYSE,CT,,Electrical Work,USD,,discovered,2026-08-08,,universe,,
+myrg,MYRG,MYR GROUP INC.,equity,Nasdaq,CO,,"Water, Sewer, Pipeline, Comm & Power Line Construction",USD,,discovered,2026-08-08,,universe,,

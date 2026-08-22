@@ -161,6 +161,15 @@ jobs:
         if: steps.issue.outcome == 'success'
         run: npm run review:list
 
+      # The committee runs AFTER the issue is built, so the cost line written during
+      # the build only ever saw the draft — and the panel is roughly 88% of what an
+      # edition costs. Rebuilding here is what makes the printed figure the real one.
+      # build-issue.mjs is deterministic, so this reproduces the same issue with a
+      # complete cost line rather than producing a different edition.
+      - name: Rebuild issue with final costs
+        if: steps.issue.outcome == 'success'
+        run: node scripts/build-issue.mjs
+
       - name: Check for changes
         id: diff
         run: |
