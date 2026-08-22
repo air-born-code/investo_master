@@ -14,3 +14,8 @@ week_id,as_of_date,series_id,label,value,unit,observation_date,transform,source_
 2026-W33,2026-08-15,CPILFESL,US core CPI,2.5,percent_yoy,2026-07-01,yoy_percent,https://fred.stlouisfed.org/series/CPILFESL
 2026-W33,2026-08-15,UNRATE,US unemployment rate,4.1,percent,2026-07-01,level,https://fred.stlouisfed.org/series/UNRATE
 2026-W33,2026-08-15,PAYEMS,"US nonfarm payrolls, monthly change",-23,thousands_change,2026-07-01,mom_change,https://fred.stlouisfed.org/series/PAYEMS
+2026-W34,2026-08-22,FEDFUNDS,Effective federal funds rate,3.63,percent,2026-07-01,level,https://fred.stlouisfed.org/series/FEDFUNDS
+2026-W34,2026-08-22,CPIAUCSL,US headline CPI,3.3,percent_yoy,2026-07-01,yoy_percent,https://fred.stlouisfed.org/series/CPIAUCSL
+2026-W34,2026-08-22,CPILFESL,US core CPI,2.5,percent_yoy,2026-07-01,yoy_percent,https://fred.stlouisfed.org/series/CPILFESL
+2026-W34,2026-08-22,UNRATE,US unemployment rate,4.1,percent,2026-07-01,level,https://fred.stlouisfed.org/series/UNRATE
+2026-W34,2026-08-22,PAYEMS,"US nonfarm payrolls, monthly change",-23,thousands_change,2026-07-01,mom_change,https://fred.stlouisfed.org/series/PAYEMS

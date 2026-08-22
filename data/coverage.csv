@@ -79,3 +79,11 @@ week_id,report_id,asset_id,slot,score,score_week,weeks_since_covered,note,record
 2026-W33,2026-W33-004,ccj,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-15T06:28:24.377Z
 2026-W33,2026-W33-004,etn,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-15T06:28:24.377Z
 2026-W33,2026-W33-004,hubb,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-15T06:28:24.377Z
+2026-W34,2026-W34-005,crdo,core,73,2026-W29,1,"Standing coverage. Score 73 (unchanged), scored 2026-W29 · 5 weeks old.",2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,gev,core,78,2026-W29,1,"Standing coverage. Score 78 (unchanged), scored 2026-W29 · 5 weeks old.",2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,mp,core,72,2026-W29,1,"Standing coverage. Score 72 (unchanged), scored 2026-W29 · 5 weeks old.",2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,rklb,core,72,2026-W29,1,"Standing coverage. Score 72 (unchanged), scored 2026-W29 · 5 weeks old.",2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,vrt,core,78,2026-W29,1,"Standing coverage. Score 78 (unchanged), scored 2026-W29 · 5 weeks old.",2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,avgo,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,rdw,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-22T06:30:17.706Z
+2026-W34,2026-W34-005,vst,rotation,,,,Rotation slot. Not yet examined; store facts only.,2026-08-22T06:30:17.706Z
