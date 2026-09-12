@@ -1,2 +1,7 @@
 week_id,stage,model,prompt_tokens,completion_tokens,reasoning_tokens,cost_usd,pricing,recorded_at
 2026-W33,review:chancellor,anthropic/claude-sonnet-5,111375,3367,0,0.25642,metered,2026-08-16T09:06:29.544Z
+2026-W37,draft,deepseek/deepseek-v4-pro,77071,5418,3061,0.13271678502,metered,2026-09-12T09:57:59.272Z
+2026-W37,review:dalio,anthropic/claude-sonnet-5,107690,9733,7383,0.31271,metered,2026-09-12T09:59:55.320Z
+2026-W37,review:damodaran,anthropic/claude-sonnet-5,107747,15202,12132,0.367514,metered,2026-09-12T10:02:36.996Z
+2026-W37,review:buffett,anthropic/claude-sonnet-5,107730,10673,7582,0.32219,metered,2026-09-12T10:04:39.945Z
+2026-W37,review:chanos,anthropic/claude-sonnet-5,107748,12332,9660,0.338816,metered,2026-09-12T10:06:56.860Z
