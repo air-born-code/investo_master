@@ -120,6 +120,7 @@ CPIAUCSL,2026-04-01,3.8,percent_yoy,yoy_percent,332.407,https://fred.stlouisfed.
 CPIAUCSL,2026-05-01,4.2,percent_yoy,yoy_percent,333.979,https://fred.stlouisfed.org/series/CPIAUCSL
 CPIAUCSL,2026-06-01,3.5,percent_yoy,yoy_percent,332.568,https://fred.stlouisfed.org/series/CPIAUCSL
 CPIAUCSL,2026-07-01,3.3,percent_yoy,yoy_percent,332.813,https://fred.stlouisfed.org/series/CPIAUCSL
+CPIAUCSL,2026-08-01,3.4,percent_yoy,yoy_percent,334.131,https://fred.stlouisfed.org/series/CPIAUCSL
 CPILFESL,2016-06-01,2.3,percent_yoy,yoy_percent,247.54,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2016-07-01,2.2,percent_yoy,yoy_percent,247.829,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2016-08-01,2.3,percent_yoy,yoy_percent,248.423,https://fred.stlouisfed.org/series/CPILFESL
@@ -241,6 +242,7 @@ CPILFESL,2026-04-01,2.7,percent_yoy,yoy_percent,335.423,https://fred.stlouisfed.
 CPILFESL,2026-05-01,2.8,percent_yoy,yoy_percent,336.121,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2026-06-01,2.6,percent_yoy,yoy_percent,336.065,https://fred.stlouisfed.org/series/CPILFESL
 CPILFESL,2026-07-01,2.5,percent_yoy,yoy_percent,336.789,https://fred.stlouisfed.org/series/CPILFESL
+CPILFESL,2026-08-01,2.4,percent_yoy,yoy_percent,337.765,https://fred.stlouisfed.org/series/CPILFESL
 FEDFUNDS,2016-08-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2016-09-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2016-10-01,0.4,percent,level,0.4,https://fred.stlouisfed.org/series/FEDFUNDS
@@ -361,6 +363,8 @@ FEDFUNDS,2026-04-01,3.64,percent,level,3.64,https://fred.stlouisfed.org/series/F
 FEDFUNDS,2026-05-01,3.63,percent,level,3.63,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2026-06-01,3.63,percent,level,3.63,https://fred.stlouisfed.org/series/FEDFUNDS
 FEDFUNDS,2026-07-01,3.63,percent,level,3.63,https://fred.stlouisfed.org/series/FEDFUNDS
+FEDFUNDS,2026-08-01,3.63,percent,level,3.63,https://fred.stlouisfed.org/series/FEDFUNDS
+FEDFUNDS,2026-09-01,3.75,percent,level,3.75,https://fred.stlouisfed.org/series/FEDFUNDS
 PAYEMS,2016-08-01,141,thousands_change,mom_change,144661,https://fred.stlouisfed.org/series/PAYEMS
 PAYEMS,2016-09-01,306,thousands_change,mom_change,144967,https://fred.stlouisfed.org/series/PAYEMS
 PAYEMS,2016-10-01,98,thousands_change,mom_change,145065,https://fred.stlouisfed.org/series/PAYEMS
@@ -479,8 +483,10 @@ PAYEMS,2026-02-01,-156,thousands_change,mom_change,158436,https://fred.stlouisfe
 PAYEMS,2026-03-01,214,thousands_change,mom_change,158650,https://fred.stlouisfed.org/series/PAYEMS
 PAYEMS,2026-04-01,148,thousands_change,mom_change,158798,https://fred.stlouisfed.org/series/PAYEMS
 PAYEMS,2026-05-01,63,thousands_change,mom_change,158861,https://fred.stlouisfed.org/series/PAYEMS
-PAYEMS,2026-06-01,20,thousands_change,mom_change,158881,https://fred.stlouisfed.org/series/PAYEMS
-PAYEMS,2026-07-01,-23,thousands_change,mom_change,158858,https://fred.stlouisfed.org/series/PAYEMS
+PAYEMS,2026-06-01,31,thousands_change,mom_change,158892,https://fred.stlouisfed.org/series/PAYEMS
+PAYEMS,2026-07-01,-10,thousands_change,mom_change,158882,https://fred.stlouisfed.org/series/PAYEMS
+PAYEMS,2026-08-01,133,thousands_change,mom_change,159015,https://fred.stlouisfed.org/series/PAYEMS
+PAYEMS,2026-09-01,29,thousands_change,mom_change,159044,https://fred.stlouisfed.org/series/PAYEMS
 UNRATE,2016-07-01,4.8,percent,level,4.8,https://fred.stlouisfed.org/series/UNRATE
 UNRATE,2016-08-01,4.9,percent,level,4.9,https://fred.stlouisfed.org/series/UNRATE
 UNRATE,2016-09-01,5,percent,level,5,https://fred.stlouisfed.org/series/UNRATE
@@ -601,3 +607,5 @@ UNRATE,2026-04-01,4.3,percent,level,4.3,https://fred.stlouisfed.org/series/UNRAT
 UNRATE,2026-05-01,4.3,percent,level,4.3,https://fred.stlouisfed.org/series/UNRATE
 UNRATE,2026-06-01,4.2,percent,level,4.2,https://fred.stlouisfed.org/series/UNRATE
 UNRATE,2026-07-01,4.1,percent,level,4.1,https://fred.stlouisfed.org/series/UNRATE
+UNRATE,2026-08-01,4.1,percent,level,4.1,https://fred.stlouisfed.org/series/UNRATE
+UNRATE,2026-09-01,4.2,percent,level,4.2,https://fred.stlouisfed.org/series/UNRATE
