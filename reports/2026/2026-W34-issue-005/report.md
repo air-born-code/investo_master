@@ -1,0 +1,216 @@
+# Investo Master — Issue 005: Weekly Overview
+
+- Week: 2026-W34
+- Report ID: 2026-W34-005
+- Evidence cut-off: 2026-08-22T06:30:17.689Z
+- Action posture: NO ACTION — RESEARCH CONTINUES
+- Cost to produce: $0.16 across 1 model call — draft $0.16.
+
+## Regime board (2026-W34)
+
+Each series appears once, read against its own decade. The commentary below is
+authored once and reviewed, not rewritten each week; only the numbers move.
+
+| Series | Value | On the month | Observation | Decade range |
+|---|---:|---|---|---|
+| Effective federal funds rate | 3.63% | unchanged on the month | 2026-07-01 | 2016–2026 · low 0.05% (Apr 2020) · high 5.33% (Aug 2023) |
+| US headline CPI | 3.3% | −0.2 on the month | 2026-07-01 | 2016–2026 · low 0.2% (May 2020) · high 9% (Jun 2022) |
+| US core CPI | 2.5% | −0.1 on the month | 2026-07-01 | 2016–2026 · low 1.2% (May 2020) · high 6.6% (Sept 2022) |
+| US unemployment rate | 4.1% | −0.1 on the month | 2026-07-01 | 2016–2026 · low 3.4% (Apr 2023) · high 14.8% (Apr 2020) |
+| US nonfarm payrolls, monthly change | −23k | — | 2026-07-01 | 2016–2026 · low −20,469k (Apr 2020) · high +4,631k (Jun 2020) |
+
+`Fed funds` `▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▃▃▁▁▁▁▁▁▁▁▁▁▁▁▂▃▄▆▇▇▇████████▇▇▇▇▇▆▆▆▆▆`
+
+`Headline CPI` `▂▂▂▃▃▃▂▃▃▃▃▃▃▃▃▂▃▂▂▂▃▃▂▂▂▂▂▃▅▅▅▆▇████▇▆▅▄▄▄▄▄▄▃▃▃▃▃▃▃▃▃▃▄▄`
+
+`Core CPI` `▃▄▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▄▄▄▃▂▃▃▃▃▅▆▅▆▇████▇▇▇▇▆▅▅▅▅▅▅▅▅▄▄▄▄▄▄▄▄`
+
+`Unemployment` `▄▄▄▄▄▄▄▄▄▄▄▄▃▃▄▃▃▃▃▃▃▄██▆▅▅▅▅▄▄▄▄▃▃▃▃▃▃▃▃▃▃▃▄▄▄▄▄▄▄▄▄▄▄▄▄▄`
+
+`Payrolls` `▃▂▃▂▃▂▂▂▂▃▃▂▂▂▂▃▂▂▂▂▃▁██▅▂▃▄▅▄▅▃▄▃▄▃▃▃▂▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂`
+
+### How the regime reaches equity prices
+
+Transmission mechanisms, not forecasts. Each states the channel through which a
+series is capable of moving prices; none asserts that it will, or in which direction.
+
+**Fed funds.** Reaches equities through the discount rate rather than through earnings. A higher rate lowers the present value of distant cash flow more than near cash flow, so long-duration and capital-intensive businesses reprice hardest. For this store's themes the second channel matters more: generation, grid and data-centre capacity is project-financed, so the policy rate is an input cost to the buildout itself, not only a valuation multiplier.
+
+*Read with care:* The effective rate is a monthly average of realised overnight trading, so it lags the target range decision by up to a month. Read the FOMC statement for policy intent, not this series.
+
+**Headline CPI.** Two channels. Through policy: sustained headline inflation removes the option of rate cuts that equity valuations tend to price in advance. Through the income statement: a company growing revenue at the inflation rate is growing units at zero, so inflation determines how much reported growth is actually growth. Pricing power is the variable that decides which of a theme's companies keep the difference.
+
+*Read with care:* Headline includes food and energy and is therefore the noisier series, but it is the one that sets wage expectations and household behaviour. It should not be dismissed as noise merely because core is smoother.
+
+**Core CPI.** The dominant channel is policy expectations. Because core is the series the committee weights, a change in core moves the forward rate curve, and the curve moves equity multiples within days — long before any company's earnings change. That is why a core print can reprice an entire theme in a week without a single fact about any business in it having changed.
+
+*Read with care:* Core excludes food and energy, which is a deliberate signal-extraction choice, not a claim those costs do not matter. Shelter is a large and heavily lagged component, so core turns later than the underlying pressure does.
+
+**Unemployment.** Reaches equities through both mandates at once, in opposite directions. A rising unemployment rate weakens demand for cyclical goods and therefore earnings, while simultaneously pulling policy easier and therefore supporting multiples. Which effect dominates is an empirical question about the specific episode, not something that can be asserted in advance. For structurally-driven capital spending the relevant test is whether committed capacity plans survive a labour downturn, and that is answered by order books, not by this series.
+
+*Read with care:* The rate can fall for a good reason (hiring) or a bad one (people leaving the labour force). The level alone cannot distinguish them; the participation rate and the household-survey detail can.
+
+**Payrolls.** Moves rate expectations faster than it moves earnings. A surprising print is a repricing event, not an earnings event: nothing about any company's cash flow changed on the morning of the release. The correct response to a payroll surprise is therefore to ask whether it changes the policy path, and separately whether it changes any tracked business — usually the first and not the second.
+
+*Read with care:* Heavily revised, frequently by more than the original surprise. A single month is close to meaningless and a negative print can be revised positive. Three-month averages carry information; one print does not.
+
+A macro reading is context for underwriting, never a trigger for action. Nothing
+here is a view on any tracked company.
+
+## Standing coverage (scored 2026-W29)
+
+| Candidate | Stage | Score | Move | Valuation asymmetry | Thesis confidence | Market cap |
+|---|---|---|---|---|---|---|
+| GEV — GE Vernova | watchlist | 78 | unchanged | 1/10 | medium | $284.27B |
+| VRT — Vertiv Holdings | watchlist | 78 | unchanged | 1/10 | medium | $112.97B |
+| CRDO — Credo Technology Group | researching | 73 | unchanged | 1/10 | low | $38.41B |
+| MP — MP Materials | researching | 72 | unchanged | 4/10 | medium | $8.09B |
+| RKLB — Rocket Lab | researching | 72 | unchanged | 1/10 | low | $42.00B |
+
+Movement reads against the last issue that carried each name. An unchanged column means the assessment has not been revisited, not that it was re-confirmed.
+
+## In rotation this week
+
+Drawn from the 49 names at coverage tier, longest-waiting first. At
+3 a week the full universe is read every 17 weeks. Appearing here
+means the rotation reached the name, not that it is a recommendation.
+
+### RDW — Redwire Corp
+
+*never covered before · Guided Missiles & Space Vehicles & Parts · vertically-integrated-space · 8 of 10 source rows read*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+### VST — Vistra Corp.
+
+*never covered before · Electric Services · age-of-electricity · 8 of 10 source rows read*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+### AVGO — Broadcom Inc.
+
+*never covered before · Semiconductors & Related Devices · high-speed-connectivity · 7 of 7 source rows read*
+
+Not yet examined. This name entered by screen and is in the issue because the rotation reached it, not because a view has been formed.
+
+Next up: JCI · MOD · NXE · SMCI · TLN
+
+---
+
+# Investo Master — Issue 2026-W34
+
+## 1. Executive Summary
+
+No new material evidence arrived this week across any tracked theme. Macro data unchanged. AI buildout orders and backlog remain robust, but the store holds no fresh filings that shift the thesis for any active candidate. The stablecoin rail continues its slow expansion—USDC supply and share are both edging higher—while the agentic-commerce thesis rests on findings from prior weeks that remain unchallenged. No candidate advances to decision review; all thirteen decision gates for the five active names remain unassessed. The structural profit-pool tension—19 tracked names sitting in a layer the iCapital exhibit treats as pure spending, without a profit box—has not moved, and the committee’s questions this week expose how much the durability of today’s scarcity rents depends on assumptions we have not yet stress-tested.
+
+**Sections omitted this week:** 5 (New Candidates), 7 (Scenario Analysis). No new candidates presented, and existing scenario work does not need re-stating without fresh evidence.
+
+## 2. Cycle Position
+
+The macro dashboard is unchanged from week 33. The effective fed funds rate remains 3.63%, headline CPI eased to 3.3% y/y (from 3.5% in June), core CPI ticked down to 2.5%, unemployment held at 4.1%, and payrolls contracted by 23,000 (the same -23k print). The trajectory is mildly disinflationary; core CPI is now 0.40 percentage points below its year-ago level and has declined in three of the last four months. That is consistent with an eventual policy easing, but at a pace that has not yet altered the forward rate curve enough to lift the multiples of the long-duration capex plays we track. For now, the discount-rate channel is neutral.
+
+What matters more for our universe is the capital-spending channel. The combination of 3.63% fed funds and the enormous announced capex plans ($725B aggregate from hyperscalers in 2026, partially evidenced in Q1 filings) suggests that current funding costs are not yet discouraging investment. However, as Soros would point out, some of this spending is funded by belief—external capital inflows of 17.3 cents per dollar of AI spend, per the iCapital benchmark. If that belief weakens, capex guidance could be revised. The payroll contraction, if it deepens, might trigger a demand-side reduction in cloud services, but our tracked names are mostly infrastructure providers selling to capacity-constrained buyers, so the immediate risk is less about end-demand and more about order cancellations. We are not yet seeing that.
+
+## 3. Structural Change Radar
+
+### 3a. The AI profit pool
+
+The iCapital profit-per-dollar exhibit (src-2026-w32-icapital-chain) remains stored as a single dated benchmark. No new allocation has been published, and no direct counterparty has confirmed the methodology. The picture remains: hyperscaler cloud captures 29.7 cents of every dollar; commercial chips 13.0 cents; memory 5.8 cents; equipment (power, cooling, networking) 3.8 cents; and all the rest smaller. Our tracked names are concentrated in the 3.8-cent equipment-profit layer (16 names) and in the energy‑spending layer (19 names) that the exhibit treats purely as cost, with no profit box.
+
+This mismatch was the central finding when the map was introduced, and it has not moved. The scarcity‑rent argument we have built for GE Vernova, Eaton, Quanta, and the transformer bottleneck (SPX Technologies, Powell Industries) is real but invisible to this lens. The exhibit’s own footnote acknowledges that construction, energy, and leased/colo spending are “routed out of frame,” which means the economics we are underwriting are not captured in its profit attribution.
+
+**Soros asks: which part of this theme’s fundamentals is being created by belief?** The 17.3 cents of external funding that enters alongside each dollar of customer spend (the orange layer in the exhibit) is the most fragile input. If that funding contracted—say, because venture returns falter or public-market sentiment toward unprofitable AI startups sours—the orders placed by that layer would decline. Our tracked companies see that demand indirectly; they sell to hyperscalers, utilities, and contractors who in turn serve the AI ecosystem. The chain’s weakest link is at the top, where the funding enters. We have no direct exposure there, but our order books would feel the blow.
+
+**Chancellor asks: how much capacity is being added, and when does it arrive?** The transformer bottleneck (lead times extending to four years, per trade press src-2026-w32-transformer-leadtimes) suggests that capacity is not coming quickly. But high returns will attract capital. Eaton (ETN) grew its electrical backlog 43% y/y and is investing in new plants. The capital cycle’s eventual conclusion is that the scarcity rent erodes once that capacity comes online. For now, the annual 20–30 GW gas turbine ramp at GE Vernova (src-2026-w32-gev-gas-capacity) is fill-rate limited by factory floorspace, not by orders. The kill criterion for many of these names will be when lead times begin to shrink and backlogs decline before revenue growth does. We are monitoring that but do not yet have a signal.
+
+**Wood’s cost-curve question** goes unanswered in the existing store. The iCapital exhibit shows cents of profit per dollar of spend but no underlying cost curve (e.g., cost per FLOP, cost per MW). For generation and grid equipment, the relevant curves would be the levelised cost of electricity from gas turbines, from renewables, and from nuclear. None of those are tracked as weekly series. This is a data gap we should close, because the adoption thesis for gas turbines in particular depends on the competing cost curves of alternatives.
+
+### 3b. Digital-asset rails
+
+**Stablecoin supply** (src-2026-w34-defillama series via agent_traffic.csv) continues to expand slowly. Total USD-pegged supply stands at $309.4 billion, up 0.68% week-on-week. Fiat-backed supply rose 0.56% to $283.3 billion. The USDC share crept up to 23.79% from 23.44%, a continuation of the gradual institutional shift. Payment-oriented chains (Tron, Solana, Base, Polygon) held $116.8 billion, up 0.37%. The rail is growing; the float only increases if someone funds it.
+
+The section still holds **zero tracked names**. That absence is the current finding, and this week’s data does not change it. The stablecoin rail economics are attractive at the issuance layer (reserve yield) and the orchestration layer (take rate), but both are largely in private or unlisted hands. The public vehicles we have considered (Coinbase, Visa, Mastercard) are large, diversified businesses where the stablecoin contribution is immaterial to the consolidated result. We remain waiting for a direct listed expression that offers the right asymmetry.
+
+For **agentic commerce**, the key evidence from week 33 stands: Cloudflare’s Q2 call revealed that non-human traffic crossed 50% of total network traffic, and agent requests grew 1,700% y/y, but only 1–10% is considered monetizable via micropayments (src-2026-w33-cloudflare-q2-call). The x402 protocol’s batched settlement (src-2026-w33-x402-batch-settlement) severs the assumption that per-request payments imply per-request on-chain transactions. That finding is decisive for our architecture: it strengthens the edge-distribution layer (where Cloudflare sits) at the expense of the settlement layer. No new evidence this week challenges it.
+
+**Soros reflexivity check**: In the agentic-commerce theme, the belief that agent traffic will be monetized is largely a narrative built on one company’s call. We have not yet seen uptake numbers for the Monetization Gateway, which is still waitlist-only. The theme’s “fundamentals” are, for now, mostly expectation.
+
+### Industrial Frontier
+
+No new evidence. Space and critical minerals themes are unchanged. The DPA proclamation on recoverable critical minerals (src-fedreg-2026-15859) remains unread in our store—the PDF was inaccessible—so it is a placeholder, not a signal.
+
+## 4. Signal Scanner
+
+Stock prices across the universe were essentially flat week-on-week. None of the five active candidates showed a price move larger than a rounding error. No new quarterly releases or surprise filings materially changed the known revenue or order picture. The most significant filing queue—Q2 2026 10‑Qs for many universe names (Eaton, Hubbell, nVent, Trane, Powell, Cummins, etc.)—was already released in late July/early August, and the store has not yet processed most of them; they remain categorized as “contents not yet reviewed.” No price reaction this week suggests the market also found them unremarkable.
+
+## 6. Existing Thesis Updates
+
+**GE Vernova (GEV) — watchlist**  
+No new data. The Q2 results (src-2026-w32-gev-q2) continue to define the thesis: orders +88% organic, backlog $176B, gas turbine capacity ramping to 24 GW by 2028, data-centre orders >$5B YTD. The bear case—that slot reservations may not convert if sentiment shifts—unchanged. Thesis status: **unchanged**.
+
+**Vertiv (VRT) — watchlist**  
+No new data. The critical gap identified in week 32—the Q2 earnings release omitted orders, backlog, and book-to-bill—has not been remedied. The 10‑Q filing (src-edgar-vrt-10q) is in the store but unreviewed. Until we extract those metrics, the forward visibility is impaired. Thesis status: **unchanged**.
+
+**Credo Technology (CRDO) — researching**  
+No new data. Customer concentration (81% from two customers) and high share-based compensation remain the key risks. Thesis status: **unchanged**.
+
+**Rocket Lab (RKLB) — researching**  
+No new post-Q2 transaction updates; the S‑4 merger registration (src-edgar-rklb-s4) is in the store but unreviewed. The Iridium deal thesis hangs on financing and integration details. Thesis status: **unchanged**.
+
+**MP Materials (MP) — researching**  
+No new data. Q2 10‑Q filed (src-edgar-mp-10q-2026-08-07) unreviewed. The dependence on government price floors persists. Thesis status: **unchanged**.
+
+## 8. Decision Dashboard
+
+| Asset | Stage | Change |
+|-------|-------|--------|
+| GEV | Watchlist | — |
+| VRT | Watchlist | — |
+| CRDO | Researching | — |
+| RKLB | Researching | — |
+| MP | Researching | — |
+| All other universe names | Discovered | — |
+
+No stage changes. The **Decision Gates ledger** (gates.csv) confirms that none of the 13 gates has been assessed for any of the five active candidates. Entry to `High Conviction` or `Decision Review` requires all gates to be `documented`. That condition is not satisfied.
+
+## 9. Research Queue
+
+1. **Highest priority: resolve the Vertiv orders gap.** Read the VRT Q2 10‑Q and earnings call transcript. If the filing still omits orders and backlog, determine whether the company has permanently changed its disclosure or if we can construct proxies from segment data.
+2. **Begin systematic gate assessment** for the five active candidates, starting with:
+   - Falsifiable thesis (gate 1)
+   - Durable competitive advantage (gate 5)
+   - Disconfirming research (gate 8)
+3. **Capital cycle audit** (Chancellor’s question): for each of the electrical equipment and generation names, identify announced capacity additions, planned capacity growth rates, and the expected timeframe for lead time normalization. Test whether today’s margins are cyclical scarcity rents rather than moats.
+4. **Build cost‑curve series** for generation technologies (Wood): LCOE for gas turbines, utility‑scale solar+storage, and advanced nuclear. Integrate into weekly monitoring to see which curve is falling fastest.
+5. **Agentic‑commerce monitoring**: track Cloudflare’s Monetization Gateway waitlist conversion and any disclosed pricing. Watch for any Q1–Q2 volume data from the x402 Foundation.
+6. **Stablecoin rail**: continue weekly float series; investigate whether a pure‑play listed issuer or payments processor emerges with material exposure (e.g., Circle IPO rumors). The posture remains “wait for the right instrument.”
+
+## 10. Data gaps
+
+- **Vertiv quarterly orders and backlog** — the primary forward indicator for our highest‑watched industrial name is missing from the store.
+- **Unreviewed Q2 filings** for Eaton, Hubbell, nVent, Trane, Powell, Cummins, and many others. These documents are sitting in sources.csv but have not been read.
+- **Cost curves** — we track no unit cost trend for electricity, compute, or cooling; this makes our adoption thesis vulnerable to an accelerating rival curve.
+- **iCapital AI chain methodology** — the entire profit‑pool map rests on one unaudited estimate with no disclosed allocation method. It is a lens, not a measurement.
+
+## 11. Committee review
+
+This week’s committee sat with **George Soros (Reflexivity), Cathie Wood (Cost‑curve adoption), Warren Buffett (Moat and owner earnings), and Edward Chancellor (Capital cycle)**.
+
+**What each seat changed in this draft:**
+
+- **Soros** — prompted the explicit identification of the 17.3¢ external funding layer as the reflexivity pillar (Section 3a). His question about what would still be built if funding stopped led to a new research queue item to stress‑test order books under a funding contraction.
+- **Wood** — exposed the absence of cost curves. The draft now names this as a data gap and a research queue item. Her insistence on answering “what becomes economic if the curve continues” prevented us from conflating adoption with direction.
+- **Buffett** — asked what specifically stops a well‑funded competitor from taking these positions in five years. The capital cycle audit (queue item 3) now includes that durability test. He also pressed on the distinction between maintenance and growth capex in our electrical names; we did not have the data to answer, and that remains a gap.
+- **Chancellor** — reinforced that high returns will attract capacity. The draft now frames the transformer and gas turbine booms as cyclical scarcity rents, not moats, and lists lead‑time normalization as a kill criterion to monitor.
+
+No seat could force a conclusion from evidence not in the store. Each question that cannot be answered from current data has been placed in the Research Queue.
+
+## 12. Action posture
+
+**No action. Continue research.**
+
+No candidate is within sight of meeting the minimum gate for decision review. The priority is filling the Vertiv orders gap and beginning systematic gate work. The structural themes remain as they were: the AI buildout is real and early, but where profit will ultimately pool is far from resolved. The stablecoin rail grows slowly, but no listed vessel yet offers the asymmetry we require. Patience.
+
+## Safety boundary
+
+Research and decision support only. No trades, promised returns, or personalised financial, tax or legal advice. The human investor retains responsibility for every decision.
